@@ -11,52 +11,29 @@
   </ion-fab>
 
   <ion-grid>
-    <br>
     <ion-row>
-      <ion-col size="9">
-        <ion-item>
-          <ion-searchbar placeholder="Search Name" type="text">
-          </ion-searchbar>
-        </ion-item>
-        <br>
-        <ion-label>Filter:</ion-label>
-        <ion-item>
-          <ion-label>Department</ion-label>
-          <ion-select placeholder="Select Department">
-            <ion-select-option value="All">All</ion-select-option>
-            <ion-select-option *ngFor="let dept of departmentList" value="{{dept}}">{{dept}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label>Designation</ion-label>
-          <ion-select placeholder="Select Designation">
-            <ion-select-option value="All">All</ion-select-option>
-            <ion-select-option *ngFor="let des of designationList" value="{{des}}">{{des}}</ion-select-option>
-          </ion-select>
-        </ion-item>
+      <ion-col size="10">
+        <ion-searchbar placeholder="Search Name" type="text"></ion-searchbar>
       </ion-col>
-      <ion-col size="3">
-        <ion-button>
-          <ion-icon name="filter">Filter</ion-icon>
+      <ion-col size="2">
+        <ion-button color="light" (click)="openFilterModal()">
+          <ion-icon name="funnel"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div *ngFor="let employee of employees | async">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{employee.id}}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <span>Name: {{employee.name}}</span><br>
-        <span>DOB: {{employee.dob}}</span><br>
-        <span>Department: {{employee.department}}</span><br>
-        <span>Designation: {{employee.designation}}</span><br>
-        <span>Shift: {{employee.shift}}</span><br>
-        <span>Shift Timings: {{employee.shiftTime}}</span><br>
-        <span>Phone: {{employee.phone}}</span><br>
-        <span>Email: {{employee.email}}</span><br>
-      </ion-card-content>
-    </ion-card>
+  <div *ngIf="members">
+    <ion-list *ngFor="let member of members | async">
+      <ion-item [routerLink]="['/tabs/others-profile', member.uid]" routerLinkActive="router-link-active" >
+        <ion-avatar slot="start">
+          <img src="./assets/user.png">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ member.firstname }} {{ member.lastname }} </h2>
+          <p>{{ member.designation }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>

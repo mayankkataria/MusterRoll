@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FirestoreService } from '../services/data/firestore.service';
 import { Observable } from 'rxjs';
+import { MemberService } from '../services/member.service';
+import { ModalController } from '@ionic/angular';
+import { FilterModalPage } from '../filter-modal/filter-modal.page';
 
 @Component({
   selector: 'app-members',
@@ -9,16 +11,32 @@ import { Observable } from 'rxjs';
 })
 export class MembersPage implements OnInit {
 
-  departmentList: string[] = ['IT', 'HR', 'RESOURCE'];
-  designationList: string[] = ['QA', 'Manager', 'Accountant', 'Receptionist'];
-  employees: Observable<any>;
+  members: Observable<any>;
+  filteredDept: string;
+  filteredDes: string;
 
   constructor(
-    private firestoreService: FirestoreService
+    private memberService: MemberService,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
-    this.employees = this.firestoreService.fetchAllEmployees();
+    this.members = this.memberService.fetchAllMembers$();
+  }
+
+  async openFilterModal() {
+    const filterModal = await this.modalCtrl.create({
+      component: FilterModalPage
+    });
+    await filterModal.present();
+    filterModal.onDidDismiss()
+      .then(filterData => {
+        if (filterData.data) {
+          this.filteredDept = filterData.data.filteredDept;
+          this.filteredDes = filterData.data.filteredDes;
+        }
+      })
+      .catch(err => console.log('onDidDismiss error: ', err));
   }
 
 }

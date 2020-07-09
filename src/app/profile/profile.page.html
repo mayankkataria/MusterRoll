@@ -6,5 +6,52 @@
 </ion-header>
 
 <ion-content>
-  
+    <div class="profile">
+      <div class="member-img" >
+        <ion-img src="assets/user.png"></ion-img>
+        <ion-fab class="camera-fab" slot="fixed">
+          <ion-fab-button  (click)="addPhotoToGallery()">
+            <ion-icon name="camera"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+      <div class="member-info" *ngIf="user$ | async as user">
+          <div>
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-text> Id: </ion-text> <ion-text> <b>{{ user.id }}</b></ion-text>
+          </div>
+          <div>
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-text> Name: </ion-text> <ion-text> <b>{{ user.firstname }} {{ user.lastname }}</b></ion-text>
+          </div>
+          <div>
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-text> Email: </ion-text> <ion-text> <b>{{ user.email }}</b></ion-text>
+          </div>
+          <div>
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-text> Role: </ion-text> <ion-text> <b>{{ user.role }}</b></ion-text>
+          </div>
+          <div>
+            <ion-icon name="briefcase-outline"></ion-icon>
+            <ion-text> Designation: </ion-text> <ion-text> <b>{{ user.designation }} </b></ion-text>
+          </div>
+          <div>
+            <ion-icon name="logo-buffer"></ion-icon>
+            <ion-text> Department: </ion-text> <ion-text> <b>{{ user.department }} </b></ion-text>
+          </div>
+          <div *ngIf="user.role === 'employee'">
+            <ion-icon name="moon-outline"></ion-icon>
+            <ion-text> Shift: </ion-text> <ion-text> <b>{{ user.shift }} </b></ion-text>
+          </div>
+          <div *ngIf="user.role === 'employee'">
+            <ion-icon name="stopwatch-outline"></ion-icon>
+            <ion-text> Shift Timingis: </ion-text> <ion-text> <b>{{ user.shiftTime }} </b></ion-text>
+          </div>
+          <div *ngIf="user.role === 'employee'">
+            <ion-icon name="stopwatch-outline"></ion-icon>
+            <ion-text> Salary: </ion-text> <ion-text> <b>{{ user.salary }} Rs. / {{ user.perUnitTime }} </b></ion-text> 
+          </div>
+      </div>
+      </div>
 </ion-content>

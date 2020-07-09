@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Filter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Department</ion-label>
+    <ion-select [(ngModel)]="department" placeholder="Select Department">
+      <ion-select-option *ngFor="let dept of departmentList" value="{{dept}}">{{dept}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Designation</ion-label>
+    <ion-select [(ngModel)]="designation" placeholder="Select Designation">
+      <ion-select-option *ngFor="let des of designationList" value="{{des}}">{{des}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-col size="6">
+      <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
+        Cancel
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button (click)="filter()" expand="block" fill="clear" shape="round">
+        Filter
+      </ion-button>
+    </ion-col>
+  </ion-item>
+</ion-content>

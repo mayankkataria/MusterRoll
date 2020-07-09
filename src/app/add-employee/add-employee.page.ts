@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FirestoreService } from '../services/data/firestore.service';
+import { AuthService } from '../services/auth.service';
+import { MemberService } from '../services/member.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -9,29 +10,41 @@ import { FirestoreService } from '../services/data/firestore.service';
 })
 export class AddEmployeePage implements OnInit {
 
-  public employeeInfo: FormGroup;
+  public employeeForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
-    private firestoreService: FirestoreService
+    private memberService: MemberService,
+    private authService: AuthService
     ) { }
 
   ngOnInit() {
-    this.employeeInfo = this.formBuilder.group({
+    this.employeeForm = this.formBuilder.group({
+      uid: [''],
       id: ['', Validators.required],
-      name: ['', Validators.required],
-      dob: ['', Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
       email: ['', Validators.required],
-      phone: ['', Validators.required],
+      password: ['', Validators.required],
       department: ['', Validators.required],
       designation: ['', Validators.required],
       shift: ['', Validators.required],
-      shiftTime: ['', Validators.required]
+      shiftTime: ['', Validators.required],
+      salary: ['', Validators.required],
+      perUnitTime: ['min', Validators.required],
+      role: ['employee']
     });
   }
 
   addEmployee() {
-    this.firestoreService.addEmployee(this.employeeInfo.value);
+    const employeeDetails = this.employeeForm.value;
+    this.authService.createAccount(employeeDetails.email, employeeDetails.password)
+      .then((data) => {
+        employeeDetails.uid = data.user.uid;
+        this.memberService.addMember(employeeDetails);
+      })
+      .catch(error => console.log('create member account error: ', error));
+    this.employeeForm.reset();
   }
 
 }

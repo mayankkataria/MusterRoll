@@ -19,18 +19,6 @@
       Start Tracking
     </ion-button>
 
-    <ion-button (click)="editGeofence()" *ngIf="!isCreating && !isEditing">
-      Create Geofence
-    </ion-button>
-
-    <ion-button (click)="placeGeofence()" *ngIf="isCreating && !isEditing">
-      Place Geofence
-    </ion-button>
-
-    <ion-button (click)="saveGeofence()" *ngIf="isCreating && isEditing">
-      Save Geofence
-    </ion-button>
-    
     <ion-button (click)="stopTracking()" *ngIf="isTracking">
       <ion-icon name="hand" slot="start"></ion-icon>
       Stop Tracking
@@ -48,6 +36,26 @@
       Mark Attendance
     </ion-button>
 
+    <ion-button (click)="editGeofence()" *ngIf="!isCreating && !isEditing">
+      Create Geofence
+    </ion-button>
+
+    <ion-button (click)="placeGeofence()" *ngIf="isCreating && !isEditing">
+      Place Geofence
+    </ion-button>
+
+    <ion-button (click)="saveGeofence()" *ngIf="isCreating && isEditing">
+      Save Geofence
+    </ion-button>
+
+    <ion-button (click)="modifyFence()" *ngIf="optionsVisible">
+      Modify Geofence
+    </ion-button>
+
+    <ion-button (click)="deleteFence()" *ngIf="optionsVisible">
+      Delete Geofence
+    </ion-button>
+    
     <!-- <ion-list>
       <ion-item-sliding *ngFor="let pos of locations | async">
         <ion-item>

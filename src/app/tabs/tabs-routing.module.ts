@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'others-profile/:uid',
+        loadChildren: () => import('../others-profile/others-profile.module').then( m => m.OthersProfilePageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

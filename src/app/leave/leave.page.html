@@ -1,10 +1,66 @@
 <ion-header>
   <ion-toolbar>
     <ion-back-button defaultHref="home" slot="start"></ion-back-button>
-    <ion-title>Leave</ion-title>
+    <ion-title>Leave Permission</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- Date -->
+<ion-content id="container" class="master">
+  <form action="">
+      <ion-row class="ion-margin">
+        <ion-col size="2">
+          <ion-label>Date:</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-datetime  placeholder="From" displayFormat="MM/DD/YYYY"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-datetime  placeholder="To" displayFormat="MM/DD/YYYY" ></ion-datetime>
+          </ion-item>
+        </ion-col>
+    </ion-row>
+
+
+      <!-- Time -->
+      <ion-row class="ion-margin">
+        <ion-col size="2">
+          <ion-label>Time:</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-datetime  placeholder="From" displayFormat="hh:mm:ss A" ></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col >
+          <ion-item>
+            <ion-datetime  placeholder="To" displayFormat="hh:mm:ss A" ></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    <ion-item class="ion-margin">
+      <ion-textarea rows="6" cols="20" placeholder="Reason...."></ion-textarea>
+    </ion-item>
+    
+    <!-- Button -->
+    <ion-row>
+    <ion-col size="6"> 
+      <ion-button  color="warning">
+        <b>CANCEL</b>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="6">
+      <ion-button  color="secondary" class="ion-float-right">
+        <b>SEND</b>
+      </ion-button>
+    </ion-col>
+    </ion-row>
+
+  </form>
 
 </ion-content>

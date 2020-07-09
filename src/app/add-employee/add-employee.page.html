@@ -1,28 +1,28 @@
 <ion-header>
   <ion-toolbar>
-      <ion-back-button defaultHref="home" slot="start"></ion-back-button>
+      <ion-back-button defaultHref="tabs/members" slot="start"></ion-back-button>
     <ion-title>Add Employee</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="employeeInfo">
+  <form [formGroup]="employeeForm">
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="id" type="text" placeholder="Attendee Id"></ion-input>
+          <ion-input formControlName="id" type="text" placeholder="Employee Id"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="name" type="text" placeholder="Name"></ion-input>
+          <ion-input formControlName="firstname" type="text" placeholder="First Name"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="dob" type="text" placeholder="DOB"></ion-input>
+          <ion-input formControlName="lastname" type="text" placeholder="Last Name"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -34,7 +34,7 @@
       </ion-col>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="phone" type="text" placeholder="Phone"></ion-input>
+          <ion-input formControlName="password" type="text" placeholder="Password"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -63,17 +63,27 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="12">
+      <ion-col size="6">
+        <ion-item>
+          <ion-input formControlName="salary" type="text" placeholder="Salary"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+          <ion-select value="min" formControlName="perUnitTime" interface="popover" placeholder="per unit time">
+            <ion-select-option value="hr">per hour</ion-select-option>
+            <ion-select-option value="min">per minute</ion-select-option>
+            <ion-select-option value="sec">per second</ion-select-option>
+          </ion-select>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="6">
-        <ion-button defaultHref="tabs/members" color="warning" shape="round" >
+        <ion-button color="warning" shape="round" >
           Cancel
         </ion-button>
       </ion-col>
       <ion-col size="6">
-        <ion-button (click)="addEmployee()" [routerLink]="['/tabs/members']" routerLinkActive="router-link-active"  type="submit" [disabled]="!employeeInfo.valid" shape="round" class="ion-float-right">
+        <ion-button (click)="addEmployee()" type="submit" [disabled]="!employeeForm.valid" shape="round" class="ion-float-right">
           Add
         </ion-button>
       </ion-col>
