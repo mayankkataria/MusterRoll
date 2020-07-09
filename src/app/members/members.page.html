@@ -29,8 +29,8 @@
           <img src="./assets/user.png">
         </ion-avatar>
         <ion-label>
-          <h2>{{ member.firstname }} {{ member.lastname }} </h2>
-          <p>{{ member.designation }}</p>
+          <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>
+          <p>{{ member.designation | titlecase }}</p>
         </ion-label>
         <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
       </ion-item>
