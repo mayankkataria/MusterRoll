@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ChartDataSets } from 'chart.js';
 import { Label, Color, SingleDataSet } from 'ng2-charts';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -43,7 +43,7 @@ export class HomePage {
   // For search
   stock = 'AAPL';
 
-  constructor(private http: HttpClient) {
+  constructor() {
     // this.getData();
   }
 
