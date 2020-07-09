@@ -34,4 +34,13 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <div fxLayoutAlign="center center" style="height: 400px;width: 800px;">
+    <canvas baseChart 
+    [data]="pieChartData" 
+    [labels]="pieChartLabels" 
+    [chartType]="chartType"
+    >
+    </canvas>
+  </div>
 </ion-content>
