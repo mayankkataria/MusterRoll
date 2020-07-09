@@ -11,6 +11,10 @@ import { MemberService } from '../services/member.service';
 export class AddEmployeePage implements OnInit {
 
   public employeeForm: FormGroup;
+  shiftStart: any;
+  shiftEnd: any;
+  shiftStartPicker: any;
+  shiftEndPicker: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,22 +32,75 @@ export class AddEmployeePage implements OnInit {
       password: ['', Validators.required],
       department: ['', Validators.required],
       designation: ['', Validators.required],
-      shift: ['', Validators.required],
-      shiftTime: ['', Validators.required],
+      shift: ['morning'],
+      shiftStart: [{}, Validators.required],
+      shiftEnd: [{}, Validators.required],
       salary: ['', Validators.required],
-      perUnitTime: ['min', Validators.required],
+      perUnitTime: ['min'],
       role: ['employee']
     });
+
+    this.shiftStartPicker = {
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Done',
+          handler: res => {
+            const pickerObj = {
+              hr: res.hour.value,
+              min: res.minute.value,
+              meridiem: res.ampm.value
+            };
+            this.shiftStart = pickerObj;
+          }
+        }
+      ]
+    };
+
+    this.shiftEndPicker = {
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Done',
+          handler: res => {
+            const pickerObj = {
+              hr: res.hour.value,
+              min: res.minute.value,
+              meridiem: res.ampm.value
+            };
+            this.shiftEnd = pickerObj;
+          }
+        }
+      ]
+    };
+  }
+
+  lowerCase(text: string) {
+    return text.toLowerCase();
   }
 
   addEmployee() {
     const employeeDetails = this.employeeForm.value;
+    employeeDetails.firstname = this.lowerCase(employeeDetails.firstname);
+    employeeDetails.lastname = this.lowerCase(employeeDetails.lastname);
+    employeeDetails.email = this.lowerCase(employeeDetails.email);
+    employeeDetails.department = this.lowerCase(employeeDetails.department);
+    employeeDetails.designation = this.lowerCase(employeeDetails.designation);
+    console.log('emp details: ', employeeDetails);
     this.authService.createAccount(employeeDetails.email, employeeDetails.password)
       .then((data) => {
         employeeDetails.uid = data.user.uid;
         this.memberService.addMember(employeeDetails);
+        this.employeeForm.reset();
       })
       .catch(error => console.log('create member account error: ', error));
+  }
+
+  cancelBtn() {
     this.employeeForm.reset();
   }
 
