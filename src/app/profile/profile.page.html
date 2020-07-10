@@ -7,8 +7,10 @@
 
 <ion-content>
     <div class="profile">
-      <div class="user-img" >
-        <ion-img src="{{ picSrc }}"></ion-img>
+      <div class="user-img">
+        <ion-avatar class="profile-pic">
+          <ion-img [src]="profilePicUrl ? profilePicUrl : 'assets/user.png'"></ion-img>
+        </ion-avatar>
         <ion-fab class="camera-fab" slot="fixed">
           <ion-fab-button  (click)="capturePhoto()">
             <ion-icon name="camera"></ion-icon>

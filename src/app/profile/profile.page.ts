@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PhotoService } from '../services/photo.service';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
+import { md5 } from 'crypto-md5';
+import { StorageService } from '../services/storage.service';
+import { CameraService } from '../services/camera.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,28 +14,38 @@ export class ProfilePage implements OnInit {
 
   userData: any;
   user$: Observable<any>;
-  picSrc: string;
+  profilePicUrl: any;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private storageService: StorageService,
+    private camService: CameraService
   ) {
     console.log('profile page constructor');
-    this.picSrc = 'assets/user.png';
    }
-
-  capturePhoto() {
-    Camera.getPhoto({
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-      quality: 100
-    })
-      .then(photo => this.picSrc = photo.webPath)
-      .catch(err => console.log('photo error: ', err));
-  }
 
   ngOnInit() {
     this.user$ = this.userService.getUser$();
-    this.user$.subscribe(data => console.log('user data: ', data));
+  }
+
+  capturePhoto() {
+    this.camService.capturePhoto()
+      .then(photo => {
+        this.userService.getUid$()
+          .subscribe(uid => {
+            console.log('uid subscribe');
+            const base64String = photo.base64String;
+            this.storageService.setProfilePic(uid, base64String)
+            .then(() => {
+              this.storageService.getProfilePicUrl$(uid)
+                .subscribe(url => {
+                  this.profilePicUrl = url;
+                });
+            })
+            .catch(err => console.log('img store error: ', err));
+          });
+      })
+      .catch(err => console.log('capture photo error: ', err));
   }
 
 }

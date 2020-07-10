@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -17,7 +16,6 @@ export class UserService {
   userRef: AngularFirestoreDocument<any>;
 
   constructor(
-    private authService: AuthService,
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore
   ) {
@@ -25,10 +23,14 @@ export class UserService {
    }
 
    getUser$() {
+     return this.getUid$()
+      .pipe(switchMap(uid => this.afs.doc<any>('members/' + uid).valueChanges()));
+   }
+
+   getUid$() {
      return this.afAuth.authState
       .pipe(
-        map(user => user.uid),
-        switchMap(uid => this.afs.doc<any>('members/' + uid).valueChanges())
+        map(user => user.uid)
       );
    }
 }
