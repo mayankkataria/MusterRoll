@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PhotoService } from '../services/photo.service';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
 
 @Component({
   selector: 'app-profile',
@@ -12,16 +13,23 @@ export class ProfilePage implements OnInit {
 
   userData: any;
   user$: Observable<any>;
+  picSrc: string;
 
   constructor(
-    public photoService: PhotoService,
     private userService: UserService
   ) {
     console.log('profile page constructor');
+    this.picSrc = 'assets/user.png';
    }
 
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
+  capturePhoto() {
+    Camera.getPhoto({
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+      quality: 100
+    })
+      .then(photo => this.picSrc = photo.webPath)
+      .catch(err => console.log('photo error: ', err));
   }
 
   ngOnInit() {

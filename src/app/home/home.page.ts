@@ -10,25 +10,34 @@ import { Label, Color, SingleDataSet } from 'ng2-charts';
 })
 export class HomePage {
 
-  //Data
-  public pieChartLabels: Label[] = ['present','Absent','Early leavers','Late comers'];
-  public pieChartData: SingleDataSet = [200,300,400,500];
+  present: number;
+  absent: number;
+  earlyLeavers: number;
+  lateComers: number;
 
-  //Option
+  // Data
+  public pieChartLabels: Label[] = ['Present', 'Absent', 'Early leavers', 'Late comers'];
+  public pieChartData: SingleDataSet = [this.present, this.absent, this.earlyLeavers, this.lateComers];
+
+  modifyChart() {
+    this.pieChartData = [this.present, this.absent, this.earlyLeavers, this.lateComers];
+  }
+
+  // Option
   ChartOptions = {
     responsive: true,
-    // title: {
-    //   display: true,
-    //   text: 'price'
-    // },
-    // pan: {
-    //   enabled: true,
-    //   mode: 'xy'
-    // },
-    // zoom: {
-    //   enabled: true,
-    //   mode: 'xy'
-    // },
+    title: {
+      display: true,
+      text: 'price'
+    },
+    pan: {
+      enabled: true,
+      mode: 'xy'
+    },
+    zoom: {
+      enabled: true,
+      mode: 'xy'
+    },
 
   };
   chartColors: Color [] = [

@@ -12,24 +12,24 @@
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input type="text" placeholder="Present(P)"></ion-input>
+          <ion-input [(ngModel)]="present" type="number" (ionChange)="modifyChart()" placeholder="Present(P)"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="6">
         <ion-item>
-          <ion-input type="text" placeholder="Absent(A)"></ion-input>
+          <ion-input [(ngModel)]="absent" type="number" placeholder="Absent(A)"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input type="text" placeholder="Early leavers(EL)"></ion-input>
+          <ion-input [(ngModel)]="earlyLeavers" type="number" placeholder="Early leavers(EL)"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="6">
         <ion-item>
-          <ion-input type="text" placeholder="Late Comers(LC)"></ion-input>
+          <ion-input [(ngModel)]="lateComers" type="number" placeholder="Late Comers(LC)"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>

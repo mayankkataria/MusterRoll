@@ -8,9 +8,9 @@
 <ion-content>
     <div class="profile">
       <div class="user-img" >
-        <ion-img src="assets/user.png"></ion-img>
+        <ion-img src="{{ picSrc }}"></ion-img>
         <ion-fab class="camera-fab" slot="fixed">
-          <ion-fab-button  (click)="addPhotoToGallery()">
+          <ion-fab-button  (click)="capturePhoto()">
             <ion-icon name="camera"></ion-icon>
           </ion-fab-button>
         </ion-fab>
@@ -46,7 +46,19 @@
         </div>
         <div *ngIf="user.role === 'employee'">
           <ion-icon name="stopwatch-outline"></ion-icon>
-          <ion-text> Shift Timingis: </ion-text> <ion-text> <b>{{ user.shiftStart.hr }}:{{ user.shiftStart.min }} {{ user.shiftStart.meridiem }} - {{ user.shiftEnd.hr }}:{{ user.shiftEnd.min }} {{ user.shiftEnd.meridiem }} </b></ion-text>
+          <ion-text> Shift Timings: </ion-text> 
+          <ion-text><b> 
+              <span *ngIf="user.shiftStart.hr < 10">0</span>
+              <span>{{ user.shiftStart.hr }}:</span>
+              <span *ngIf="user.shiftStart.min < 10">0</span>
+              <span>{{ user.shiftStart.min }}</span>
+              {{ user.shiftStart.meridiem }} - 
+              <span *ngIf="user.shiftEnd.hr < 10">0</span>
+              <span>{{ user.shiftEnd.hr }}:</span>
+              <span *ngIf="user.shiftEnd.min < 10">0</span>
+              <span>{{ user.shiftEnd.min }}</span>
+              {{ user.shiftEnd.meridiem }}
+          </b></ion-text>
         </div>
         <div *ngIf="user.role === 'employee'">
           <ion-icon name="wallet-outline"></ion-icon>
