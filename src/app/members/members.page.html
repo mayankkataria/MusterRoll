@@ -26,7 +26,7 @@
     <ion-list *ngFor="let member of members | async">
       <ion-item [routerLink]="['/tabs/others-profile', member.uid]" routerLinkActive="router-link-active" >
         <ion-avatar slot="start">
-          <img src="./assets/user.png">
+          <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
         </ion-avatar>
         <ion-label>
           <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>

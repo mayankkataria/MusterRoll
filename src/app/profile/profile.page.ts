@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { md5 } from 'crypto-md5';
 import { StorageService } from '../services/storage.service';
 import { CameraService } from '../services/camera.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -32,14 +33,15 @@ export class ProfilePage implements OnInit {
     this.camService.capturePhoto()
       .then(photo => {
         this.userService.getUid$()
-          .subscribe(uid => {
+          .subscribe(userUid => {
             console.log('uid subscribe');
             const base64String = photo.base64String;
-            this.storageService.setProfilePic(uid, base64String)
+            this.storageService.setProfilePic(userUid, base64String)
             .then(() => {
-              this.storageService.getProfilePicUrl$(uid)
+              this.storageService.getProfilePicUrl$(userUid)
                 .subscribe(url => {
                   this.profilePicUrl = url;
+                  this.userService.updateProfilePic(url);
                 });
             })
             .catch(err => console.log('img store error: ', err));
