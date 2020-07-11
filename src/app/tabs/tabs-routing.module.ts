@@ -25,6 +25,14 @@ const routes: Routes = [
         loadChildren: () => import('../others-profile/others-profile.module').then( m => m.OthersProfilePageModule)
       },
       {
+        path: 'employee-home',
+        loadChildren: () => import('../employee-home/employee-home.module').then( m => m.EmployeeHomePageModule)
+      },
+      {
+        path: 'clock-in',
+        loadChildren: () => import('../clock-in/clock-in.module').then( m => m.ClockInPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EmployeeHomePageRoutingModule } from './employee-home-routing.module';
 
 import { EmployeeHomePage } from './employee-home.page';
+import { FenceHistoryPageModule } from '../fence-history/fence-history.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EmployeeHomePageRoutingModule
+    EmployeeHomePageRoutingModule,
+    FenceHistoryPageModule
   ],
   declarations: [EmployeeHomePage]
 })

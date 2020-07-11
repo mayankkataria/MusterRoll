@@ -89,6 +89,10 @@ const routes: Routes = [
     path: 'others-profile/:uid',
     loadChildren: () => import('./others-profile/others-profile.module').then( m => m.OthersProfilePageModule)
   },
+  {
+    path: 'fence-history',
+    loadChildren: () => import('./fence-history/fence-history.module').then( m => m.FenceHistoryPageModule)
+  },
 ];
 
 @NgModule({

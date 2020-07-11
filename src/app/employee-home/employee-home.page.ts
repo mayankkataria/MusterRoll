@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { FenceHistoryPage } from '../fence-history/fence-history.page';
 
 @Component({
   selector: 'app-employee-home',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeeHomePage implements OnInit {
 
-  constructor() { }
+  inFence = false;
+
+  constructor(
+    private modalCrl: ModalController
+  ) { }
 
   ngOnInit() {
+  }
+
+  refreshLocation() {
+    this.inFence = !this.inFence;
+  }
+
+  async openFenceHistory() {
+    const fenceHistoryModal = await this.modalCrl.create({
+      component: FenceHistoryPage
+    });
+    fenceHistoryModal.present();
   }
 
 }
