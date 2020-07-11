@@ -5,6 +5,7 @@ import { md5 } from 'crypto-md5';
 import { StorageService } from '../services/storage.service';
 import { CameraService } from '../services/camera.service';
 import { catchError } from 'rxjs/operators';
+import { DateTimeService } from '../services/date-time.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,17 +17,48 @@ export class ProfilePage implements OnInit {
   userData: any;
   user$: Observable<any>;
   profilePicUrl: any;
+  shiftStart = {
+    hr: {
+      text: '',
+      value: 0
+    },
+    min: {
+      text: '',
+      value: 0
+    },
+    meridiem: ''
+  };
+  shiftEnd = {
+    hr: {
+      text: '',
+      value: 0
+    },
+    min: {
+      text: '',
+      value: 0
+    },
+    meridiem: ''
+  };
 
   constructor(
     private userService: UserService,
     private storageService: StorageService,
-    private camService: CameraService
+    private camService: CameraService,
+    private dateTimeService: DateTimeService
   ) {
     console.log('profile page constructor');
    }
 
   ngOnInit() {
     this.user$ = this.userService.getUser$();
+    this.user$.subscribe(userData => {
+      this.shiftStart.hr.text = this.dateTimeService.display('hours', userData.shiftStart.hr);
+      this.shiftStart.min.text = this.dateTimeService.display('minutes', userData.shiftStart.min);
+      this.shiftStart.meridiem = userData.shiftStart.meridiem;
+      this.shiftEnd.hr.text = this.dateTimeService.display('hours',userData.shiftEnd.hr);
+      this.shiftEnd.min.text = this.dateTimeService.display('minutes', userData.shiftEnd.min);
+      this.shiftEnd.meridiem = userData.shiftEnd.meridiem;
+    });
   }
 
   capturePhoto() {

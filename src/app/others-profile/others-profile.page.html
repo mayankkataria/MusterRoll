@@ -45,17 +45,9 @@
             <ion-icon name="stopwatch-outline"></ion-icon>
             <ion-text> Shift Timings: </ion-text> 
             <ion-text><b> 
-                <span *ngIf="member.shiftStart.hr < 10">0</span>
-                <span>{{ member.shiftStart.hr }}:</span>
-                <span *ngIf="member.shiftStart.min < 10">0</span>
-                <span>{{ member.shiftStart.min }}</span>
-                {{ member.shiftStart.meridiem }} - 
-                <span *ngIf="member.shiftEnd.hr < 10">0</span>
-                <span>{{ member.shiftEnd.hr }}:</span>
-                <span *ngIf="member.shiftEnd.min < 10">0</span>
-                <span>{{ member.shiftEnd.min }}</span>
-                {{ member.shiftEnd.meridiem }}
-            </b></ion-text>
+              {{ shiftStart.hr.text }}:{{ shiftStart.min.text }} {{ shiftStart.meridiem }} - 
+              {{ shiftEnd.hr.text }}:{{ shiftEnd.min.text }} {{ shiftEnd.meridiem }}
+          </b></ion-text>
           </div>
           <div *ngIf="member.role === 'employee'">
             <ion-icon name="wallet-outline"></ion-icon>

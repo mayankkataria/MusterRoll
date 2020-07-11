@@ -50,16 +50,8 @@
           <ion-icon name="stopwatch-outline"></ion-icon>
           <ion-text> Shift Timings: </ion-text> 
           <ion-text><b> 
-              <span *ngIf="user.shiftStart.hr < 10">0</span>
-              <span>{{ user.shiftStart.hr }}:</span>
-              <span *ngIf="user.shiftStart.min < 10">0</span>
-              <span>{{ user.shiftStart.min }}</span>
-              {{ user.shiftStart.meridiem }} - 
-              <span *ngIf="user.shiftEnd.hr < 10">0</span>
-              <span>{{ user.shiftEnd.hr }}:</span>
-              <span *ngIf="user.shiftEnd.min < 10">0</span>
-              <span>{{ user.shiftEnd.min }}</span>
-              {{ user.shiftEnd.meridiem }}
+              {{ shiftStart.hr.text }}:{{ shiftStart.min.text }} {{ shiftStart.meridiem }} - 
+              {{ shiftEnd.hr.text }}:{{ shiftEnd.min.text }} {{ shiftEnd.meridiem }}
           </b></ion-text>
         </div>
         <div *ngIf="user.role === 'employee'">

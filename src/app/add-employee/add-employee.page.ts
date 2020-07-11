@@ -51,7 +51,7 @@ export class AddEmployeePage implements OnInit {
             const pickerObj = {
               hr: res.hour.value,
               min: res.minute.value,
-              meridiem: res.ampm.value
+              meridiem: res.ampm.text
             };
             this.shiftStart = pickerObj;
           }
@@ -70,7 +70,7 @@ export class AddEmployeePage implements OnInit {
             const pickerObj = {
               hr: res.hour.value,
               min: res.minute.value,
-              meridiem: res.ampm.value
+              meridiem: res.ampm.text
             };
             this.shiftEnd = pickerObj;
           }

@@ -5,28 +5,28 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid fixed>
+  <ion-grid *ngIf="userLog$ | async as userLog" >
     <ion-row>
       <ion-col offset="0">
         <ion-label>Status: </ion-label>
         <ion-text>
-          <b>Late Comer</b>
+          <b>{{ userLog.status | titlecase }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="clockIn">
       <ion-col offset="0">
         <ion-label>Clock In: </ion-label>
         <ion-text>
-          <b>09:05 am</b>
+          <b>{{ clockIn.hr.text }}:{{ clockIn.min.text }} {{ clockIn.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="clockOut">
       <ion-col offset="0">
         <ion-label>Clock Out: </ion-label>
         <ion-text>
-          <b>04:05 pm</b>
+          <b>{{ clockOut.hr.text }}:{{ clockOut.min.text }} {{ clockOut.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -35,7 +35,7 @@
       <ion-col offset="0">
         <ion-label>Duration: </ion-label>
         <ion-text>
-          <b>6 hr 57 min</b>
+          <b>{{ userLog.duration }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -43,7 +43,7 @@
       <ion-col offset="0">
         <ion-label>Amount: </ion-label>
         <ion-text>
-          <b>395 Rs</b>
+          <b>{{ userLog.amount }}</b>
         </ion-text>
       </ion-col>
     </ion-row>

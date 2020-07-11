@@ -45,6 +45,16 @@ export class UserService {
       );
   }
 
+  getUserLog$() {
+    return this.getUid$()
+      .pipe(switchMap(uid => this.afs.collection<any>('members/' + uid + '/log', ref => ref
+      .orderBy('date', 'desc')
+      .limit(1)
+      )
+      .valueChanges()))
+      .pipe(switchMap(firstDoc => firstDoc));
+  }
+
   updateProfilePic(url: any) {
     this.getUid$()
       .subscribe(uid => {
