@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { FenceHistoryPage } from '../fence-history/fence-history.page';
 import { UserService } from '../services/user.service';
 import { Observable, interval, Subscription } from 'rxjs';
-import { switchMap, takeWhile } from 'rxjs/operators';
 import { DateTimeService } from '../services/date-time.service';
 
 @Component({
@@ -16,19 +15,22 @@ export class EmployeeHomePage implements OnInit {
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
-  status: string;
+  inStatus = 'absent';
+  outStatus = null;
   duration: string;
   amount: number;
   durationMinutes: number;
   durationHrs: number;
   totalDuration: number;
   clockedIn = false;
+  clockedOut = false;
   salary: number;
   perUnitTime: string;
   stopwatch: Observable<number> = interval(1000);
   secCompleted = false;
   minCompleted = false;
   hrCompleted = false;
+  withinShift = false;
 
   durationTime = {
     hr: {
@@ -93,6 +95,28 @@ export class EmployeeHomePage implements OnInit {
     meridiem: ''
   };
 
+  lateDuration = {
+    hr: {
+      text: '00',
+      value: 0
+    },
+    min: {
+      text: '00',
+      value: 0
+    }
+  }
+
+  earlyDuration = {
+    hr: {
+      text: '00',
+      value: 0
+    },
+    min: {
+      text: '00',
+      value: 0
+    }
+  }
+
   public MINS_PER_HR = 60;
   public MINS_PER_DAY = 1440;
   durationSubscription: Subscription;
@@ -133,83 +157,26 @@ export class EmployeeHomePage implements OnInit {
         },
         meridiem: this.dateTimeService.getMeridiem(null, user.shiftEnd.hr)
       };
-    });
 
-    // this.userLog$ = this.userService.getUserLog$();
-    // this.userService.getUserLog$().subscribe(log => {
-    //   this.clockInTime.hr.text = this.dateTimeService.display('hours', null, log.clockInTime.toDate());
-    //   this.clockInTime.min.text = this.dateTimeService.display('minutes', null, log.clockInTime.toDate());
-    //   this.clockInTime.meridiem = this.dateTimeService.getMeridiem(log.clockInTime.toDate());
-    //   this.clockOutTime.hr.text = this.dateTimeService.display('hours', null, log.clockOutTime.toDate());
-    //   this.clockOutTime.min.text = this.dateTimeService.display('minutes', null, log.clockOutTime.toDate());
-    //   this.clockOutTime.meridiem = this.dateTimeService.getMeridiem(log.clockOutTime.toDate());
-    // });
+      this.withinShift = this.dateTimeService.inInterval(
+        {
+          startHr: this.shiftStartTime.hr.value,
+          startMin: this.shiftStartTime.min.value
+        },
+        {
+          endHr: this.shiftEndTime.hr.value,
+          endMin: this.shiftEndTime.min.value
+        },
+        {
+          currentHr: new Date().getHours(),
+          currentMin: new Date().getMinutes()
+        },
+      );
+    });
+    console.log('within shift: ', this.withinShift);
   }
 
   calDuration() {
-    // this.durationSubscription = this.stopwatch
-      // .pipe(
-      //   takeWhile(second => second < 10),
-      //   switchMap(async sec => sec)
-      // )
-      // .subscribe(sec => {
-        // console.log('sec: ', sec);
-        // console.log('duration subscribe');
-        // this.durationTime.sec.value = sec;
-        // this.durationTime.sec.text = this.dateTimeService.display('seconds', sec);
-
-        // if (this.perUnitTime === 'sec') {
-        //   this.amount += this.salary;
-        // }
-
-        // if (this.secCompleted) {
-
-        //   this.secCompleted = false;
-
-        //   this.durationTime.min.value += 1;
-        //   this.durationTime.min.text = this.dateTimeService.display('minutes', this.durationTime.min.value);
-
-        //   if (this.perUnitTime === 'min') {
-        //     this.amount += this.salary;
-        //   }
-
-        //   if (this.minCompleted) {
-
-        //     this.minCompleted = false;
-        //     this.durationTime.min.value = 0;
-
-        //     this.durationTime.hr.value += 1;
-        //     this.durationTime.hr.text = this.dateTimeService.display('hours', this.durationTime.hr.value);
-
-        //     if (this.perUnitTime === 'hr') {
-        //       this.amount += this.salary;
-        //     }
-
-            // if (this.hrCompleted) {
-
-            //   this.durationTime.hr.value = 0;
-            //   this.hrCompleted = false;
-
-            //   if (this.perUnitTime === 'hr') {
-            //     this.amount += this.salary;
-            //   }
-            // }
-            // if (this.durationTime.hr.value === 2) {
-            //   this.hrCompleted = true;
-            // }
-          // }
-
-      //     if (this.durationTime.min.value === 2) {
-      //       this.minCompleted = true;
-      //     }
-      //   }
-
-      //   if (sec === 9) {
-      //     this.secCompleted = true;
-      //     this.calDuration();
-      //   }
-      // });
-
       this.durationSubscription = this.stopwatch
         .subscribe(sec => {
           this.durationTime.sec.value = sec % 60;
@@ -232,27 +199,6 @@ export class EmployeeHomePage implements OnInit {
     }
   }
 
-  refreshLocation() {
-    this.inFence = !this.inFence;
-  }
-
-  inShiftInterval() {
-    return this.dateTimeService.inInterval(
-      {
-        startHr: this.shiftStartTime.hr.value,
-        startMin: this.shiftStartTime.min.value
-      },
-      {
-        endHr: this.shiftEndTime.hr.value,
-        endMin: this.shiftEndTime.min.value
-      },
-      {
-        currentHr: this.clockInTime.hr.value,
-        currentMin: this.clockInTime.min.value
-      },
-    );
-  }
-
   clockIn() {
     this.calDuration();
     this.clockedIn = true;
@@ -268,13 +214,23 @@ export class EmployeeHomePage implements OnInit {
       },
       meridiem: this.dateTimeService.getMeridiem(new Date())
     };
-    // console.log('time now hrs: ', this.clockInTime.hr.text);
-    // console.log('time now min: ', this.clockInTime.min.text);
-    // console.log('time now meridiem: ', this.clockInTime.meridiem);
+    this.getInStatus();
+  }
+
+  getInStatus() {
+    if (this.clockInTime.hr.value !== this.shiftStartTime.hr.value
+      || this.clockInTime.min.value !== this.shiftStartTime.min.value) {
+      this.inStatus = 'late arrival';
+      this.calLateDuration();
+    } else {
+      this.inStatus = null;
+    }
   }
 
   clockOut() {
+    this.durationSubscription.unsubscribe();
     this.clockedIn = false;
+    this.clockedOut = true;
     const date = new Date();
     this.clockOutTime = {
       hr: {
@@ -287,27 +243,70 @@ export class EmployeeHomePage implements OnInit {
       },
       meridiem: this.dateTimeService.getMeridiem(new Date())
     };
-    // console.log('time now hrs: ', this.clockOutTime.hr.text);
-    // console.log('time now min: ', this.clockOutTime.min.text);
-    // console.log('time now meridiem: ', this.clockOutTime.meridiem);
-    this.durationSubscription.unsubscribe();
+    this.getOutStatus();
   }
 
-  // calDuration() {
-  //   let startx = null;
-  //   let endx = null;
-  //   startx = this.clockInTime.hr.value * this.MINS_PER_HR + this.clockInTime.min.value;
-  //   endx = this.clockOutTime.hr.value * this.MINS_PER_HR + this.clockOutTime.min.value;
-  //   this.totalDuration = endx - startx;
-  //   if (this.totalDuration < 0) {
-  //     this.totalDuration = this.totalDuration + this.MINS_PER_DAY;
-  //   }
-  //   this.durationHrs = Math.floor (this.totalDuration / 60);
-  //   this.durationMinutes = this.totalDuration % 60;
-  //   console.log('duration hrs: ', this.durationHrs);
-  //   console.log('duration mins: ', this.durationMinutes);
-  //   console.log('duration total: ', this.totalDuration);
+  getOutStatus() {
+    if (this.clockOutTime.hr.value !== this.shiftEndTime.hr.value
+      || this.clockOutTime.min.value !== this.shiftEndTime.min.value) {
+      this.outStatus = 'early departure';
+      this.calEarlyDuration();
+    } else {
+      this.outStatus = null;
+    }
+  }
+
+  refreshLocation() {
+    this.inFence = !this.inFence;
+  }
+
+  // inShiftInterval(): boolean {
+  //   console.log('in shift time interval');
+  //   return this.dateTimeService.inInterval(
+  //     {
+  //       startHr: this.shiftStartTime.hr.value,
+  //       startMin: this.shiftStartTime.min.value
+  //     },
+  //     {
+  //       endHr: this.shiftEndTime.hr.value,
+  //       endMin: this.shiftEndTime.min.value
+  //     },
+  //     {
+  //       currentHr: new Date().getHours(),
+  //       currentMin: new Date().getMinutes()
+  //     },
+  //   );
   // }
+
+  calLateDuration() {
+    let startx = null;
+    let endx = null;
+    startx = this.shiftStartTime.hr.value * this.MINS_PER_HR + this.shiftStartTime.min.value;
+    endx = this.clockInTime.hr.value * this.MINS_PER_HR + this.clockInTime.min.value;
+    this.totalDuration = endx - startx;
+    if (this.totalDuration < 0) {
+      this.totalDuration = this.totalDuration + this.MINS_PER_DAY;
+    }
+    this.lateDuration.hr.value = Math.floor (this.totalDuration / 60);
+    this.lateDuration.min.value = this.totalDuration % 60;
+    this.lateDuration.hr.text = this.dateTimeService.display('hours', this.lateDuration.hr.value);
+    this.lateDuration.min.text = this.dateTimeService.display('minutes', this.lateDuration.min.value);
+  }
+
+  calEarlyDuration() {
+    let startx = null;
+    let endx = null;
+    startx = this.clockOutTime.hr.value * this.MINS_PER_HR + this.clockOutTime.min.value;
+    endx = this.shiftEndTime.hr.value * this.MINS_PER_HR + this.shiftEndTime.min.value;
+    this.totalDuration = endx - startx;
+    if (this.totalDuration < 0) {
+      this.totalDuration = this.totalDuration + this.MINS_PER_DAY;
+    }
+    this.earlyDuration.hr.value = Math.floor (this.totalDuration / 60);
+    this.earlyDuration.min.value = this.totalDuration % 60;
+    this.earlyDuration.hr.text = this.dateTimeService.display('hours', this.earlyDuration.hr.value);
+    this.earlyDuration.min.text = this.dateTimeService.display('minutes', this.earlyDuration.min.value);
+  }
 
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
