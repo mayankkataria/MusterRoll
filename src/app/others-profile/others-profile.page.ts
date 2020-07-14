@@ -48,10 +48,10 @@ export class OthersProfilePage implements OnInit {
     this.member$.subscribe(memberData => {
       this.shiftStart.hr.text = this.dateTimeService.display('hours', memberData.shiftStart.hr);
       this.shiftStart.min.text = this.dateTimeService.display('minutes', memberData.shiftStart.min);
-      this.shiftStart.meridiem = memberData.shiftStart.meridiem;
+      this.shiftStart.meridiem = this.dateTimeService.getMeridiem(null, memberData.shiftStart.hr);
       this.shiftEnd.hr.text = this.dateTimeService.display('hours',memberData.shiftEnd.hr);
       this.shiftEnd.min.text = this.dateTimeService.display('minutes', memberData.shiftEnd.min);
-      this.shiftEnd.meridiem = memberData.shiftEnd.meridiem;
+      this.shiftEnd.meridiem = this.dateTimeService.getMeridiem(null, memberData.shiftEnd.hr);
     });
   }
 

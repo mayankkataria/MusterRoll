@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-attendance-log',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./attendance-log.page.scss'],
 })
 export class AttendanceLogPage implements OnInit {
+
+  logItems$: Observable<any>;
 
   constructor() { }
 

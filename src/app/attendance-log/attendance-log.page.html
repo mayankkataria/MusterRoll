@@ -1,9 +1,19 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>attendanceLog</ion-title>
+    <ion-title>Attendance Log</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let logItem of logItems$ | async">
+      <ion-label>
+        <b>3 May</b> 
+        <ion-text>
+          <h3>Status: <b>Present</b> </h3>
+          <h3>Amount: <b>60 Rs</b> </h3>
+      </ion-text>
+    </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

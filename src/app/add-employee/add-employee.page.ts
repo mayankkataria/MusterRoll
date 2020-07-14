@@ -35,7 +35,7 @@ export class AddEmployeePage implements OnInit {
       shift: ['morning'],
       shiftStart: [{}, Validators.required],
       shiftEnd: [{}, Validators.required],
-      salary: ['', Validators.required],
+      salary: [0, Validators.required],
       perUnitTime: ['min'],
       role: ['employee']
     });
@@ -50,9 +50,11 @@ export class AddEmployeePage implements OnInit {
           handler: res => {
             const pickerObj = {
               hr: res.hour.value,
-              min: res.minute.value,
-              meridiem: res.ampm.text
+              min: res.minute.value
             };
+            if (res.ampm.text === 'PM') {
+              pickerObj.hr += 12;
+            }
             this.shiftStart = pickerObj;
           }
         }
@@ -69,9 +71,11 @@ export class AddEmployeePage implements OnInit {
           handler: res => {
             const pickerObj = {
               hr: res.hour.value,
-              min: res.minute.value,
-              meridiem: res.ampm.text
+              min: res.minute.value
             };
+            if (res.ampm.text === 'PM') {
+              pickerObj.hr += 12;
+            }
             this.shiftEnd = pickerObj;
           }
         }

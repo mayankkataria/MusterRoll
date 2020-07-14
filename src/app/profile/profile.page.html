@@ -40,7 +40,7 @@
         </div>
         <div>
           <ion-icon name="business-outline"></ion-icon>
-          <ion-text> Department: </ion-text> <ion-text> <b>{{ user.department | titlecase }} </b></ion-text>
+          <ion-text> Department: </ion-text> <ion-text> <b>{{ user.department | uppercase }} </b></ion-text>
         </div>
         <div *ngIf="user.role === 'employee'">
           <ion-icon name="moon-outline"></ion-icon>

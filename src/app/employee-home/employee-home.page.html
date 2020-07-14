@@ -5,8 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid *ngIf="userLog$ | async as userLog" >
-    <ion-row>
+  <ion-grid >
+    <!-- <ion-row>
       <ion-col offset="0">
         <ion-label>Status: </ion-label>
         <ion-text>
@@ -14,19 +14,19 @@
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="clockIn">
+    <ion-row *ngIf="clockInTime">
       <ion-col offset="0">
         <ion-label>Clock In: </ion-label>
         <ion-text>
-          <b>{{ clockIn.hr.text }}:{{ clockIn.min.text }} {{ clockIn.meridiem }}</b>
+          <b>{{ clockInTime.hr.text }}:{{ clockInTime.min.text }} {{ clockInTime.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="clockOut">
+    <ion-row *ngIf="clockOutTime">
       <ion-col offset="0">
         <ion-label>Clock Out: </ion-label>
         <ion-text>
-          <b>{{ clockOut.hr.text }}:{{ clockOut.min.text }} {{ clockOut.meridiem }}</b>
+          <b>{{ clockOutTime.hr.text }}:{{ clockOutTime.min.text }} {{ clockOutTime.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -46,31 +46,66 @@
           <b>{{ userLog.amount }}</b>
         </ion-text>
       </ion-col>
-    </ion-row>
-    <!-- <ion-row>
-      <ion-col offset="0">
-        <ion-label>Penalty: </ion-label>
-        <ion-text>
-          <b>45 Rs</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset="0">
-        <ion-label>Bonus: </ion-label>
-        <ion-text>
-          <b>20 Rs</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset="0">
-        <ion-label>Total Amount: </ion-label>
-        <ion-text>
-          <b>370 Rs</b>
-        </ion-text>
-      </ion-col>
     </ion-row> -->
+
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Salary: </ion-label>
+        <ion-text>
+          <b>{{ salary }} Rs / {{ perUnitTime }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Shift Time: </ion-label>
+        <ion-text>
+          <b *ngIf="shiftStartTime">{{ shiftStartTime.hr.text }}:{{ shiftStartTime.min.text }} {{ shiftStartTime.meridiem }}</b> - 
+          <b *ngIf="shiftEndTime">{{ shiftEndTime.hr.text }}:{{ shiftEndTime.min.text }} {{ shiftEndTime.meridiem }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Status: </ion-label>
+        <ion-text>
+          <b>{{ status }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="clockInTime">
+      <ion-col offset="0">
+        <ion-label>Clock In: </ion-label>
+        <ion-text>
+          <b>{{ clockInTime.hr.text }}:{{ clockInTime.min.text }} {{ clockInTime.meridiem }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="clockOutTime">
+      <ion-col offset="0">
+        <ion-label>Clock Out: </ion-label>
+        <ion-text>
+          <b>{{ clockOutTime.hr.text }}:{{ clockOutTime.min.text }} {{ clockOutTime.meridiem }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Duration: </ion-label>
+        <ion-text>
+          <b>{{ durationTime.hr.text }}</b>:<b>{{ durationTime.min.text }}</b>:<b>{{ durationTime.sec.text }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Amount: </ion-label>
+        <ion-text>
+          <b>{{ amount }} Rs</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="ion-text-center">
         <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>
@@ -91,8 +126,11 @@
     </ion-row>
     <ion-row>
       <ion-col class="ion-text-center">
-        <ion-button [routerLink]="['/tabs/clock-in']" routerLinkActive="router-link-active"  [disabled]="!inFence">
+        <ion-button (click)="clockIn()" [disabled]="!inFence" [hidden]="clockedIn">
           Clock In
+        </ion-button>
+        <ion-button (click)="clockOut()" [hidden]="!clockedIn">
+          Clock Out
         </ion-button>
       </ion-col>
     </ion-row>
