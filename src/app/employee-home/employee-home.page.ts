@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FenceHistoryPage } from '../fence-history/fence-history.page';
 import { UserService } from '../services/user.service';
-import { Observable, interval, Subscription } from 'rxjs';
+import { Observable, interval, Subscription, of, Observer } from 'rxjs';
 import { DateTimeService } from '../services/date-time.service';
+import { switchMap } from 'rxjs/operators';
+import { functions } from 'firebase';
 
 @Component({
   selector: 'app-employee-home',
@@ -27,10 +29,20 @@ export class EmployeeHomePage implements OnInit {
   salary: number;
   perUnitTime: string;
   stopwatch: Observable<number> = interval(1000);
-  secCompleted = false;
-  minCompleted = false;
-  hrCompleted = false;
   withinShift = false;
+
+  dateLog: {
+    date: Date, inStatus: string, outStatus?: string,
+    clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
+    lateDuration?: {}, earlyDuration?: {}, amount?: number
+  } = {date: new Date(), inStatus: 'absent'};
+  dateLogObservable: Observable<any> = new Observable();
+  dateLogObserver = {
+    next: dateLog => {
+      console.log('date: ', this.dateLog.date.toDateString());
+      this.userService.setMergeDateLog(dateLog);
+    },
+  };
 
   durationTime = {
     hr: {
@@ -104,7 +116,7 @@ export class EmployeeHomePage implements OnInit {
       text: '00',
       value: 0
     }
-  }
+  };
 
   earlyDuration = {
     hr: {
@@ -115,7 +127,7 @@ export class EmployeeHomePage implements OnInit {
       text: '00',
       value: 0
     }
-  }
+  };
 
   public MINS_PER_HR = 60;
   public MINS_PER_DAY = 1440;
@@ -128,7 +140,6 @@ export class EmployeeHomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.calDuration();
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
@@ -173,20 +184,22 @@ export class EmployeeHomePage implements OnInit {
         },
       );
     });
-    console.log('within shift: ', this.withinShift);
+    this.dateLogObserver.next(this.dateLog);
+    this.dateLogObservable.subscribe(this.dateLogObserver);
+
   }
 
   calDuration() {
-      this.durationSubscription = this.stopwatch
-        .subscribe(sec => {
-          this.durationTime.sec.value = sec % 60;
-          this.durationTime.min.value = Math.floor(sec / 60);
-          this.durationTime.hr.value = Math.floor(this.durationTime.min.value / 60);
-          this.durationTime.sec.text = this.dateTimeService.display('seconds', this.durationTime.sec.value);
-          this.durationTime.min.text = this.dateTimeService.display('seconds', this.durationTime.min.value);
-          this.durationTime.hr.text = this.dateTimeService.display('seconds', this.durationTime.hr.value);
-          this.calAmount();
-        });
+    this.durationSubscription = this.stopwatch
+      .subscribe(sec => {
+        this.durationTime.sec.value = sec % 60;
+        this.durationTime.min.value = Math.floor(sec / 60);
+        this.durationTime.hr.value = Math.floor(this.durationTime.min.value / 60);
+        this.durationTime.sec.text = this.dateTimeService.display('seconds', this.durationTime.sec.value);
+        this.durationTime.min.text = this.dateTimeService.display('minutes', this.durationTime.min.value);
+        this.durationTime.hr.text = this.dateTimeService.display('hours', this.durationTime.hr.value);
+        this.calAmount();
+      });
   }
 
   calAmount() {
@@ -214,10 +227,16 @@ export class EmployeeHomePage implements OnInit {
       },
       meridiem: this.dateTimeService.getMeridiem(new Date())
     };
-    this.getInStatus();
+    // this.dateLog = { ...this.dateLog, ...{ clockInTime: this.clockInTime } };
+    this.dateLog.clockInTime = this.clockInTime;
+    this.dateLogObserver.next(this.dateLog);
+    // this.dateLogObs = new Observable(obs => {
+    //   obs.next(this.dateLog);
+    // });
+    this.assignInStatus();
   }
 
-  getInStatus() {
+  assignInStatus() {
     if (this.clockInTime.hr.value !== this.shiftStartTime.hr.value
       || this.clockInTime.min.value !== this.shiftStartTime.min.value) {
       this.inStatus = 'late arrival';
@@ -225,6 +244,29 @@ export class EmployeeHomePage implements OnInit {
     } else {
       this.inStatus = null;
     }
+    this.dateLog.inStatus = this.inStatus;
+    // this.dateLogObs = new Observable(obs => {
+    //   // this.dateLog = {...this.dateLog, ...{clockInTime: this.clockInTime}};
+    //   // obs.next(this.dateLog);
+    //   obs.next({inStatus: this.inStatus});
+    // });
+  }
+
+  calLateDuration() {
+    let startx = null;
+    let endx = null;
+    startx = this.shiftStartTime.hr.value * this.MINS_PER_HR + this.shiftStartTime.min.value;
+    endx = this.clockInTime.hr.value * this.MINS_PER_HR + this.clockInTime.min.value;
+    this.totalDuration = endx - startx;
+    if (this.totalDuration < 0) {
+      this.totalDuration = this.totalDuration + this.MINS_PER_DAY;
+    }
+    this.lateDuration.hr.value = Math.floor(this.totalDuration / 60);
+    this.lateDuration.min.value = this.totalDuration % 60;
+    this.lateDuration.hr.text = this.dateTimeService.display('hours', this.lateDuration.hr.value);
+    this.lateDuration.min.text = this.dateTimeService.display('minutes', this.lateDuration.min.value);
+    // this.dateLog = { ...this.dateLog, ...{ lateDuration: this.lateDuration } };
+    this.dateLog.lateDuration = this.lateDuration;
   }
 
   clockOut() {
@@ -243,10 +285,14 @@ export class EmployeeHomePage implements OnInit {
       },
       meridiem: this.dateTimeService.getMeridiem(new Date())
     };
-    this.getOutStatus();
+    this.dateLog.clockOutTime = this.clockOutTime;
+    this.dateLog.durationTime = this.durationTime;
+    this.dateLog.amount = this.amount;
+    this.dateLogObserver.next(this.dateLog);
+    this.assignOutStatus();
   }
 
-  getOutStatus() {
+  assignOutStatus() {
     if (this.clockOutTime.hr.value !== this.shiftEndTime.hr.value
       || this.clockOutTime.min.value !== this.shiftEndTime.min.value) {
       this.outStatus = 'early departure';
@@ -254,43 +300,7 @@ export class EmployeeHomePage implements OnInit {
     } else {
       this.outStatus = null;
     }
-  }
-
-  refreshLocation() {
-    this.inFence = !this.inFence;
-  }
-
-  // inShiftInterval(): boolean {
-  //   console.log('in shift time interval');
-  //   return this.dateTimeService.inInterval(
-  //     {
-  //       startHr: this.shiftStartTime.hr.value,
-  //       startMin: this.shiftStartTime.min.value
-  //     },
-  //     {
-  //       endHr: this.shiftEndTime.hr.value,
-  //       endMin: this.shiftEndTime.min.value
-  //     },
-  //     {
-  //       currentHr: new Date().getHours(),
-  //       currentMin: new Date().getMinutes()
-  //     },
-  //   );
-  // }
-
-  calLateDuration() {
-    let startx = null;
-    let endx = null;
-    startx = this.shiftStartTime.hr.value * this.MINS_PER_HR + this.shiftStartTime.min.value;
-    endx = this.clockInTime.hr.value * this.MINS_PER_HR + this.clockInTime.min.value;
-    this.totalDuration = endx - startx;
-    if (this.totalDuration < 0) {
-      this.totalDuration = this.totalDuration + this.MINS_PER_DAY;
-    }
-    this.lateDuration.hr.value = Math.floor (this.totalDuration / 60);
-    this.lateDuration.min.value = this.totalDuration % 60;
-    this.lateDuration.hr.text = this.dateTimeService.display('hours', this.lateDuration.hr.value);
-    this.lateDuration.min.text = this.dateTimeService.display('minutes', this.lateDuration.min.value);
+    this.dateLog.outStatus = this.outStatus;
   }
 
   calEarlyDuration() {
@@ -302,11 +312,21 @@ export class EmployeeHomePage implements OnInit {
     if (this.totalDuration < 0) {
       this.totalDuration = this.totalDuration + this.MINS_PER_DAY;
     }
-    this.earlyDuration.hr.value = Math.floor (this.totalDuration / 60);
+    this.earlyDuration.hr.value = Math.floor(this.totalDuration / 60);
     this.earlyDuration.min.value = this.totalDuration % 60;
     this.earlyDuration.hr.text = this.dateTimeService.display('hours', this.earlyDuration.hr.value);
     this.earlyDuration.min.text = this.dateTimeService.display('minutes', this.earlyDuration.min.value);
+    this.dateLog.earlyDuration = this.earlyDuration;
+    console.log('early Duration: ', this.dateLog);
   }
+
+  refreshLocation() {
+    this.inFence = !this.inFence;
+  }
+
+
+
+
 
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({

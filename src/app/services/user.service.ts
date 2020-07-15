@@ -72,4 +72,13 @@ export class UserService {
         });
       });
   }
+
+  setMergeDateLog(dateLog: any) {
+    this.getUid$()
+      .subscribe(uid => {
+        console.log('get uid subscribe');
+        this.afs.doc<any>(`members/${uid}/log/${dateLog.date.toDateString()}`)
+        .set(dateLog, {merge: true});
+      });
+  }
 }
