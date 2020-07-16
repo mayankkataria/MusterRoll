@@ -54,6 +54,7 @@ export class DateTimeService {
     // console.log('end min: ', endMin);
     // console.log('cur hr: ', currentHr);
     // console.log('cur min: ', currentMin);
+    console.log('in interval');
 
     if (currentHr > startHr && currentHr < endHr) {
       return true;

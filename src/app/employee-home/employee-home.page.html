@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid >
+  <ion-grid>
     <!-- <ion-row>
       <ion-col offset="0">
         <ion-label>Status: </ion-label>
@@ -60,17 +60,37 @@
       <ion-col offset="0">
         <ion-label>Shift Time: </ion-label>
         <ion-text>
-          <b *ngIf="shiftStartTime">{{ shiftStartTime.hr.text }}:{{ shiftStartTime.min.text }} {{ shiftStartTime.meridiem }}</b> - 
+          <b *ngIf="shiftStartTime">{{ shiftStartTime.hr.text }}:{{ shiftStartTime.min.text }}
+            {{ shiftStartTime.meridiem }}</b> -
           <b *ngIf="shiftEndTime">{{ shiftEndTime.hr.text }}:{{ shiftEndTime.min.text }} {{ shiftEndTime.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
     <br>
-    <ion-row>
+    <ion-row *ngIf="inStatus === 'late arrival'">
       <ion-col offset="0">
-        <ion-label>Status: </ion-label>
+        <ion-label>In Statuss: </ion-label>
         <ion-text>
-          <b>{{ status }}</b>
+          <b> {{ inStatus | titlecase }} </b>
+        </ion-text>
+        <br>
+        <ion-label>Late by: </ion-label>
+        <ion-text>
+          <b> {{ lateDuration.hr.text }} hr {{ lateDuration.min.text }} min </b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row *ngIf="outStatus === 'early departure'">
+      <ion-col offset="0">
+        <ion-label>Out Status: </ion-label>
+        <ion-text>
+          <b> {{ outStatus | titlecase }} </b>
+        </ion-text>
+        <br>
+        <ion-label>Early by: </ion-label>
+        <ion-text>
+          <b> {{ earlyDuration.hr.text }} hr {{ earlyDuration.min.text }} min </b>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -106,6 +126,13 @@
         </ion-text>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="!withinShift">
+      <ion-col size="12">
+        <ion-text color="danger">
+          Shift not started yet!
+        </ion-text>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="ion-text-center">
         <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>
@@ -126,7 +153,7 @@
     </ion-row>
     <ion-row>
       <ion-col class="ion-text-center">
-        <ion-button (click)="clockIn()" [disabled]="!inFence" [hidden]="clockedIn">
+        <ion-button *ngIf="withinShift" (click)="clockIn()" [disabled]="!inFence || clockedOut" [hidden]="clockedIn">
           Clock In
         </ion-button>
         <ion-button (click)="clockOut()" [hidden]="!clockedIn">
