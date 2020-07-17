@@ -95,11 +95,14 @@ export class AddEmployeePage implements OnInit {
     employeeDetails.department = this.lowerCase(employeeDetails.department);
     employeeDetails.designation = this.lowerCase(employeeDetails.designation);
     console.log('emp details: ', employeeDetails);
-    this.authService.createAccount(employeeDetails.email, employeeDetails.password)
+    this.authService.createEmpAccount(employeeDetails.email, employeeDetails.password)
       .then((data) => {
         employeeDetails.uid = data.user.uid;
-        this.memberService.addMember(employeeDetails);
-        this.employeeForm.reset();
+        this.memberService.addMember(employeeDetails)
+          .then(async () => {
+            // this.authService.signOutEmp();
+            this.employeeForm.reset();
+      });
       })
       .catch(error => console.log('create member account error: ', error));
   }

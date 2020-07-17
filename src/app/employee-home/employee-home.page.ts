@@ -5,13 +5,15 @@ import { UserService } from '../services/user.service';
 import { Observable, interval, Subscription, of, Observer } from 'rxjs';
 import { DateTimeService } from '../services/date-time.service';
 import { switchMap } from 'rxjs/operators';
-import { functions } from 'firebase';
+import * as functions from 'firebase-functions';
+
 
 @Component({
   selector: 'app-employee-home',
   templateUrl: './employee-home.page.html',
   styleUrls: ['./employee-home.page.scss'],
 })
+
 export class EmployeeHomePage implements OnInit {
 
   inFence = false;
@@ -186,7 +188,9 @@ export class EmployeeHomePage implements OnInit {
     });
     this.dateLogObserver.next(this.dateLog);
     this.dateLogObservable.subscribe(this.dateLogObserver);
-
+    // functions.pubsub.schedule('every 5 minutes').onRun(context => {
+    //   console.log('scheduler');
+    // });
   }
 
   calDuration() {

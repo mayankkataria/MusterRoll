@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
+import * as firebase from 'firebase';
+import { secConfig } from '../secondary-credentials';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  config: any;
+  secondaryApp: any;
 
   constructor(
     private afAuth: AngularFireAuth
@@ -15,6 +20,8 @@ export class AuthService {
       .subscribe(loggedIn => {
         loggedIn ? console.log('user logged in') : console.log('user logged out');
       });
+
+    this.secondaryApp = firebase.initializeApp(secConfig, 'Secondary');
   }
 
   loginStatus$() {
@@ -23,8 +30,21 @@ export class AuthService {
       .pipe(map(user => !!user));
   }
 
-  async createAccount(email: string, password: string) {
+  async createAdminAccount(email: string, password: string) {
     return await this.afAuth.createUserWithEmailAndPassword(email, password);
+  }
+
+  async createEmpAccount(email: string, password: string) {
+    return await this.secondaryApp.auth().createUserWithEmailAndPassword(email, password);
+  }
+
+  signOutEmp() {
+    return this.secondaryApp.auth().signOut();
+  }
+
+  async deleteAccount(email: string, password: string) {
+    return await this.signIn(email, password)
+      .then(userInfo => userInfo.user.delete());
   }
 
   async signIn(email: string, password: string) {

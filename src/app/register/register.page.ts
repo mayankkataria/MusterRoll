@@ -35,9 +35,18 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  lowerCase(text: string) {
+    return text.toLowerCase();
+  }
+
   register() {
     const adminDetails = this.adminForm.value;
-    this.authService.createAccount(adminDetails.email, adminDetails.password)
+    adminDetails.firstname = this.lowerCase(adminDetails.firstname);
+    adminDetails.lastname = this.lowerCase(adminDetails.lastname);
+    adminDetails.email = this.lowerCase(adminDetails.email);
+    adminDetails.department = this.lowerCase(adminDetails.department);
+    adminDetails.designation = this.lowerCase(adminDetails.designation);
+    this.authService.createAdminAccount(adminDetails.email, adminDetails.password)
       .then((data) => {
         this.router.navigate(['tabs']);
         adminDetails.uid = data.user.uid;

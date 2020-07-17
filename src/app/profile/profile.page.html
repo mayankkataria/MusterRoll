@@ -12,7 +12,7 @@
           <ion-img [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'"></ion-img>
         </ion-avatar>
         <ion-fab class="camera-fab" slot="fixed">
-          <ion-fab-button  (click)="capturePhoto()">
+          <ion-fab-button  (click)="showActionSheet()">
             <ion-icon name="camera"></ion-icon>
           </ion-fab-button>
         </ion-fab>

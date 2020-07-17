@@ -22,4 +22,14 @@ export class StorageService {
     return profilePicRef.getDownloadURL();
   }
 
+  deleteProfilePic(memberUid: string) {
+    const profilePicRef = this.afStorage.ref(`/${memberUid}/images/profile-pic.png`);
+    profilePicRef.delete();
+  }
+
+  deleteMember(memberUid: string) {
+    const memberRef = this.afStorage.ref(`/${memberUid}`);
+    return memberRef.delete();
+  }
+
 }

@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-back-button slot="start" defaultHref="tabs/members" ></ion-back-button>
     <ion-title>Profile</ion-title>
+    <ion-icon (click)="openSideMenu()" size="large" slot="end" name="ellipsis-vertical"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -35,7 +36,7 @@
           </div>
           <div>
             <ion-icon name="business-outline"></ion-icon>
-            <ion-text> Department: </ion-text> <ion-text> <b>{{ member.department | titlecase }} </b></ion-text>
+            <ion-text> Department: </ion-text> <ion-text> <b>{{ member.department | uppercase }} </b></ion-text>
           </div>
           <div *ngIf="member.role === 'employee'">
             <ion-icon name="moon-outline"></ion-icon>

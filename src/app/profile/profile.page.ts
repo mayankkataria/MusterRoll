@@ -6,6 +6,8 @@ import { StorageService } from '../services/storage.service';
 import { CameraService } from '../services/camera.service';
 import { catchError } from 'rxjs/operators';
 import { DateTimeService } from '../services/date-time.service';
+import { ActionSheetController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
 
 @Component({
   selector: 'app-profile',
@@ -44,7 +46,8 @@ export class ProfilePage implements OnInit {
     private userService: UserService,
     private storageService: StorageService,
     private camService: CameraService,
-    private dateTimeService: DateTimeService
+    private dateTimeService: DateTimeService,
+    private actionSheetController: ActionSheetController
   ) {
     console.log('profile page constructor');
    }
@@ -80,6 +83,33 @@ export class ProfilePage implements OnInit {
           });
       })
       .catch(err => console.log('capture photo error: ', err));
+  }
+
+  accessGallery() {
+    this.camService.accessGallery()
+      .catch(err => console.log('access gallery error: ', err));
+  }
+
+  async showActionSheet() {
+    const photoSheet = await this.actionSheetController.create({
+      header: 'Albums',
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        handler: () => console.log('delete')
+      }, {
+        text: 'Access Gallery',
+        handler: () => this.accessGallery()
+      }, {
+        text: 'Camera',
+        handler: () => this.capturePhoto()
+      }, {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => console.log('cancel')
+      }]
+    });
+    await photoSheet.present();
   }
 
 }

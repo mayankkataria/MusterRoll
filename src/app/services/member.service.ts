@@ -21,7 +21,12 @@ export class MemberService {
 
   addMember(memberDetails: any) {
     console.log('add member');
-    this.afs.doc('members/' + memberDetails.uid).set(memberDetails);
+    return this.afs.doc('members/' + memberDetails.uid).set(memberDetails);
+  }
+
+  deleteMember(memberUid: string) {
+    console.log('delete member');
+    return this.afs.doc(`members/${memberUid}`).delete();
   }
 
   getMember$(uid: string): Observable<any> {
