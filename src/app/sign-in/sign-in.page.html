@@ -6,13 +6,40 @@
 
 <ion-content>
   <div id="container">
-    <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
+    <div class="logo">
+      <ion-img src="assets/logo.png"></ion-img>
+      <ion-text>LOG IN</ion-text>
+    <!-- </div> -->
+    <!-- <div class="login"> -->
+      <ion-list>
+        <ion-item>
+          <ion-label></ion-label>
+           <ion-icon name="mail" slot="start"></ion-icon>
+           <ion-input [(ngModel)]="email" type="email" placeholder="Email">
+           </ion-input>
+        </ion-item>
+        <ion-item>
+         <ion-label></ion-label>
+          <ion-icon name="lock-closed" slot="start"></ion-icon>
+          <ion-input [(ngModel)]="password" type="password" placeholder="Password">
+          </ion-input>
+       </ion-item>
+      </ion-list>
+    </div> 
+    <ion-button [routerLink]="['/register']" color="secondary" fill="outline" shape="round">
+      Register
+    </ion-button>
+    <ion-button (click)="signIn()" color="primary" fill="outline" shape="round">
+      Sign In
+    </ion-button>
+    <!-- 
+      <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
     <ion-input [(ngModel)]="password" type="password" placeholder="Password"></ion-input>
     <ion-button [routerLink]="['/register']" color="secondary" fill="outline" shape="round">
       Register
     </ion-button>
     <ion-button (click)="signIn()" color="primary" fill="outline" shape="round">
       Sign In
-    </ion-button> 
+    </ion-button>  -->
   </div>
 </ion-content>
