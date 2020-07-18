@@ -21,7 +21,7 @@
         <ion-item>
          <ion-label></ion-label>
           <ion-icon name="lock-closed" slot="start"></ion-icon>
-          <ion-input [(ngModel)]="password" type="password" placeholder="Password">
+          <ion-input [(ngModel)]="password" type="password" placeholder="Password" (keyup.enter)="signIn()">
           </ion-input>
        </ion-item>
       </ion-list>

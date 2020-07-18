@@ -20,7 +20,6 @@ export class AuthService {
       .subscribe(loggedIn => {
         loggedIn ? console.log('user logged in') : console.log('user logged out');
       });
-
     this.secondaryApp = firebase.initializeApp(secConfig, 'Secondary');
   }
 

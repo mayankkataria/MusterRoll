@@ -15,8 +15,9 @@ export class SettingsPage implements OnInit {
   ngOnInit() {
   }
 
-  signOut() {
-    this.authService.signOut();
+  async signOut() {
+    await this.authService.signOut();
+    window.location.replace('/sign-in');
   }
 
 }

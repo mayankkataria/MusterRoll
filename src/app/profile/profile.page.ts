@@ -55,12 +55,14 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(userData => {
-      this.shiftStart.hr.text = this.dateTimeService.display('hours', userData.shiftStart.hr);
-      this.shiftStart.min.text = this.dateTimeService.display('minutes', userData.shiftStart.min);
-      this.shiftStart.meridiem = this.dateTimeService.getMeridiem(null, userData.shiftStart.hr);
-      this.shiftEnd.hr.text = this.dateTimeService.display('hours', userData.shiftEnd.hr);
-      this.shiftEnd.min.text = this.dateTimeService.display('minutes', userData.shiftEnd.min);
-      this.shiftEnd.meridiem = this.dateTimeService.getMeridiem(null, userData.shiftEnd.hr);
+      if (userData && userData.role === 'employee') {
+        this.shiftStart.hr.text = this.dateTimeService.display('hours', userData.shiftStart.hr);
+        this.shiftStart.min.text = this.dateTimeService.display('minutes', userData.shiftStart.min);
+        this.shiftStart.meridiem = this.dateTimeService.getMeridiem(null, userData.shiftStart.hr);
+        this.shiftEnd.hr.text = this.dateTimeService.display('hours', userData.shiftEnd.hr);
+        this.shiftEnd.min.text = this.dateTimeService.display('minutes', userData.shiftEnd.min);
+        this.shiftEnd.meridiem = this.dateTimeService.getMeridiem(null, userData.shiftEnd.hr);
+      }
     });
   }
 

@@ -14,7 +14,7 @@ UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
 secondary-credentials.ts
-credentials.ts
+credentials.ts  0
 *.log
 log.txt
 npm-debug.log*

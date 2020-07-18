@@ -17,6 +17,9 @@ import { FenceHistoryPageModule } from '../fence-history/fence-history.module';
     EmployeeHomePageRoutingModule,
     FenceHistoryPageModule
   ],
+  exports: [
+    EmployeeHomePage
+  ],
   declarations: [EmployeeHomePage]
 })
 export class EmployeeHomePageModule {}

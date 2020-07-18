@@ -5,9 +5,14 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
+      {
+        path: '',
+        redirectTo: '/tabs/home',
+        pathMatch: 'full'
+      },
       {
         path: 'home',
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
@@ -29,14 +34,13 @@ const routes: Routes = [
         loadChildren: () => import('../employee-home/employee-home.module').then( m => m.EmployeeHomePageModule)
       },
       {
-        path: 'clock-in',
-        loadChildren: () => import('../clock-in/clock-in.module').then( m => m.ClockInPageModule)
+        path: 'admin-home',
+        loadChildren: () => import('../admin-home/admin-home.module').then( m => m.AdminHomePageModule)
       },
       {
-        path: '',
-        redirectTo: '/tabs/home',
-        pathMatch: 'full'
-      },
+        path: 'clock-in',
+        loadChildren: () => import('../clock-in/clock-in.module').then( m => m.ClockInPageModule)
+      }
     ]
   },
   {
