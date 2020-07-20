@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
+import { AdminGuard } from '../guards/admin.guard';
+import { EmployeeGuard } from '../guards/employee.guard';
 
 const routes: Routes = [
   {
@@ -35,12 +37,22 @@ const routes: Routes = [
       },
       {
         path: 'admin-home',
-        loadChildren: () => import('../admin-home/admin-home.module').then( m => m.AdminHomePageModule)
+        loadChildren: () => import('../admin-home/admin-home.module').then( m => m.AdminHomePageModule),
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'statistics',
+        loadChildren: () => import('../statistics/statistics.module').then( m => m.StatisticsPageModule),
       },
       {
         path: 'clock-in',
-        loadChildren: () => import('../clock-in/clock-in.module').then( m => m.ClockInPageModule)
-      }
+        loadChildren: () => import('../clock-in/clock-in.module').then( m => m.ClockInPageModule),
+        canActivate: [EmployeeGuard]
+      },
+      {
+        path: 'attendance-log',
+        loadChildren: () => import('../attendance-log/attendance-log.module').then( m => m.AttendanceLogPageModule)
+      },
     ]
   },
   {

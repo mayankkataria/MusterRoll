@@ -6,7 +6,7 @@
 
 <ion-content>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab *ngIf="userRole === 'admin'" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button [routerLink]="['/add-employee']"><ion-icon name="person-add"></ion-icon></ion-fab-button>
   </ion-fab>
 

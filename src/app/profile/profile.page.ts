@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 import { md5 } from 'crypto-md5';
@@ -6,8 +6,9 @@ import { StorageService } from '../services/storage.service';
 import { CameraService } from '../services/camera.service';
 import { catchError } from 'rxjs/operators';
 import { DateTimeService } from '../services/date-time.service';
-import { ActionSheetController } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
+import { ActionSheetController, Platform } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource, Capacitor } from '@capacitor/core';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,11 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+
+
+  @ViewChild('filePicker', { static: false }) filePickerRef: ElementRef<HTMLInputElement>;
+  photo: SafeResourceUrl;
+  isDesktop: boolean;
 
   userData: any;
   user$: Observable<any>;
@@ -42,12 +48,15 @@ export class ProfilePage implements OnInit {
     meridiem: ''
   };
 
+
   constructor(
     private userService: UserService,
     private storageService: StorageService,
     private camService: CameraService,
     private dateTimeService: DateTimeService,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private platform: Platform,
+    private sanitizer: DomSanitizer
   ) {
     console.log('profile page constructor');
    }
@@ -64,6 +73,9 @@ export class ProfilePage implements OnInit {
         this.shiftEnd.meridiem = this.dateTimeService.getMeridiem(null, userData.shiftEnd.hr);
       }
     });
+    if ((this.platform.is('mobile') && this.platform.is('hybrid')) || this.platform.is('desktop')) {
+      this.isDesktop = true;
+    }
   }
 
   capturePhoto() {
@@ -88,8 +100,14 @@ export class ProfilePage implements OnInit {
   }
 
   accessGallery() {
-    this.camService.accessGallery()
-      .catch(err => console.log('access gallery error: ', err));
+    // this.camService.accessGallery()
+    //   .catch(err => console.log('access gallery error: ', err));
+    // this.filePickerRef.nativeElement.click();
+    if (!Capacitor.isPluginAvailable('Camera') || this.isDesktop) {
+      this.filePickerRef.nativeElement.click();
+      return;
+    }
+
   }
 
   async showActionSheet() {
@@ -114,4 +132,69 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
+  onFileChoose(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    const pattern = /image-*/;
+    const reader = new FileReader();
+
+    if (!file.type.match(pattern)) {
+      console.log('File format not supported');
+      return;
+    }
+
+    reader.onload = () => {
+      this.photo = reader.result.toString();
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+
+  // constructor(
+  //   private platform: Platform,
+  //   private sanitizer: DomSanitizer) { }
+
+    // ngOnInit() {
+      // if ((this.platform.is('mobile') && this.platform.is('hybrid')) || this.platform.is('desktop')) {
+      //   this.isDesktop = true;
+      // }
+    // }
+
+  // async getPicture(type: string) {
+  //   if (!Capacitor.isPluginAvailable('Camera') || (this.isDesktop && type === 'gallery')) {
+  //     this.filePickerRef.nativeElement.click();
+  //     return;
+  //   }
+
+  //   const image = await Camera.getPhoto({
+  //     quality: 100,
+  //     width: 400,
+  //     allowEditing: false,
+  //     resultType: CameraResultType.DataUrl,
+  //     source: CameraSource.Prompt
+  //   });
+
+  //   this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && (image.dataUrl));
+  // }
+
+  // onFileChoose(event: Event) {
+  //   const file = (event.target as HTMLInputElement).files[0];
+  //   const pattern = /image-*/;
+  //   const reader = new FileReader();
+
+  //   if (!file.type.match(pattern)) {
+  //     console.log('File format not supported');
+  //     return;
+  //   }
+
+  //   reader.onload = () => {
+  //     this.photo = reader.result.toString();
+  //   };
+
+  //   reader.readAsDataURL(file);
+
+  // }
+
 }
+
+

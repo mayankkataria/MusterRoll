@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { EmployeeGuard } from './guards/employee.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -8,47 +11,43 @@ const routes: Routes = [
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'geofence',
-    loadChildren: () => import('./geofence/geofence.module').then(m => m.GeofencePageModule)
+    loadChildren: () => import('./geofence/geofence.module').then(m => m.GeofencePageModule),
+    canActivate: [AdminGuard]
   },
   {
     path: 'add-face',
-    loadChildren: () => import('./add-face/add-face.module').then(m => m.AddFacePageModule)
+    loadChildren: () => import('./add-face/add-face.module').then(m => m.AddFacePageModule),
+    canActivate: [EmployeeGuard]
   },
   {
     path: 'add-fingerprint',
-    loadChildren: () => import('./add-fingerprint/add-fingerprint.module').then(m => m.AddFingerprintPageModule)
+    loadChildren: () => import('./add-fingerprint/add-fingerprint.module').then(m => m.AddFingerprintPageModule),
+    canActivate: [EmployeeGuard]
   },
   {
     path: 'leave',
-    loadChildren: () => import('./leave/leave.module').then(m => m.LeavePageModule)
+    loadChildren: () => import('./leave/leave.module').then(m => m.LeavePageModule),
+    canActivate: [EmployeeGuard]
   },
   {
     path: 'verify-face',
-    loadChildren: () => import('./verify-face/verify-face.module').then(m => m.VerifyFacePageModule)
+    loadChildren: () => import('./verify-face/verify-face.module').then(m => m.VerifyFacePageModule),
+    canActivate: [EmployeeGuard]
   },
   {
     path: 'verify-fingerprint',
-    loadChildren: () => import('./verify-fingerprint/verify-fingerprint.module').then(m => m.VerifyFingerprintPageModule)
+    loadChildren: () => import('./verify-fingerprint/verify-fingerprint.module').then(m => m.VerifyFingerprintPageModule),
+    canActivate: [EmployeeGuard]
   },
   {
     path: 'take-attendance',
-    loadChildren: () => import('./take-attendance/take-attendance.module').then(m => m.TakeAttendancePageModule)
-  },
-  {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
-  },
-  {
-    path: 'members',
-    loadChildren: () => import('./members/members.module').then( m => m.MembersPageModule)
-  },
-  {
-    path: 'statistics',
-    loadChildren: () => import('./statistics/statistics.module').then( m => m.StatisticsPageModule)
+    loadChildren: () => import('./take-attendance/take-attendance.module').then(m => m.TakeAttendancePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'sign-in',
@@ -60,23 +59,13 @@ const routes: Routes = [
   },
   {
     path: 'add-employee',
-    loadChildren: () => import('./add-employee/add-employee.module').then( m => m.AddEmployeePageModule)
+    loadChildren: () => import('./add-employee/add-employee.module').then( m => m.AddEmployeePageModule),
+    canActivate: [AdminGuard]
   },
   {
     path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
-  },
-  {
-    path: 'admin-home',
-    loadChildren: () => import('./admin-home/admin-home.module').then( m => m.AdminHomePageModule)
-  },
-  {
-    path: 'employee-home',
-    loadChildren: () => import('./employee-home/employee-home.module').then( m => m.EmployeeHomePageModule)
-  },
-  {
-    path: 'clock-in',
-    loadChildren: () => import('./clock-in/clock-in.module').then( m => m.ClockInPageModule)
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'chat-room',
@@ -87,16 +76,12 @@ const routes: Routes = [
     loadChildren: () => import('./filter-modal/filter-modal.module').then( m => m.FilterModalPageModule)
   },
   {
-    path: 'others-profile/:uid',
-    loadChildren: () => import('./others-profile/others-profile.module').then( m => m.OthersProfilePageModule)
-  },
-  {
     path: 'fence-history',
     loadChildren: () => import('./fence-history/fence-history.module').then( m => m.FenceHistoryPageModule)
   },
   {
-    path: 'attendance-log',
-    loadChildren: () => import('./attendance-log/attendance-log.module').then( m => m.AttendanceLogPageModule)
+    path: 'error',
+    loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule)
   },
 ];
 

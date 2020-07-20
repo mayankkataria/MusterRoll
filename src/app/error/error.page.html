@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Error</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-text color="danger">
+    <h1 *ngIf="userRole === 'admin'"> Only for Employees </h1>
+    <h1 *ngIf="userRole === 'employee'"> Only for Admins </h1>
+  </ion-text>
+</ion-content>

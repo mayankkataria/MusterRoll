@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartDataSets } from 'chart.js';
 import { Label, Color, SingleDataSet } from 'ng2-charts';
 import { UserService } from '../services/user.service';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
   userRole: string;
 
@@ -19,16 +19,19 @@ export class HomePage {
     private router: Router
   ) {
     console.log('home page constructor');
+  }
+
+  ngOnInit() {
     this.userService.getURole$()
-      .subscribe(role => {
-        if (role === 'admin') {
-          router.navigate(['tabs/admin-home']);
-        } else {
-          router.navigate(['tabs/employee-home']);
-        }
-        // console.log('role: ', role);
-        // this.userRole = role;
-      });
+    .subscribe(role => {
+      if (role === 'admin') {
+        this.router.navigate(['tabs/admin-home']);
+      } else {
+        this.router.navigate(['tabs/employee-home']);
+      }
+      // console.log('role: ', role);
+      // this.userRole = role;
+    });
   }
 
 

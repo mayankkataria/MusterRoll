@@ -17,6 +17,7 @@
           </ion-fab-button>
         </ion-fab>
       </div>
+      <input type="file" *ngIf="isDesktop" #filePicker (change)="onFileChoose($event)"/>
       <div class="user-info">
         <div>
           <ion-icon name="keypad-outline"></ion-icon>
@@ -61,3 +62,29 @@
     </div>
       </div>
 </ion-content>
+
+
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Capacitor Camera</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button size="small" (click)="getPicture('camera')">
+    <ion-icon name="camera" slot="start"></ion-icon>
+    <ion-label>Camera</ion-label>
+  </ion-button>
+  <ion-button size="small" (click)="getPicture('gallery')">
+    <ion-icon name="image" slot="start"></ion-icon>
+    <ion-label>Galleryy</ion-label>
+  </ion-button>
+  <input type="file" *ngIf="isDesktop" #filePicker (change)="onFileChoose($event)"/>
+
+  <ion-card *ngIf="photo">
+    <ion-card-content>
+      <img [src]="photo">
+    </ion-card-content>
+  </ion-card>
+
+</ion-content> -->

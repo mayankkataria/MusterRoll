@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { secConfig } from '../secondary-credentials';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

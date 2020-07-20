@@ -6,6 +6,7 @@ import { DateTimeService } from '../services/date-time.service';
 import { PopoverController, ActionSheetController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-others-profile',
@@ -39,6 +40,7 @@ export class OthersProfilePage implements OnInit {
     },
     meridiem: ''
   };
+  userRole: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,10 +49,13 @@ export class OthersProfilePage implements OnInit {
     private actionSheetController: ActionSheetController,
     private router: Router,
     private authService: AuthService,
+    private userService: UserService,
     private storageService: StorageService
   ) { }
 
   ngOnInit() {
+    this.userService.getURole$()
+      .subscribe(role => this.userRole = role);
     this.memberUid = this.route.snapshot.params.uid;
     this.member$ = this.memberService.getMember$(this.memberUid);
     this.member$.subscribe(memberData => {
