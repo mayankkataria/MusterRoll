@@ -42,7 +42,7 @@ export class AdminHomePage {
   showLegend: false;
 
   // For search
-  stock = 'AAPL';
+  stock = '';
 
   // Data
   public pieChartLabels: Label[] = ['Present', 'Absent', 'Early leavers', 'Late comers'];
