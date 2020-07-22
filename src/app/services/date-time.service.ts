@@ -21,6 +21,19 @@ export class DateTimeService {
       }
       case 'seconds': {
         val = value;
+        break;
+      }
+      case 'days': {
+        val = value;
+        break;
+      }
+      case 'months': {
+        val = value;
+        break;
+      }
+      case 'years': {
+        val = value;
+        break;
       }
     }
     return val < 10 ? `0${val}` : `${val}`;

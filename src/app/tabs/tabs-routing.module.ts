@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { AdminGuard } from '../guards/admin.guard';
 import { EmployeeGuard } from '../guards/employee.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule),
+        canLoad: [AuthGuard]
       },
       {
         path: 'members',
@@ -38,7 +40,7 @@ const routes: Routes = [
       {
         path: 'admin-home',
         loadChildren: () => import('../admin-home/admin-home.module').then( m => m.AdminHomePageModule),
-        canActivate: [AdminGuard]
+        // canActivate: [AdminGuard]
       },
       {
         path: 'statistics',

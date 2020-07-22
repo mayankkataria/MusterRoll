@@ -4,6 +4,7 @@ import { Label, Color, SingleDataSet } from 'ng2-charts';
 
 
 import { Chart } from 'chart.js';
+import { DataSet } from '../models/dataset.model';
 
 @Component({
   selector: 'app-statistics',
@@ -12,32 +13,100 @@ import { Chart } from 'chart.js';
 })
 export class StatisticsPage implements OnInit {
 
- 
+    @ViewChild('barChart', { static: true }) barChart;
 
-    @ViewChild('barChart',{ static: true }) barChart;
+    DATES = ['1/7/20', '2/7/20', '3/7/20', '4/7/20', '5/7/20', '6/7/20', '7/7/20', '8/7/20', '9/7/20', '10/7/20', '11/7/20', '12/7/20'];
+    ABSENTEES = [15, 35, 50, 30, 85, 40, 15, 35, 50, 30, 85, 40];
+    EARLY_LEAVERS = [15, 40, 20, 325, 85, 70, 15, 40, 20, 325, 85, 70];
+    LATE_COMERS = [155, 435, 650, 230, 385, 1340, 155, 435, 650, 230, 385, 1340];
+    dateStats: {} = {dates: this.DATES, absentees: this.ABSENTEES, earlyLeavers: this.EARLY_LEAVERS, lateComers: this.LATE_COMERS};
 
     bars: any;
     colorArray: any;
+    dataSet: DataSet;
+    absentees = {label: 'Absentees', data: this.ABSENTEES, backgroundColor: 'red'};
+    lateComers = {label: 'Late Comers', data: this.LATE_COMERS, backgroundColor: 'green'};
+    earlyLeavers = {label: 'Early Leavers', data: this.EARLY_LEAVERS, backgroundColor: 'orange'};
+    label: string;
+    fromDate: string;
+    fromDatePicker: any;
+    toDate: string;
+    toDatePicker: any;
+
     constructor() { }
-  
+
+    ngOnInit() {
+      this.label = 'absentees';
+      this.getLabel();
+    }
+
     ionViewDidEnter() {
       this.createBarChart();
     }
-  
+
+    getLabel() {
+      console.log('get label');
+      if (this.label === 'absentees') {
+        this.dataSet = Object.assign({}, this.absentees);
+      } else if (this.label === 'lateComers') {
+        this.dataSet = Object.assign({}, this.lateComers);
+      } else {
+        this.dataSet = Object.assign({}, this.earlyLeavers);
+      }
+      this.createBarChart();
+    }
+
+    getFromDate() {
+      console.log('from date: ', this.fromDate);
+      this.fromDatePicker = {
+        buttons: [
+          {
+            text: 'Cancel'
+          },
+          {
+            text: 'Done',
+            handler: res => {
+              console.log('res: ', res);
+            }
+          }
+        ]
+      };
+    }
+
+    getToDate() {
+      console.log('to date: ', this.toDate);
+      this.toDatePicker = {
+        buttons: [
+          {
+            text: 'Cancel'
+          },
+          {
+            text: 'Done',
+            handler: res => {
+              console.log('res: ', res);
+            }
+          }
+        ]
+      };
+    }
+
     createBarChart() {
       this.bars = new Chart(this.barChart.nativeElement, {
         type: 'bar',
         data: {
-          labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'],
-          datasets: [{
-            label: 'Attendance',
-            data: [4.5, 3.8, 5, 6.9, 6.9, 7.5, 10, 17],
-            backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
-            borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-            borderWidth: 1
-          }]
+          labels: this.DATES,
+          datasets: [this.dataSet]
+          // datasets: [{
+          //   label: this.status.label,
+          //   data: [15, 35, 50, 30, 85, 40],
+          //   backgroundColor: this.status.color
+          //   // backgroundColor: 'rgb(38, 194, 129)',
+          //   // borderColor: 'rgb(38, 194, 129)',
+          //   // borderWidth: 1
+          // }]
         },
         options: {
+          responsive: true,
           scales: {
             yAxes: [{
               ticks: {
@@ -48,9 +117,4 @@ export class StatisticsPage implements OnInit {
         }
       });
     }
-  
-
-  ngOnInit() {
-  }
-
 }

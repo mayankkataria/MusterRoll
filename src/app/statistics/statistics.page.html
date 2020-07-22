@@ -1,13 +1,44 @@
 <ion-header>
   <ion-toolbar>
-        <ion-back-button slot="start" defaultHref="tabs/home"></ion-back-button>
+    <ion-back-button slot="start" defaultHref="tabs/home"></ion-back-button>
     <ion-title>Statistics</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-label>From</ion-label>
+    <ion-datetime [pickerOptions]="fromDatePicker" [(ngModel)]="fromDate" (ionChange)="getFromDate()" display-format="DD/MM/YYYY"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>To</ion-label>
+    <ion-datetime [pickerOptions]="toDatePicker" [(ngModel)]="toDate" (ionChange)="getToDate()" display-format="DD/MM/YYYY"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>Status</ion-label>
+    <ion-select [(ngModel)]="label" value="absentees" (ionChange)="getLabel()" interface="popup" placeholder="Status">
+      <ion-select-option value="absentees">Absentees</ion-select-option>
+      <ion-select-option value="lateComers">Late Comers</ion-select-option>
+      <ion-select-option value="earlyLeavers">Early Leavers</ion-select-option>
+    </ion-select>
+  </ion-item>
   <div class="bar-chart">
     <canvas #barChart>
     </canvas>
   </div>
+  <ion-list>
+    <h2 class="ion-margin">{{ label | titlecase }}</h2>
+    <ion-item *ngFor="let date of DATES; let i = index">
+      <ion-label>
+        <h2>
+          <ion-icon slot="start" name="calendar-outline"></ion-icon> {{ date }}
+        </h2>
+        <p *ngIf="label === 'absentees'">
+          <ion-icon slot="start" name="people"></ion-icon> {{ ABSENTEES[i] }}
+        </p>
+        <p *ngIf="label === 'lateComers'">{{ LATE_COMERS[i] }} </p>
+        <p *ngIf="label === 'earlyLeavers'">{{ EARLY_LEAVERS[i] }} </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

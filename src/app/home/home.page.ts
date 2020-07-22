@@ -19,11 +19,22 @@ export class HomePage implements OnInit {
     private router: Router
   ) {
     console.log('home page constructor');
+    // this.userService.getURole$()
+    // .subscribe(role => {
+    //   if (role === 'admin') {
+    //     this.router.navigate(['tabs/admin-home']);
+    //   } else {
+    //     this.router.navigate(['tabs/employee-home']);
+    //   }
+    //   // console.log('role: ', role);
+    //   // this.userRole = role;
+    // });
   }
 
   ngOnInit() {
     this.userService.getURole$()
     .subscribe(role => {
+      console.log('role: ', role);
       if (role === 'admin') {
         this.router.navigate(['tabs/admin-home']);
       } else {
