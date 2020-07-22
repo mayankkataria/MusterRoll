@@ -2,9 +2,12 @@
   <ion-toolbar>
     <ion-back-button defaultHref="sign-in" slot="start"></ion-back-button>
     <ion-title>Register</ion-title>
+    <ion-button slot="end" fill="outline" shape="round" [routerLink]="['/settings']">
+      Cancel
+    </ion-button>
   </ion-toolbar>
 </ion-header>
-
+<!-- 
 <ion-content>
   <div id="container">
     <form [formGroup]="adminForm">
@@ -21,4 +24,43 @@
       </ion-button>
     </form>
   </div>
+</ion-content> -->
+<ion-content padding>
+    <form [formGroup]="adminForm">
+      <ion-item>
+        <ion-label position="stacked" >ID</ion-label>
+          <ion-input formControlName="id" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">FIRST NAME</ion-label>
+          <ion-input formControlName="firstname" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">LAST NAME</ion-label>
+         <ion-input formControlName="lastname" type="text" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">ORGANISATION</ion-label>
+          <ion-input formControlName="orgName" type="text" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">DEPARTMENT</ion-label>
+          <ion-input formControlName="department" type="text" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">DESIGNATION</ion-label>
+          <ion-input formControlName="designation" type="text" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">EMAIL</ion-label>
+          <ion-input formControlName="email" type="email" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">PASSWORD</ion-label>
+           <ion-input formControlName="password" type="password" ></ion-input>
+      </ion-item>
+      <ion-button (click)="register()" fill="outline" shape="round" expand="full">
+        Register
+      </ion-button>
+     </form>
 </ion-content>
