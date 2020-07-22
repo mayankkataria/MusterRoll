@@ -29,6 +29,11 @@ export class MemberService {
     return this.afs.doc(`members/${memberUid}`).delete();
   }
 
+  updateMember(memberDetails: any) {
+    console.log('update member');
+    return this.afs.doc(`members/${memberDetails.uid}`).set(memberDetails, {merge: true});
+  }
+
   getMember$(uid: string): Observable<any> {
     console.log('get member');
     return this.afs.doc<any>('members/' + uid).valueChanges();

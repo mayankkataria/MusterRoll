@@ -1,0 +1,8 @@
+{
+  "appId": "com.fantomcoders.musterroll",
+  "appName": "musterroll",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

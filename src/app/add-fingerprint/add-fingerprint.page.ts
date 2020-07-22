@@ -25,7 +25,7 @@ export class AddFingerprintPage implements OnInit {
       description: 'This is description of fingerprint aio',
       fallbackButtonTitle: 'fallback title',
       cancelButtonTitle: 'Cancel title',
-      disableBackup: false
+      disableBackup: true
     };
     this.showFingerprint();
   }
@@ -47,7 +47,7 @@ export class AddFingerprintPage implements OnInit {
           // .catch(err => this.errorCallback(err));
         console.log('result: ', result);
         toast = await this.toastController.create({
-          message: 'result: ' + result,
+          message: 'result: ' + result.token,
           duration: 3000
         });
         toast.present();

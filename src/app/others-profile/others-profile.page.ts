@@ -3,10 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MemberService } from '../services/member.service';
 import { DateTimeService } from '../services/date-time.service';
-import { PopoverController, ActionSheetController } from '@ionic/angular';
+import { PopoverController, ActionSheetController, ModalController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { UserService } from '../services/user.service';
+import { UpdateMemberPage } from '../update-member/update-member.page';
 
 @Component({
   selector: 'app-others-profile',
@@ -50,7 +51,7 @@ export class OthersProfilePage implements OnInit {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private storageService: StorageService
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -71,18 +72,22 @@ export class OthersProfilePage implements OnInit {
     });
   }
 
-  async removeMember() {
+  removeMember() {
     this.router.navigate(['/tabs/members']);
     this.memberService.deleteMember(this.memberUid)
       .catch(err => console.log('firestore delete err: ', err));
     this.authService.deleteAccount(this.memberData.email, this.memberData.password)
       .catch(err => console.log('delete account error: ', err));
+  }
 
-    // await this.authService.deleteAccount(this.memberData.email, this.memberData.password);
-    // await this.memberService.deleteMember(this.memberUid);
-    // console.log('Member deleted');
-    // this.router.navigate(['members']);
-    // this.storageService.deleteMember(this.memberUid);
+  async updateMember() {
+    const updateModal = await this.modalController.create({
+      component: UpdateMemberPage,
+      componentProps: {memberData: this.memberData},
+      showBackdrop: true,
+      animated: true
+    });
+    await updateModal.present();
   }
 
   async openSideMenu() {
@@ -94,7 +99,7 @@ export class OthersProfilePage implements OnInit {
       }, {
         text: 'Update Member',
         role: 'destructive',
-        handler: () => console.log('update member')
+        handler: () => this.updateMember()
       }]
     });
     await sideMenu.present();

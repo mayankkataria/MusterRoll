@@ -27,6 +27,9 @@ export class SignInPage implements OnInit, OnDestroy {
         }
       });
   }
+  change() {
+    console.log('email: ', this.email);
+  }
 
   ngOnDestroy() {
     console.log('sign in ngOnDestroy');
@@ -37,7 +40,7 @@ export class SignInPage implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.authService.signIn(this.email, this.password)
       .then(() => {
-          this.router.navigate(['tabs']);
+        this.router.navigate(['tabs']);
       })
       .catch(error => console.log('cant sign in, error: ', error));
   }

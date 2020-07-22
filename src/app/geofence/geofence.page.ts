@@ -124,7 +124,7 @@ export class GeofencePage implements OnInit {
   startTracking() {
     this.isTracking = true;
     this.watch = Geolocation.watchPosition({}, (position, err) => {
-      // console.log('new position: ', position);
+      console.log('new position: ', position);
       if (position) {
         this.inOrOut(position.coords.latitude, position.coords.longitude);
         this.addNewLocation(

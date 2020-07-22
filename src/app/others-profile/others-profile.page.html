@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-back-button slot="start" defaultHref="tabs/members" ></ion-back-button>
     <ion-title>Profile</ion-title>
-    <ion-icon *ngIf="userRole === 'admin'" (click)="openSideMenu()" size="large" slot="end" name="ellipsis-vertical"></ion-icon>
+    <ion-icon *ngIf="userRole === 'admin'" class="ion-margin" (click)="openSideMenu()" size="large" slot="end" name="ellipsis-vertical"></ion-icon>
   </ion-toolbar>
 </ion-header>
 

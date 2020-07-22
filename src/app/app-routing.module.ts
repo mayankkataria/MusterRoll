@@ -83,6 +83,10 @@ const routes: Routes = [
     path: 'error',
     loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule)
   },
+  {
+    path: 'update-member',
+    loadChildren: () => import('./update-member/update-member.module').then( m => m.UpdateMemberPageModule)
+  },
 ];
 
 @NgModule({
