@@ -3,7 +3,7 @@
     <ion-title>
       MusterRoll
     </ion-title>
-    <ion-icon [routerLink]="['/statistics']" routerLinkActive="router-link-active"  slot="end" name="stats-chart" class="ion-margin"></ion-icon>
+    <ion-icon [routerLink]="['/tabs/statistics']" routerLinkActive="router-link-active"  slot="end" name="stats-chart" class="ion-margin"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -35,12 +35,15 @@
     </ion-row>
   </ion-grid>
 
-  <div fxLayoutAlign="center center" style="height: 400px;width: 800px;">
+
+  <div class="pie-chart">
     <canvas baseChart 
-    [data]="pieChartData" 
-    [labels]="pieChartLabels" 
+    style="margin-top: 80px;"
+    class="chart"
+    [data]="pieChartData"
+    [labels]="pieChartLabels"  
     [chartType]="chartType"
-    >
+  >
     </canvas>
   </div>
 </ion-content>
