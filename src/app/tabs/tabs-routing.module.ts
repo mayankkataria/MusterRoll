@@ -5,6 +5,7 @@ import { TabsPage } from './tabs.page';
 import { AdminGuard } from '../guards/admin.guard';
 import { EmployeeGuard } from '../guards/employee.guard';
 import { AuthGuard } from '../guards/auth.guard';
+import { RoleGuard } from '../guards/role.guard';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule),
-        canLoad: [AuthGuard]
+        canActivate: [RoleGuard]
       },
       {
         path: 'members',
