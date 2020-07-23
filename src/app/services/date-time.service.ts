@@ -60,6 +60,18 @@ export class DateTimeService {
     return date ? date.toLocaleTimeString().split(' ')[1] : hr > 12 ? 'PM' : 'AM' ;
   }
 
+  getDate(date?: Date) {
+    return date.getDate();
+  }
+
+  getMonth(date?: Date) {
+    return date.getMonth() + 1;
+  }
+
+  getFullYear(date?: Date) {
+    return date.getFullYear();
+  }
+
   inInterval({startHr, startMin}, {endHr, endMin}, {currentHr, currentMin}) {
     // console.log('start hr: ', startHr);
     // console.log('start min: ', startMin);

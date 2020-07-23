@@ -69,7 +69,7 @@
     <br>
     <ion-row *ngIf="inStatus === 'late arrival'">
       <ion-col offset="0">
-        <ion-label>In Statuss: </ion-label>
+        <ion-label>In Status: </ion-label>
         <ion-text>
           <b> {{ inStatus | titlecase }} </b>
         </ion-text>
@@ -94,6 +94,7 @@
         </ion-text>
       </ion-col>
     </ion-row>
+    <br>
     <ion-row *ngIf="clockInTime">
       <ion-col offset="0">
         <ion-label>Clock In: </ion-label>
@@ -126,13 +127,22 @@
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="!withinShift">
+    <ion-row *ngIf="!withinShift; else shiftStarted">
       <ion-col size="12">
         <ion-text color="danger">
           Shift not started yet!
         </ion-text>
       </ion-col>
     </ion-row>
+    <ng-template #shiftStarted>
+      <ion-row>
+        <ion-col size="12">
+          <ion-text color="success">
+            The shift has started!
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ng-template>
     <ion-row>
       <ion-col class="ion-text-center">
         <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>

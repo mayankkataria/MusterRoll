@@ -8,6 +8,7 @@ import { EmployeeHomePageRoutingModule } from './employee-home-routing.module';
 
 import { EmployeeHomePage } from './employee-home.page';
 import { FenceHistoryPageModule } from '../fence-history/fence-history.module';
+import { ClockInPageModule } from '../clock-in/clock-in.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { FenceHistoryPageModule } from '../fence-history/fence-history.module';
     FormsModule,
     IonicModule,
     EmployeeHomePageRoutingModule,
-    FenceHistoryPageModule
+    FenceHistoryPageModule,
+    ClockInPageModule
   ],
   exports: [
     EmployeeHomePage

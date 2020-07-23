@@ -122,7 +122,7 @@ export class UpdateMemberPage implements OnInit {
             //   }
             // });
             // this.memberForm.value.shiftEnd = pickerObj;
-            this.shiftStartObj = {...pickerObj};
+            this.shiftEndObj = {...pickerObj};
           }
         }
       ]

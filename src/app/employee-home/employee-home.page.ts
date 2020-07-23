@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { FenceHistoryPage } from '../fence-history/fence-history.page';
 import { UserService } from '../services/user.service';
 import { Observable, interval, Subscription, of, Observer } from 'rxjs';
 import { DateTimeService } from '../services/date-time.service';
 import { switchMap } from 'rxjs/operators';
 import * as functions from 'firebase-functions';
+import { ClockInPage } from '../clock-in/clock-in.page';
 
 
 @Component({
@@ -32,12 +33,13 @@ export class EmployeeHomePage implements OnInit {
   perUnitTime: string;
   stopwatch: Observable<number> = interval(1000);
   withinShift = false;
+  toast: any;
 
   dateLog: {
     date: Date, inStatus: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
     lateDuration?: {}, earlyDuration?: {}, amount?: number
-  } = {date: new Date(), inStatus: 'absent'};
+  } = { date: new Date(), inStatus: 'absent' };
   dateLogObservable: Observable<any> = new Observable();
   dateLogObserver = {
     next: dateLog => {
@@ -138,7 +140,9 @@ export class EmployeeHomePage implements OnInit {
   constructor(
     private modalCrl: ModalController,
     private userService: UserService,
-    private dateTimeService: DateTimeService
+    private dateTimeService: DateTimeService,
+    private modalController: ModalController,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -216,28 +220,67 @@ export class EmployeeHomePage implements OnInit {
     }
   }
 
-  clockIn() {
-    this.calDuration();
-    this.clockedIn = true;
-    const date = new Date();
-    this.clockInTime = {
-      hr: {
-        text: this.dateTimeService.display('hours', null, date),
-        value: this.dateTimeService.getHours(date)
-      },
-      min: {
-        text: this.dateTimeService.display('minutes', null, date),
-        value: this.dateTimeService.getMinutes(date)
-      },
-      meridiem: this.dateTimeService.getMeridiem(new Date())
-    };
-    // this.dateLog = { ...this.dateLog, ...{ clockInTime: this.clockInTime } };
-    this.dateLog.clockInTime = this.clockInTime;
-    this.dateLogObserver.next(this.dateLog);
-    // this.dateLogObs = new Observable(obs => {
-    //   obs.next(this.dateLog);
-    // });
-    this.assignInStatus();
+  async getBioResult() {
+    try {
+      let biometricResult;
+      const biometricModal = await this.modalController.create({
+        component: ClockInPage,
+      });
+      await biometricModal.present();
+      const res = await biometricModal.onDidDismiss();
+      biometricResult = res.data.biometricResult;
+      console.log('bio result: ', biometricResult);
+      return biometricResult;
+    } catch (err) {
+      console.log('biometric error: ', err);
+      return err;
+    }
+  }
+
+  async clockIn() {
+    const biometricResult = await this.getBioResult();
+    if (biometricResult !== 'biometric_success') {
+      this.toast = this.toastController.create({
+        message: 'Invalid Biometric',
+        duration: 3000
+      });
+      await this.toast.present();
+      return;
+    }
+    if (biometricResult === 'biometric_success') {
+      this.calDuration();
+      this.clockedIn = true;
+      const date = new Date();
+      this.clockInTime = {
+        hr: {
+          text: this.dateTimeService.display('hours', null, date),
+          value: this.dateTimeService.getHours(date)
+        },
+        min: {
+          text: this.dateTimeService.display('minutes', null, date),
+          value: this.dateTimeService.getMinutes(date)
+        },
+        meridiem: this.dateTimeService.getMeridiem(new Date())
+      };
+
+      this.toast = await this.toastController.create({
+        message: 'Clocked In',
+        duration: 3000
+      });
+      await this.toast.present();
+
+      // this.dateLog = { ...this.dateLog, ...{ clockInTime: this.clockInTime } };
+
+      this.dateLog.clockInTime = this.clockInTime;
+      this.dateLogObserver.next(this.dateLog);
+
+      // this.dateLogObs = new Observable(obs => {
+      //   obs.next(this.dateLog);
+      // });
+
+      this.assignInStatus();
+    }
+
   }
 
   assignInStatus() {
@@ -327,10 +370,6 @@ export class EmployeeHomePage implements OnInit {
   refreshLocation() {
     this.inFence = !this.inFence;
   }
-
-
-
-
 
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({

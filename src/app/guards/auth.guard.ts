@@ -31,32 +31,4 @@ export class AuthGuard implements CanActivate {
         }
       }));
   }
-
-  // canLoad(route: Route, segments: import('@angular/router').UrlSegment[]):
-  // Observable<boolean> Promise<boolean> | boolean {
-  //   console.log('canload');
-
-  //   return this.userService.getURole$()
-  //   .pipe(map(role => {
-  //     console.log('role: ', role);
-  //     console.log('path: ', route.path);
-  //     if (role === 'admin') {
-  //       if (route.path === 'home') {
-  //         return this.router.createUrlTree(['/tabs/admin-home']);
-  //       }
-  //     } else {
-  //       if (route.path === 'home') {
-  //         return this.router.createUrlTree(['/tabs/employee-home']);
-  //       }
-  //     }
-  //   }));
-
-    // if (route.path === 'home') {
-    //   return new Observable(() => );
-      // this.userService.getURole$()
-      //   .subscribe(role => {
-      //     return role === 'admin' ? this.router.createUrlTree(['/admin-home']) : this.router.createUrlTree(['/employee-home']);
-      //   });
-    // }
-//   }
 }

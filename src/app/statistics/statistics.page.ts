@@ -5,6 +5,9 @@ import { Label, Color, SingleDataSet } from 'ng2-charts';
 
 import { Chart } from 'chart.js';
 import { DataSet } from '../models/dataset.model';
+import { StatService } from '../services/stat.service';
+import { Observable } from 'rxjs';
+import { DateTimeService } from '../services/date-time.service';
 
 @Component({
   selector: 'app-statistics',
@@ -13,108 +16,102 @@ import { DataSet } from '../models/dataset.model';
 })
 export class StatisticsPage implements OnInit {
 
-    @ViewChild('barChart', { static: true }) barChart;
+  @ViewChild('barChart', { static: true }) barChart;
 
-    DATES = ['1/7/20', '2/7/20', '3/7/20', '4/7/20', '5/7/20', '6/7/20', '7/7/20', '8/7/20', '9/7/20', '10/7/20', '11/7/20', '12/7/20'];
-    ABSENTEES = [15, 35, 50, 30, 85, 40, 15, 35, 50, 30, 85, 40];
-    EARLY_LEAVERS = [15, 40, 20, 325, 85, 70, 15, 40, 20, 325, 85, 70];
-    LATE_COMERS = [155, 435, 650, 230, 385, 1340, 155, 435, 650, 230, 385, 1340];
-    dateStats: {} = {dates: this.DATES, absentees: this.ABSENTEES, earlyLeavers: this.EARLY_LEAVERS, lateComers: this.LATE_COMERS};
+  bars: any;
+  colorArray: any;
+  dataSet: DataSet;
+  absentees = { label: 'Absentees', data: [], backgroundColor: 'red' };
+  lateComers = { label: 'Late Comers', data: [], backgroundColor: 'green' };
+  earlyLeavers = { label: 'Early Leavers', data: [], backgroundColor: 'orange' };
+  label: string;
+  fromDate: string = new Date(2020, 6, 1).toISOString();
+  fromDateObj: Date = new Date(2020, 6, 1);
+  fromDatePicker: any;
+  toDate: string = new Date().toISOString();
+  toDateObj: Date = new Date();
+  toDatePicker: any;
+  stats$: Observable<any[]>;
+  dateRange: Date[];
+  dateStringLabels: string[] = [];
 
-    bars: any;
-    colorArray: any;
-    dataSet: DataSet;
-    absentees = {label: 'Absentees', data: this.ABSENTEES, backgroundColor: 'red'};
-    lateComers = {label: 'Late Comers', data: this.LATE_COMERS, backgroundColor: 'green'};
-    earlyLeavers = {label: 'Early Leavers', data: this.EARLY_LEAVERS, backgroundColor: 'orange'};
-    label: string;
-    fromDate: string;
-    fromDatePicker: any;
-    toDate: string;
-    toDatePicker: any;
+  constructor(
+    private statService: StatService,
+    private dateTimeService: DateTimeService
+  ) { }
 
-    constructor() { }
+  ngOnInit() {
+    this.label = 'absentees';
+    this.stats$ = this.statService.getStats$();
+  }
 
-    ngOnInit() {
-      this.label = 'absentees';
-      this.getLabel();
-    }
+  ionViewDidEnter() {
+    this.getStatsRange();
+  }
 
-    ionViewDidEnter() {
-      this.createBarChart();
-    }
-
-    getLabel() {
-      console.log('get label');
-      if (this.label === 'absentees') {
-        this.dataSet = Object.assign({}, this.absentees);
-      } else if (this.label === 'lateComers') {
-        this.dataSet = Object.assign({}, this.lateComers);
-      } else {
-        this.dataSet = Object.assign({}, this.earlyLeavers);
-      }
-      this.createBarChart();
-    }
-
-    getFromDate() {
-      console.log('from date: ', this.fromDate);
-      this.fromDatePicker = {
-        buttons: [
-          {
-            text: 'Cancel'
-          },
-          {
-            text: 'Done',
-            handler: res => {
-              console.log('res: ', res);
-            }
-          }
-        ]
-      };
-    }
-
-    getToDate() {
-      console.log('to date: ', this.toDate);
-      this.toDatePicker = {
-        buttons: [
-          {
-            text: 'Cancel'
-          },
-          {
-            text: 'Done',
-            handler: res => {
-              console.log('res: ', res);
-            }
-          }
-        ]
-      };
-    }
-
-    createBarChart() {
-      this.bars = new Chart(this.barChart.nativeElement, {
-        type: 'bar',
-        data: {
-          labels: this.DATES,
-          datasets: [this.dataSet]
-          // datasets: [{
-          //   label: this.status.label,
-          //   data: [15, 35, 50, 30, 85, 40],
-          //   backgroundColor: this.status.color
-          //   // backgroundColor: 'rgb(38, 194, 129)',
-          //   // borderColor: 'rgb(38, 194, 129)',
-          //   // borderWidth: 1
-          // }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }
-        }
+  async getStatsRange() {
+    console.log('get stats range');
+    this.absentees.data = [];
+    this.dateStringLabels = [];
+    this.getLabel();
+    this.stats$ = this.statService.getStatsRange$(new Date(this.fromDate), new Date(this.toDate));
+    this.stats$.subscribe(rangeData => {
+      console.log('range data: ', rangeData);
+      rangeData.forEach(data => {
+        const date = this.dateTimeService.getDate(data.date.toDate());
+        const month = this.dateTimeService.getMonth(data.date.toDate());
+        const year = this.dateTimeService.getFullYear(data.date.toDate());
+        const dateString = `${date}/${month}/${year}`;
+        this.dateStringLabels.push(dateString);
+        this.absentees.data.push(data.absentees);
+        this.earlyLeavers.data.push(data.earlyLeavers);
+        this.lateComers.data.push(data.lateComers);
+        this.createBarChart();
       });
+    });
+  }
+
+  async getLabel() {
+    console.log('get label');
+    if (this.label === 'absentees') {
+      this.dataSet = Object.assign({}, this.absentees);
+    } else if (this.label === 'lateComers') {
+      this.dataSet = Object.assign({}, this.lateComers);
+    } else {
+      this.dataSet = Object.assign({}, this.earlyLeavers);
     }
+  }
+
+  async getFromDate() {
+    console.log('get from date');
+    this.fromDateObj = new Date(this.fromDate);
+  }
+
+  async getToDate() {
+    console.log('get to date');
+    this.toDateObj = new Date(this.toDate);
+  }
+
+  async createBarChart() {
+    console.log('create bar chart');
+    console.log('date string labels: ', this.dateStringLabels);
+    console.log('date set: ', this.dataSet);
+    this.bars = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.dateStringLabels,
+        datasets: [this.dataSet]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
 }
