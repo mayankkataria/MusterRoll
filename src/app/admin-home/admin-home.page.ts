@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Label, SingleDataSet, Color } from 'ng2-charts';
 import { UserService } from '../services/user.service';
 import { ChartDataSets } from 'chart.js';
+import { StatService } from '../services/stat.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin-home',
@@ -10,71 +12,92 @@ import { ChartDataSets } from 'chart.js';
 })
 export class AdminHomePage {
 
-  present: number;
-  absent: number;
-  earlyLeavers: number;
-  lateComers: number;
+  // presentees: number;
+  // absentees: number;
+  // earlyLeavers: number;
+  // lateComers: number;
+  // // date: string = new Date().toISOString();
+  // date = new Date(2020, 6, 2).toISOString();
+  // dateStat$: Observable<any>;
 
-  // Option
-  ChartOptions = {
-    responsive: true,
-    title: {
-      display: true,
-      text: 'price'
-    },
-    pan: {
-      enabled: true,
-      mode: 'xy'
-    },
-    zoom: {
-      enabled: true,
-      mode: 'xy'
-    },
+  // // Option
+  // ChartOptions = {
+  //   responsive: true,
+  //   title: {
+  //     display: true,
+  //     text: 'price'
+  //   },
+  //   pan: {
+  //     enabled: true,
+  //     mode: 'xy'
+  //   },
+  //   zoom: {
+  //     enabled: true,
+  //     mode: 'xy'
+  //   },
 
-  };
-  chartColors: Color[] = [
-    {
-      borderColor: '#000000',
-      backgroundColor: '#ff00ff'
-    }
-  ];
-  chartType = 'pie';
-  showLegend: false;
+  // };
+  // chartColors: Color[] = [
+  //   {
+  //     borderColor: '#000000',
+  //     backgroundColor: '#ff00ff'
+  //   }
+  // ];
+  // chartType = 'pie';
+  // showLegend: false;
 
-  // For search
-  stock = '';
+  // // For search
+  // stock = '';
 
-  // Data
-  public pieChartLabels: Label[] = ['Present', 'Absent', 'Early leavers', 'Late comers'];
-  public pieChartData: SingleDataSet = [this.present, this.absent, this.earlyLeavers, this.lateComers];
+  // // Data
+  // public pieChartLabels: Label[] = ['Present', 'Absent', 'Early leavers', 'Late comers'];
+  // public pieChartData: SingleDataSet = [this.presentees, this.absentees, this.earlyLeavers, this.lateComers];
 
-  modifyChart() {
-    this.pieChartData = [this.present, this.absent, this.earlyLeavers, this.lateComers];
-  }
-
-
-  constructor(
-    private userService: UserService
-  ) {
-    // this.getData();
-    // userService.getURole$()
-    //   .subscribe(role => console.log('role: ', role));
-  }
-
-  // getData() {
-  //   this.http.get('https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=demo')
-  //     .subscribe(res => {
-  //       console.log('Res: ', res);
-  //       const history = res ['historical'];
-
-  //       this.chartData[0].data = [];
-  //       this.chartLabels = [];
-
-  //       for(let entry of history){
-  //         this.chartLabels.push(entry.date);
-  //         this.chartData[0].data.push(entry['close']);
-  //       }
-  //       console.log('data: ', this.chartData);
-  //     });
+  // constructor(
+  //   private userService: UserService,
+  //   private statService: StatService
+  // ) {
+  //   // this.getData();
+  //   // userService.getURole$()
+  //   //   .subscribe(role => console.log('role: ', role));
   // }
+
+  // ngOnInit() {
+  //   this.getDateStat();
+  // }
+
+  // getDateStat() {
+  //   console.log('get date stat');
+  //   console.log('this date: ', this.date);
+  //   this.dateStat$ = this.statService.getDateStat$(new Date(this.date));
+  //   this.dateStat$.subscribe(data => {
+  //     console.log('date stat: ', data);
+  //     this.presentees = data.presentees;
+  //     this.absentees = data.absentees;
+  //     this.lateComers = data.lateComers;
+  //     this.earlyLeavers = data.earlyLeavers;
+  //     this.modifyChart();
+  //   });
+  // }
+
+  // modifyChart() {
+  //   this.pieChartData = [this.presentees, this.absentees, this.earlyLeavers, this.lateComers];
+  // }
+
+  // // getData() {
+  // //   this.http.get('https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=demo')
+  // //     .subscribe(res => {
+  // //       console.log('Res: ', res);
+  // //       const history = res ['historical'];
+
+  // //       this.chartData[0].data = [];
+  // //       this.chartLabels = [];
+
+  // //       for(let entry of history){
+  // //         this.chartLabels.push(entry.date);
+  // //         this.chartData[0].data.push(entry['close']);
+  // //       }
+  // //       console.log('data: ', this.chartData);
+  // //     });
+  // // }
 }

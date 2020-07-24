@@ -24,7 +24,7 @@
   </ion-grid>
   <div *ngIf="members">
     <ion-list *ngFor="let member of members | async">
-      <ion-item [routerLink]="['/tabs/others-profile', member.uid]" routerLinkActive="router-link-active" >
+      <ion-item [routerLink]="['/tabs/others-profile', member.uid]">
         <ion-avatar slot="start">
           <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
         </ion-avatar>

@@ -32,29 +32,33 @@ const routes: Routes = [
       },
       {
         path: 'others-profile/:uid',
-        loadChildren: () => import('../others-profile/others-profile.module').then( m => m.OthersProfilePageModule)
+        loadChildren: () => import('../others-profile/others-profile.module').then(m => m.OthersProfilePageModule)
       },
       {
         path: 'employee-home',
-        loadChildren: () => import('../employee-home/employee-home.module').then( m => m.EmployeeHomePageModule)
+        loadChildren: () => import('../employee-home/employee-home.module').then(m => m.EmployeeHomePageModule)
       },
       {
         path: 'admin-home',
-        loadChildren: () => import('../admin-home/admin-home.module').then( m => m.AdminHomePageModule),
+        loadChildren: () => import('../admin-home/admin-home.module').then(m => m.AdminHomePageModule),
         // canActivate: [AdminGuard]
       },
       {
         path: 'statistics',
-        loadChildren: () => import('../statistics/statistics.module').then( m => m.StatisticsPageModule),
+        loadChildren: () => import('../statistics/statistics.module').then(m => m.StatisticsPageModule),
       },
       {
         path: 'clock-in',
-        loadChildren: () => import('../clock-in/clock-in.module').then( m => m.ClockInPageModule),
+        loadChildren: () => import('../clock-in/clock-in.module').then(m => m.ClockInPageModule),
         canActivate: [EmployeeGuard]
       },
       {
         path: 'attendance-log',
-        loadChildren: () => import('../attendance-log/attendance-log.module').then( m => m.AttendanceLogPageModule)
+        loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+      },
+      {
+        path: 'datelog',
+        loadChildren: () => import('../datelog/datelog.module').then(m => m.DatelogPageModule)
       },
     ]
   },
@@ -71,4 +75,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

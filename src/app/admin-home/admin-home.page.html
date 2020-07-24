@@ -3,12 +3,11 @@
     <ion-title>
       MusterRoll
     </ion-title>
-    <ion-icon [routerLink]="['/tabs/statistics']" routerLinkActive="router-link-active"  slot="end" name="stats-chart" class="ion-margin"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-grid fixed>
+  <!-- <ion-grid fixed>
     <ion-row>
       <ion-col size="6">
         <ion-item>
@@ -33,8 +32,12 @@
         </ion-item>
       </ion-col>
     </ion-row>
-  </ion-grid>
-
+  </ion-grid> -->
+<!-- 
+  <ion-item>
+    <ion-label>Date</ion-label>
+    <ion-datetime [(ngModel)]="date" (ionChange)="getDateStat()" display-format="DD/MM/YYYY"></ion-datetime>
+  </ion-item>
 
   <div class="pie-chart">
     <canvas baseChart 
@@ -43,7 +46,171 @@
     [data]="pieChartData"
     [labels]="pieChartLabels"  
     [chartType]="chartType"
+    
   >
     </canvas>
   </div>
+</ion-content> -->
+
+<ion-grid>
+  <ion-row>
+    <ion-col size="10">
+      <ion-searchbar placeholder="Search Name" type="text"></ion-searchbar>
+    </ion-col>
+    <ion-col size="2">
+      <ion-button color="light">
+        <ion-icon name="funnel"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<!-- <div *ngIf="members">
+  <ion-list *ngFor="let member of members | async">
+    <ion-item [routerLink]="['/tabs/others-profile', member.uid]">
+      <ion-avatar slot="start">
+        <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>
+        <p>{{ member.designation | titlecase }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
+    </ion-item>
+  </ion-list>
+</div> -->
+
+<div>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Employee's Status</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Mayank Kataria</b>
+          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <h3>Clock In: <b>10:00 AM</b> </h3>
+          <!-- <h3>Clock Out: <b>06:00 PM</b> </h3> -->
+          <!-- <h3>Amount: <b>100 Rs</b> </h3> -->
+        </ion-text>
+      </ion-label>
+      <div>
+        <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
+        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <!-- <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge> -->
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Chinmay Jain</b>
+          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <h3>Clock In: <b>09:00 AM</b> </h3>
+          <h3>Clock Out: <b>04:00 PM</b> </h3>
+          <h3>Amount: <b>60 Rs</b> </h3>
+        </ion-text>
+      </ion-label>
+      <div>
+        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
+        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Tushar Sharma</b>
+          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <h3>Clock In: <b>09:00 AM</b> </h3>
+          <h3>Clock Out: <b>04:30 PM</b> </h3>
+          <h3>Amount: <b>60 Rs</b> </h3>
+        </ion-text>
+      </ion-label>
+      <div>
+        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
+        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Palak Intodia</b>
+          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <h3>Clock In: <b>10:00 AM</b> </h3>
+          <h3>Clock Out: <b>06:00 PM</b> </h3>
+          <h3>Amount: <b>100 Rs</b> </h3>
+        </ion-text>
+      </ion-label>
+      <div>
+        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
+        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <!-- <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge> -->
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Kalpit Malviya</b>
+          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <h3>Clock In: <b>10:00 AM</b> </h3>
+          <h3>Clock Out: <b>06:00 PM</b> </h3>
+          <h3>Amount: <b>100 Rs</b> </h3>
+        </ion-text>
+      </ion-label>
+      <div>
+        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
+        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <!-- <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge> -->
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Gauri Shrimali</b>
+          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <h3>Clock In: <b>10:00 AM</b> </h3>
+          <h3>Clock Out: <b>04:00 PM</b> </h3>
+          <h3>Amount: <b>100 Rs</b> </h3>
+        </ion-text>
+      </ion-label>
+      <div>
+        <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
+        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img src="assets/user.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>
+          <b>Devendra Singh</b>
+          <!-- <h3>Status: <b>Absent</b> </h3> -->
+        </ion-text>
+      </ion-label>
+      <ion-badge slot="end" color="danger" mode="ios" size="large">A</ion-badge>
+    </ion-item>
+  </ion-list>
+</div>
+
 </ion-content>

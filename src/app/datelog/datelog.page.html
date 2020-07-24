@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start" defaultHref="tabs/attendance-log"></ion-back-button>
+    <ion-title>Date Log</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <br>
+    <ion-row *ngIf="inStatus === 'late arrival'">
+      <ion-col offset="0">
+        <ion-label>In Status: </ion-label>
+        <ion-text>
+          <b> {{ inStatus | titlecase }} </b>
+        </ion-text>
+        <br>
+        <ion-label>Late by: </ion-label>
+        <ion-text>
+          <b> {{ lateDuration.hr.text }} hr {{ lateDuration.min.text }} min </b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row *ngIf="outStatus === 'early departure'">
+      <ion-col offset="0">
+        <ion-label>Out Status: </ion-label>
+        <ion-text>
+          <b> {{ outStatus | titlecase }} </b>
+        </ion-text>
+        <br>
+        <ion-label>Early by: </ion-label>
+        <ion-text>
+          <b> {{ earlyDuration.hr.text }} hr {{ earlyDuration.min.text }} min </b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row *ngIf="clockInTime">
+      <ion-col offset="0">
+        <ion-label>Clock In: </ion-label>
+        <ion-text>
+          <b>{{ clockInTime.hr.text }}:{{ clockInTime.min.text }} {{ clockInTime.meridiem }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="clockOutTime">
+      <ion-col offset="0">
+        <ion-label>Clock Out: </ion-label>
+        <ion-text>
+          <b>{{ clockOutTime.hr.text }}:{{ clockOutTime.min.text }} {{ clockOutTime.meridiem }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Duration: </ion-label>
+        <ion-text>
+          <b>{{ durationTime.hr.text }}</b>:<b>{{ durationTime.min.text }}</b>:<b>{{ durationTime.sec.text }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset="0">
+        <ion-label>Amount: </ion-label>
+        <ion-text>
+          <b>{{ amount }} Rs</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

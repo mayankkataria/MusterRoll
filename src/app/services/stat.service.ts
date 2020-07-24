@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,19 @@ export class StatService {
     )
     .valueChanges();
     // .pipe(switchMap(latestStats => latestStats));
+  }
+
+  getDateStat$(date: Date) {
+    return this.afs.collection<any>('statistics', ref => ref
+      .where('date', '==', date)
+      // .orderBy('date')
+      // .startAt(from)
+      // .endAt(to)
+      // .where('date', '>=', from)
+      // .where('date', '<=', to)
+    )
+    .valueChanges()
+    .pipe(switchMap(dateStat => dateStat));
   }
 
 }

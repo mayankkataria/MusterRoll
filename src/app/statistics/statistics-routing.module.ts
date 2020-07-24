@@ -6,7 +6,27 @@ import { StatisticsPage } from './statistics.page';
 const routes: Routes = [
   {
     path: '',
-    component: StatisticsPage
+    component: StatisticsPage,
+    children: [
+      {
+        path: '',
+        redirectTo: '/tabs/statistics/single-stats',
+        pathMatch: 'full'
+      },
+      {
+        path: 'single-stats',
+        loadChildren: () => import('./single-stats/single-stats.module').then( m => m.SingleStatsPageModule)
+      },
+      {
+        path: 'multiple-stats',
+        loadChildren: () => import('./multiple-stats/multiple-stats.module').then( m => m.MultipleStatsPageModule)
+      }
+    ]
+  },
+  {
+    path: '',
+    redirectTo: '/tabs/statistics/single-stats',
+    pathMatch: 'full'
   }
 ];
 

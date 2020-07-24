@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-back-button slot="start" defaultHref="tabs/admin-home"></ion-back-button>
     <ion-title>Statistics</ion-title>
@@ -17,12 +17,13 @@
   <ion-item>
     <ion-label>Status</ion-label>
     <ion-select [(ngModel)]="label" value="absentees" (ionChange)="getStatsRange()" interface="popup" placeholder="Status">
+      <ion-select-option value="presentees">Presentees</ion-select-option>
       <ion-select-option value="absentees">Absentees</ion-select-option>
       <ion-select-option value="lateComers">Late Comers</ion-select-option>
       <ion-select-option value="earlyLeavers">Early Leavers</ion-select-option>
     </ion-select>
   </ion-item>
-  <div class="bar-chart">
+  <div (click)="canvasClicked()" class="bar-chart">
     <canvas #barChart>
     </canvas>
   </div>
@@ -31,8 +32,11 @@
     <ion-item *ngFor="let statItem of stats; let i=index">
       <ion-label>
         <h2>
-          <ion-icon slot="start" name="calendar-outline"></ion-icon> {{ dateStringLabels[0] }}
+          <ion-icon slot="start" name="calendar-outline"></ion-icon> {{ dateStringLabels[i] }}
         </h2>
+        <p *ngIf="label === 'presentees'">
+          <ion-icon slot="start" name="people"></ion-icon> {{ statItem.presentees }}
+        </p>
         <p *ngIf="label === 'absentees'">
           <ion-icon slot="start" name="people"></ion-icon> {{ statItem.absentees }}
         </p>
@@ -45,4 +49,25 @@
       </ion-label>
     </ion-item>
   </ion-list>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Statistics</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="single-stats" >
+        <ion-icon name="pie-chart"></ion-icon>
+        <ion-label>Single</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="multiple-stats">
+        <ion-icon name="bar-chart"></ion-icon>
+        <ion-label>Multiple</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs> 
 </ion-content>

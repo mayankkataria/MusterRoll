@@ -1,66 +1,79 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Profile</ion-title>
-    <ion-icon [routerLink]="['/settings']"  class="ion-margin" slot="end" name="settings"></ion-icon>
+    <ion-icon [routerLink]="['/settings']" class="ion-margin" slot="end" name="settings"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div class="profile" *ngIf="user$ | async as user">
-      <div class="user-img">
-        <ion-avatar class="profile-pic">
-          <ion-img [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'"></ion-img>
-        </ion-avatar>
-        <ion-fab class="camera-fab" slot="fixed">
-          <ion-fab-button  (click)="showActionSheet()">
-            <ion-icon name="camera"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-      </div>
-      <input type="file" *ngIf="isDesktop" #filePicker (change)="onFileChoose($event)"/>
-      <div class="user-info">
-        <div>
-          <ion-icon name="keypad-outline"></ion-icon>
-          <ion-text> Id: </ion-text> <ion-text> <b>{{ user.id }}</b></ion-text>
-        </div>
-        <div>
-          <ion-icon name="person-outline"></ion-icon>
-          <ion-text> Name: </ion-text> <ion-text> <b>{{ user.firstname | titlecase }} {{ user.lastname | titlecase }}</b></ion-text>
-        </div>
-        <div>
-          <ion-icon name="mail-outline"></ion-icon>
-          <ion-text> Email: </ion-text> <ion-text> <b>{{ user.email }}</b></ion-text>
-        </div>
-        <div>
-          <ion-icon name="people-outline"></ion-icon>
-          <ion-text> Role: </ion-text> <ion-text> <b>{{ user.role | titlecase }}</b></ion-text>
-        </div>
-        <div>
-          <ion-icon name="briefcase-outline"></ion-icon>
-          <ion-text> Designation: </ion-text> <ion-text> <b>{{ user.designation | titlecase }} </b></ion-text>
-        </div>
-        <div>
-          <ion-icon name="business-outline"></ion-icon>
-          <ion-text> Department: </ion-text> <ion-text> <b>{{ user.department | uppercase }} </b></ion-text>
-        </div>
-        <div *ngIf="user.role === 'employee'">
-          <ion-icon name="moon-outline"></ion-icon>
-          <ion-text> Shift: </ion-text> <ion-text> <b>{{ user.shift | titlecase }} </b></ion-text>
-        </div>
-        <div *ngIf="user.role === 'employee'">
-          <ion-icon name="stopwatch-outline"></ion-icon>
-          <ion-text> Shift Timings: </ion-text> 
-          <ion-text><b> 
-              {{ shiftStart.hr.text }}:{{ shiftStart.min.text }} {{ shiftStart.meridiem }} - 
-              {{ shiftEnd.hr.text }}:{{ shiftEnd.min.text }} {{ shiftEnd.meridiem }}
-          </b></ion-text>
-        </div>
-        <div *ngIf="user.role === 'employee'">
-          <ion-icon name="wallet-outline"></ion-icon>
-          <ion-text> Salary: </ion-text> <ion-text> <b>{{ user.salary }} Rs. / {{ user.perUnitTime }} </b></ion-text> 
-        </div>
+  <div class="profile" *ngIf="user$ | async as user">
+    <div class="user-img">
+      <ion-avatar class="profile-pic">
+        <ion-img [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'"></ion-img>
+      </ion-avatar>
+      <ion-fab class="camera-fab" slot="fixed">
+        <ion-fab-button (click)="showActionSheet()">
+          <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </div>
+    <input type="file" *ngIf="isDesktop" #filePicker (change)="onFileChoose($event)" />
+    <div class="user-info">
+      <div>
+        <ion-icon name="keypad-outline"></ion-icon>
+        <ion-text> Id: </ion-text>
+        <ion-text> <b>{{ user.id }}</b></ion-text>
       </div>
+      <div>
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-text> Name: </ion-text>
+        <ion-text> <b>{{ user.firstname | titlecase }} {{ user.lastname | titlecase }}</b></ion-text>
+      </div>
+      <div>
+        <ion-icon name="mail-outline"></ion-icon>
+        <ion-text> Email: </ion-text>
+        <ion-text> <b>{{ user.email }}</b></ion-text>
+      </div>
+      <div>
+        <ion-icon name="people-outline"></ion-icon>
+        <ion-text> Role: </ion-text>
+        <ion-text> <b>{{ user.role | titlecase }}</b></ion-text>
+      </div>
+      <div>
+        <ion-icon name="briefcase-outline"></ion-icon>
+        <ion-text> Designation: </ion-text>
+        <ion-text> <b>{{ user.designation | titlecase }} </b></ion-text>
+      </div>
+      <div>
+        <ion-icon name="business-outline"></ion-icon>
+        <ion-text> Department: </ion-text>
+        <ion-text> <b>{{ user.department | uppercase }} </b></ion-text>
+      </div>
+      <div *ngIf="user.role === 'employee'">
+        <ion-icon name="moon-outline"></ion-icon>
+        <ion-text> Shift: </ion-text>
+        <ion-text> <b>{{ user.shift | titlecase }} </b></ion-text>
+      </div>
+      <div *ngIf="user.role === 'employee'">
+        <ion-icon name="stopwatch-outline"></ion-icon>
+        <ion-text> Shift Timings: </ion-text>
+        <ion-text><b>
+            {{ shiftStart.hr.text }}:{{ shiftStart.min.text }} {{ shiftStart.meridiem }} -
+            {{ shiftEnd.hr.text }}:{{ shiftEnd.min.text }} {{ shiftEnd.meridiem }}
+          </b></ion-text>
+      </div>
+      <div *ngIf="user.role === 'employee'">
+        <ion-icon name="wallet-outline"></ion-icon>
+        <ion-text> Salary: </ion-text>
+        <ion-text> <b>{{ user.salary }} Rs. / {{ user.perUnitTime }} </b></ion-text>
+      </div>
+      <div>
+        <ion-button [routerLink]="['/tabs/attendance-log']" expand="block" fill="clear" shape="round">
+          Attendance Log
+        </ion-button>
+      </div>
+    </div>
+  </div>
 </ion-content>
 
 

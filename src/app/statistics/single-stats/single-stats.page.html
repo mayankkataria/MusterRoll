@@ -1,0 +1,85 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>singleStats</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content [fullscreen]="true">
+  <!-- <ion-grid fixed>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input [(ngModel)]="present" type="number" (ionChange)="modifyChart()" placeholder="Present(P)"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input [(ngModel)]="absent" type="number" placeholder="Absent(A)"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input [(ngModel)]="earlyLeavers" type="number" placeholder="Early leavers(EL)"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input [(ngModel)]="lateComers" type="number" placeholder="Late Comers(LC)"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+  <ion-item>
+    <ion-label>Date</ion-label>
+    <ion-datetime [(ngModel)]="date" (ionChange)="getDateStat()" display-format="DD/MM/YYYY"></ion-datetime>
+  </ion-item>
+
+  <div class="pie-chart">
+    <canvas baseChart 
+    style="margin-top: 80px;"
+    class="chart"
+    [data]="pieChartData"
+    [labels]="pieChartLabels"  
+    [chartType]="chartType"
+  >
+    </canvas>
+  </div>
+
+  <ion-grid fixed>
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <!-- <ion-label class="ion-text-center" color="success">Presentees: </ion-label> -->
+        <ion-text class="ion-text-center" color="success" expand="block" fill="clear" shape="round">
+          Presentees: <b>{{ this.presentees }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- <ion-label class="ion-text-center" color="success">Presentees: </ion-label> -->
+        <ion-text color="danger" expand="block" fill="clear" shape="round">
+          Absentees: <b>{{ this.absentees }}</b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- <ion-label class="ion-text-center" color="success">Presentees: </ion-label> -->
+        <ion-text color="primary" expand="block" fill="clear" shape="round">
+          Early Leavers: {{ this.earlyLeavers }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- <ion-label class="ion-text-center" color="success">Presentees: </ion-label> -->
+        <ion-text color="warning" expand="block" fill="clear" shape="round">
+          Late Comers: {{ this.lateComers }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
