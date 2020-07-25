@@ -36,15 +36,18 @@
     <ion-label>Date</ion-label>
     <ion-datetime [(ngModel)]="date" (ionChange)="getDateStat()" display-format="DD/MM/YYYY"></ion-datetime>
   </ion-item>
+  <ion-item>
+    <ion-label>Chart</ion-label>
+    <ion-select [(ngModel)]="chartType" value="pie" placeholder="Select Chart">
+      <ion-select-option value="pie">Pie</ion-select-option>
+      <ion-select-option value="doughnut">Doughnut</ion-select-option>
+      <ion-select-option value="bar">Bar</ion-select-option>
+    </ion-select>
+  </ion-item>
 
   <div class="pie-chart">
-    <canvas baseChart 
-    style="margin-top: 80px;"
-    class="chart"
-    [data]="pieChartData"
-    [labels]="pieChartLabels"  
-    [chartType]="chartType"
-  >
+    <canvas baseChart style="margin-top: 80px;" class="chart" [data]="pieChartData" [labels]="pieChartLabels"
+      [chartType]="chartType">
     </canvas>
   </div>
 

@@ -17,17 +17,28 @@
   <ion-item>
     <ion-label>Status</ion-label>
     <ion-select [(ngModel)]="label" value="absentees" (ionChange)="getStatsRange()" interface="popup" placeholder="Status">
+      <ion-select-option value="all">All</ion-select-option>
       <ion-select-option value="presentees">Presentees</ion-select-option>
       <ion-select-option value="absentees">Absentees</ion-select-option>
       <ion-select-option value="lateComers">Late Comers</ion-select-option>
       <ion-select-option value="earlyLeavers">Early Leavers</ion-select-option>
     </ion-select>
   </ion-item>
+  <ion-item>
+    <ion-label>Chart</ion-label>
+    <ion-select [(ngModel)]="chartType" (ionChange)="createChart()" value="bar" placeholder="Select Chart">
+      <ion-select-option value="bar">Bar</ion-select-option>
+      <ion-select-option value="line">Line</ion-select-option>
+      <ion-select-option value="area">Area</ion-select-option>
+      <!-- <ion-select-option *ngIf="label === 'all'" value="group-line">Grouped Line</ion-select-option>
+      <ion-select-option *ngIf="label === 'all'" value="group-area">Grouped Area</ion-select-option> -->
+    </ion-select>
+  </ion-item>
   <div (click)="canvasClicked()" class="bar-chart">
     <canvas #barChart>
     </canvas>
   </div>
-  <ion-list *ngIf="stats$ | async as stats">
+  <ion-list *ngIf="label !== 'all' && stats$ | async as stats">
     <h2 class="ion-margin">{{ label | titlecase }}</h2>
     <ion-item *ngFor="let statItem of stats; let i=index">
       <ion-label>

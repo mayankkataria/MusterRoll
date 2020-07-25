@@ -31,6 +31,7 @@ export class MultipleStatsPage implements OnInit {
   dateRange: Date[];
   dateStringLabels: string[] = [];
   singleDate = false;
+  chartType = 'bar';
 
   constructor(
     private statService: StatService,
@@ -105,12 +106,40 @@ export class MultipleStatsPage implements OnInit {
     this.toDateObj = new Date(this.toDate);
   }
 
-  async createBarChart() {
+  createChart() {
+    switch (this.chartType) {
+      case 'bar':
+        this.createBarChart();
+        break;
+
+      case 'line':
+        this.createLineChart();
+        break;
+
+      // case 'group-line':
+      //   this.createGroupLineChart();
+      //   break;
+
+      case 'area':
+        this.createAreaChart();
+        break;
+
+      // case 'group-area':
+      //   this.createGroupAreaChart();
+      //   break;
+
+      default:
+        this.createBarChart();
+        break;
+    }
+  }
+
+  createBarChart() {
     console.log('create bar chart');
     console.log('date string labels: ', this.dateStringLabels);
     console.log('date set: ', this.dataSet);
     this.bars = new Chart(this.barChart.nativeElement, {
-      type: 'bar',
+      type: this.chartType,
       data: {
         labels: this.dateStringLabels,
         datasets: [this.dataSet]
@@ -126,6 +155,26 @@ export class MultipleStatsPage implements OnInit {
         }
       }
     });
+  }
+
+  createLineChart() {
+    this.chartType = 'line';
+    this.getStatsRange();
+    console.log('create line chart');
+  }
+
+  createGroupLineChart() {
+    console.log('create group line chart');
+  }
+
+  createAreaChart() {
+    this.chartType = 'line';
+    this.getStatsRange();
+    console.log('create area chart');
+  }
+
+  createGroupAreaChart() {
+    console.log('create group area chart');
   }
 
   canvasClicked() {
