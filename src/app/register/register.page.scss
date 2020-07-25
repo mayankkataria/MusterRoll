@@ -1,0 +1,22 @@
+.flex-container
+{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    max-height:100%;
+}
+.head
+{
+    h1
+    {
+        font-weight: bold;
+        color: #3dc2ff;
+        height: 75px;
+        font-size: 35px;
+    }
+}
+.sign
+{
+    text-align: center;
+    padding: 20px 0;
+}
