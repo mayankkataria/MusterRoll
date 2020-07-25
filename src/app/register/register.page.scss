@@ -1,0 +1,39 @@
+.form{
+    height: 100%;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    height: 85%;
+    width: 40%;
+    border-radius: 15px;
+    overflow-y: auto;
+}
+.div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.registration{
+    font-size:30px;
+    font-weight: bold;
+    color: rgb(94, 120, 143);
+    letter-spacing: 1px;
+    padding: 40px;
+}
+.labels{
+    color: rgb(112, 113, 114);
+    font-size: 13px;
+}
+.routing-button{
+    flex-direction: row;
+    display: flex;
+    height: 17px;
+}
+.button{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
