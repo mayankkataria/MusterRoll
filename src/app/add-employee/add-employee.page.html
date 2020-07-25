@@ -6,54 +6,56 @@
 </ion-header>
 
 <ion-content>
+  <!-- <div class="container"> -->
+  <h1 style="text-align:center">Employee Registration Form</h1>
   <form [formGroup]="employeeForm">
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="id" type="text" placeholder="Employee Id"></ion-input>
+          <ion-input formControlName="id" type="text" placeholder="Employee Id" clearInput></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="firstname" type="text" placeholder="First Name"></ion-input>
+          <ion-input formControlName="firstname" type="text" placeholder="First Name"  clearInput></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="lastname" type="text" placeholder="Last Name"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="password" type="text" placeholder="Password"></ion-input>
+          <ion-input formControlName="lastname" type="text" placeholder="Last Name" clearInput></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="department" type="text" placeholder="Department"></ion-input>
+          <ion-input formControlName="email" type="email" placeholder="Email" clearInput></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="designation" type="text" placeholder="Designation"></ion-input>
+          <ion-input formControlName="password" type="text" placeholder="Password" clearInput></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="salary" type="number" placeholder="Salary"></ion-input>
+          <ion-input formControlName="department" type="text" placeholder="Department" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input formControlName="designation" type="text" placeholder="Designation" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input formControlName="salary" type="number" placeholder="Salary" clearInput></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="6">
@@ -125,4 +127,5 @@
       </ion-col>
     </ion-row>
   </form>
+  <!-- </div> -->
 </ion-content>
