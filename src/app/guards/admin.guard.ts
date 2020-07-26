@@ -18,7 +18,7 @@ export class AdminGuard implements CanActivate {
     return this.userService.getURole$()
       .pipe(map(role => {
         if (role === 'admin') {
-          console.log('admin role')
+          console.log('admin role');
           return true;
         } else {
           return this.router.createUrlTree(['error']);

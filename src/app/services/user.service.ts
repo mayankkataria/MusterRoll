@@ -36,9 +36,10 @@ export class UserService {
   getUser$() {
     console.log('get User$');
     return this.getUid$()
-      .pipe(switchMap(uid =>
-        this.afs.doc<any>('members/' + uid).valueChanges()
-      ));
+      .pipe(switchMap(uid => {
+        console.log('uid: ', uid);
+        return this.afs.doc<any>('members/' + uid).valueChanges();
+      }));
   }
 
   getUid$() {
@@ -93,6 +94,19 @@ export class UserService {
   getURole$() {
     console.log('get urole$');
     return this.getUser$()
-      .pipe(map(userData => userData.role));
+      .pipe(
+        map(userData$ => userData$.role)
+        // map(userData => {
+        //   console.log('user data: ', userData);
+        //   return userData.role;
+        // })
+        );
+
+      // .pipe(switchMap(userData$ => {
+      //   console.log('user data: ', userData$);
+      //   if (userData$) {
+      //     return userData$.role;
+      //   }
+      // }));
   }
 }

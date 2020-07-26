@@ -27,9 +27,6 @@ export class SignInPage implements OnInit, OnDestroy {
         }
       });
   }
-  change() {
-    console.log('email: ', this.email);
-  }
 
   ngOnDestroy() {
     console.log('sign in ngOnDestroy');

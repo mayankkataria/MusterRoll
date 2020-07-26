@@ -81,8 +81,9 @@ ion-toolbar {
 .card-body {
   background-color: #ffffff;
   padding: 30px;
-  height: calc(100vh - (200px + 56px));
+  // height: calc(100vh - (200px + 56px));
   overflow: hidden;
+  color: black;
 
   .user-meta {
       padding-top: 40px;
@@ -96,7 +97,7 @@ ion-toolbar {
       .country {
           font-size: 90%;
           color: #949ea6;
-          text-transform: uppercase;
+          // text-transform: uppercase;
           margin: 0 auto;
       }
   }

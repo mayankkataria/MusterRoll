@@ -23,10 +23,14 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanLoad {
         if (role === 'admin') {
           if (path === 'home') {
             return this.router.createUrlTree(['/tabs/admin-home']);
+          } else if (path === 'admin-home') {
+            return true;
           }
         } else {
           if (path === 'home') {
             return this.router.createUrlTree(['/tabs/employee-home']);
+          } else if (path === 'employee-home') {
+            return true;
           }
         }
       }

@@ -62,6 +62,7 @@ export class ProfilePage implements OnInit {
    }
 
   ngOnInit() {
+    console.log('profile ng oninit');
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(userData => {
       if (userData && userData.role === 'employee') {

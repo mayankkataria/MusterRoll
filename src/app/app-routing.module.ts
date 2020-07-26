@@ -17,37 +17,38 @@ const routes: Routes = [
   {
     path: 'geofence',
     loadChildren: () => import('./geofence/geofence.module').then(m => m.GeofencePageModule),
-    canActivate: [AdminGuard]
+    canActivate: [AuthGuard]
+    // canActivate: [AdminGuard]
   },
   {
     path: 'add-face',
     loadChildren: () => import('./add-face/add-face.module').then(m => m.AddFacePageModule),
-    canActivate: [EmployeeGuard]
+    // canActivate: [EmployeeGuard]
   },
   {
     path: 'add-fingerprint',
     loadChildren: () => import('./add-fingerprint/add-fingerprint.module').then(m => m.AddFingerprintPageModule),
-    canActivate: [EmployeeGuard]
+    // canActivate: [EmployeeGuard]
   },
   {
     path: 'leave',
     loadChildren: () => import('./leave/leave.module').then(m => m.LeavePageModule),
-    canActivate: [EmployeeGuard]
+    // canActivate: [EmployeeGuard]
   },
   {
     path: 'verify-face',
     loadChildren: () => import('./verify-face/verify-face.module').then(m => m.VerifyFacePageModule),
-    canActivate: [EmployeeGuard]
+    // canActivate: [EmployeeGuard]
   },
   {
     path: 'verify-fingerprint',
     loadChildren: () => import('./verify-fingerprint/verify-fingerprint.module').then(m => m.VerifyFingerprintPageModule),
-    canActivate: [EmployeeGuard]
+    // canActivate: [EmployeeGuard]
   },
   {
     path: 'take-attendance',
     loadChildren: () => import('./take-attendance/take-attendance.module').then(m => m.TakeAttendancePageModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'sign-in',

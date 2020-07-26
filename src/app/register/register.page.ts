@@ -39,20 +39,30 @@ export class RegisterPage implements OnInit {
     return text.toLowerCase();
   }
 
-  register() {
+  async register() {
     const adminDetails = this.adminForm.value;
     adminDetails.firstname = this.lowerCase(adminDetails.firstname);
     adminDetails.lastname = this.lowerCase(adminDetails.lastname);
     adminDetails.email = this.lowerCase(adminDetails.email);
     adminDetails.department = this.lowerCase(adminDetails.department);
     adminDetails.designation = this.lowerCase(adminDetails.designation);
-    this.authService.createAdminAccount(adminDetails.email, adminDetails.password)
-      .then((data) => {
-        this.router.navigate(['tabs']);
-        adminDetails.uid = data.user.uid;
-        this.memberService.addMember(adminDetails);
-      })
-      .catch(error => console.log('create member account error: ', error));
+    try {
+      const accData = await this.authService.createAdminAccount(adminDetails.email, adminDetails.password);
+      adminDetails.uid = accData.user.uid;
+      await this.memberService.addMember(adminDetails);
+      await this.authService.signIn(adminDetails.email, adminDetails.password);
+      this.router.navigate(['tabs']);
+      console.log('account created');
+    } catch (err) {
+      console.log('create admin acc err: ', err);
+    }
+
+      // .then((data) => {
+      //   this.router.navigate(['tabs']);
+      //   adminDetails.uid = data.user.uid;
+      //   this.memberService.addMember(adminDetails);
+      // })
+      // .catch(error => console.log('create member account error: ', error));
   }
 
 }

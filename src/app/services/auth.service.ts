@@ -31,6 +31,7 @@ export class AuthService {
   }
 
   async createAdminAccount(email: string, password: string) {
+    console.log('create admin account');
     return await this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 
