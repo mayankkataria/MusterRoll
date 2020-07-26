@@ -6,126 +6,237 @@
 </ion-header>
 
 <ion-content>
-  <!-- <div class="container"> -->
-  <h1 style="text-align:center">Employee Registration Form</h1>
   <form [formGroup]="employeeForm">
-    <ion-row>
-      <ion-col size="6">
+    <div class="info">
+      <ion-label>General Information</ion-label>
+    </div>
+    <ion-card class="card">
         <ion-item>
-          <ion-input formControlName="id" type="text" placeholder="Employee Id" clearInput></ion-input>
+          <ion-label position="floating">Employee Id<span class="required">*</span></ion-label>
+          <ion-input formControlName="id" type="text" clearInput></ion-input>
         </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
+        <ion-row>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="floating">First Name<span class="required">*</span></ion-label>
+              <ion-input formControlName="firstname" type="text"  clearInput></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="floating">Last Name<span class="required">*</span></ion-label>
+              <ion-input formControlName="lastname" type="text"  clearInput></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
         <ion-item>
-          <ion-input formControlName="firstname" type="text" placeholder="First Name"  clearInput></ion-input>
+          <ion-label position="floating">Email<span class="required">*</span></ion-label>
+          <ion-input formControlName="email" type="email" clearInput></ion-input>
         </ion-item>
-      </ion-col>
-      <ion-col size="6">
         <ion-item>
-          <ion-input formControlName="lastname" type="text" placeholder="Last Name" clearInput></ion-input>
+          <ion-label position="floating">Password<span class="required">*</span></ion-label>
+          <ion-input formControlName="password" type="text" clearInput></ion-input>
         </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="email" type="email" placeholder="Email" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="password" type="text" placeholder="Password" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="department" type="text" placeholder="Department" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="designation" type="text" placeholder="Designation" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input formControlName="salary" type="number" placeholder="Salary" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-select formControlName="perUnitTime" interface="popover" placeholder="per unit time">
-          <ion-select-option value="hr">per hour</ion-select-option>
-          <ion-select-option value="min">per minute</ion-select-option>
-          <ion-select-option value="sec">per second</ion-select-option>
-        </ion-select>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="4">
-        <ion-item>
-          <ion-label>Shift Timings:</ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col size="4">
-        <ion-item>
-          <ion-datetime [pickerOptions]="shiftStartPicker" [(ngModel)]="shiftStart" formControlName="shiftStart" placeholder="From" displayFormat="hh:mm A"></ion-datetime>
-        </ion-item>
-      </ion-col>
-      <ion-col size="4">
-        <ion-item>
-          <ion-datetime [pickerOptions]="shiftEndPicker" [(ngModel)]="shiftEnd" formControlName="shiftEnd" placeholder="To" displayFormat="hh:mm A"></ion-datetime>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label>Shift:</ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
+    </ion-card>
+    <div class="info">
+      <ion-label>Position Information</ion-label>
+    </div>
+    <ion-card class="card">
+      <ion-item>
+        <ion-label position="floating">Department<span class="required">*</span></ion-label>
+        <ion-input formControlName="department" type="text" clearInput></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Designation<span class="required">*</span></ion-label>
+        <ion-input formControlName="designation" type="text"  clearInput></ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col size="4">
           <ion-item>
-            <ion-select formControlName="shift" class="shift-popover" interface="popover" placeholder="Select Shift">
-              <ion-select-option value="first">First</ion-select-option>
-              <ion-select-option value="second">Second</ion-select-option>
-              <ion-select-option value="third">Third</ion-select-option>
-              <ion-select-option value="morning">Morning</ion-select-option>
-              <ion-select-option value="afternoon">Afternoon</ion-select-option>
-              <ion-select-option value="evening">Evening</ion-select-option>
-              <ion-select-option value="night">Night</ion-select-option>
-              <ion-select-option value="midnight">Midnight</ion-select-option>
-              <ion-select-option value="graveyard">Graveyard</ion-select-option>
-              <ion-select-option value="split">Split</ion-select-option>
-              <ion-select-option value="swing">Swing</ion-select-option>
-              <ion-select-option value="rotating">Rotating</ion-select-option>
-            </ion-select>
+            <ion-label position="floating">Salary</ion-label>
+            <ion-input formControlName="salary" type="number" clearInput></ion-input>
           </ion-item>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="6">
+        </ion-col>
+        <ion-col size="8">
+          <ion-item>
+          <ion-select formControlName="perUnitTime" interface="popover" placeholder="per unit time">
+            <ion-select-option value="hr">per hour</ion-select-option>
+            <ion-select-option value="min">per minute</ion-select-option>
+            <ion-select-option value="sec">per second</ion-select-option>
+          </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <div class="div">
+        <ion-label>Shift Timings:</ion-label>
+      </div>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-datetime [pickerOptions]="shiftStartPicker" [(ngModel)]="shiftStart" formControlName="shiftStart" placeholder="From" displayFormat="hh:mm A"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-datetime [pickerOptions]="shiftEndPicker" [(ngModel)]="shiftEnd" formControlName="shiftEnd" placeholder="To" displayFormat="hh:mm A"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label>Shift:</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-item>
+              <ion-select formControlName="shift" class="shift-popover" interface="popover" placeholder="Select Shift">
+                <ion-select-option value="first">First</ion-select-option>
+                <ion-select-option value="second">Second</ion-select-option>
+                <ion-select-option value="third">Third</ion-select-option>
+                <ion-select-option value="morning">Morning</ion-select-option>
+                <ion-select-option value="afternoon">Afternoon</ion-select-option>
+                <ion-select-option value="evening">Evening</ion-select-option>
+                <ion-select-option value="night">Night</ion-select-option>
+                <ion-select-option value="midnight">Midnight</ion-select-option>
+                <ion-select-option value="graveyard">Graveyard</ion-select-option>
+                <ion-select-option value="split">Split</ion-select-option>
+                <ion-select-option value="swing">Swing</ion-select-option>
+                <ion-select-option value="rotating">Rotating</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    <div class="btn-group">
         <ion-button (click)="cancelBtn()" color="warning" shape="round">
           Cancel
         </ion-button>
-      </ion-col>
-      <ion-col size="6">
-        <ion-button (click)="addEmployee()" type="submit" [disabled]="!employeeForm.valid" shape="round"
-          class="ion-float-right">
+        <ion-button (click)="addEmployee()" type="submit" [disabled]="!employeeForm.valid" shape="round">
           Add
         </ion-button>
-      </ion-col>
-    </ion-row>
+      </div>
   </form>
-  <!-- </div> -->
 </ion-content>
+
+
+<!-- 
+<ion-row>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="id" type="text" placeholder="Employee Id" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="firstname" type="text" placeholder="First Name"  clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="lastname" type="text" placeholder="Last Name" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="email" type="email" placeholder="Email" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="password" type="text" placeholder="Password" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="department" type="text" placeholder="Department" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="designation" type="text" placeholder="Designation" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="6">
+    <ion-item>
+      <ion-input formControlName="salary" type="number" placeholder="Salary" clearInput></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-select formControlName="perUnitTime" interface="popover" placeholder="per unit time">
+      <ion-select-option value="hr">per hour</ion-select-option>
+      <ion-select-option value="min">per minute</ion-select-option>
+      <ion-select-option value="sec">per second</ion-select-option>
+    </ion-select>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col size="4">
+    <ion-item>
+      <ion-label>Shift Timings:</ion-label>
+    </ion-item>
+  </ion-col>
+  <ion-col size="4">
+    <ion-item>
+      <ion-datetime [pickerOptions]="shiftStartPicker" [(ngModel)]="shiftStart" formControlName="shiftStart" placeholder="From" displayFormat="hh:mm A"></ion-datetime>
+    </ion-item>
+  </ion-col>
+  <ion-col size="4">
+    <ion-item>
+      <ion-datetime [pickerOptions]="shiftEndPicker" [(ngModel)]="shiftEnd" formControlName="shiftEnd" placeholder="To" displayFormat="hh:mm A"></ion-datetime>
+    </ion-item>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col size="6">
+    <ion-item>
+      <ion-label>Shift:</ion-label>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-item>
+      <ion-item>
+        <ion-select formControlName="shift" class="shift-popover" interface="popover" placeholder="Select Shift">
+          <ion-select-option value="first">First</ion-select-option>
+          <ion-select-option value="second">Second</ion-select-option>
+          <ion-select-option value="third">Third</ion-select-option>
+          <ion-select-option value="morning">Morning</ion-select-option>
+          <ion-select-option value="afternoon">Afternoon</ion-select-option>
+          <ion-select-option value="evening">Evening</ion-select-option>
+          <ion-select-option value="night">Night</ion-select-option>
+          <ion-select-option value="midnight">Midnight</ion-select-option>
+          <ion-select-option value="graveyard">Graveyard</ion-select-option>
+          <ion-select-option value="split">Split</ion-select-option>
+          <ion-select-option value="swing">Swing</ion-select-option>
+          <ion-select-option value="rotating">Rotating</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-item>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col size="6">
+    <ion-button (click)="cancelBtn()" color="warning" shape="round">
+      Cancel
+    </ion-button>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button (click)="addEmployee()" type="submit" [disabled]="!employeeForm.valid" shape="round"
+      class="ion-float-right">
+      Add
+    </ion-button>
+  </ion-col>
+</ion-row> -->

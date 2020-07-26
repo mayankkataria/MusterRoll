@@ -1,3 +1,44 @@
-.shift-popover {
+.shift-popover 
+{
     width: 320px;
 }
+.required
+{
+    color:red;
+}
+.info
+{
+    font-size:20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+    padding-top: 10px;
+    color: rgb(24, 80, 129);
+}
+.card
+{
+    height: 50%;
+    width: 90%;
+    border-radius: 15px;
+    overflow-y: auto;
+}
+.div
+{
+    // font-weight: bold;
+    letter-spacing: 1px;
+    padding-left: 12px;
+    color:black;
+}
+.ion-align-items-end
+{
+    align-items: flex-end;
+}
+.btn-group
+{
+    float:right;
+}
+.ion-select {
+    width: 100%;
+  
+    justify-content: center;
+  }
