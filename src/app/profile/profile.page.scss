@@ -24,8 +24,11 @@
 
 .camera-fab {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  // bottom: 0;
+  // right: 0;
+  top:125%;
+  left:75%;
+  border-radius: 50%;
   float: right;
   z-index: 1;
 }
@@ -60,8 +63,8 @@ ion-toolbar {
       height: 200px;
 
       .avatar {
-          width: 160px;
-          height: 160px;
+          width: 150px;
+          height: 150px;
           position: relative;
           margin: 0 auto;
 
