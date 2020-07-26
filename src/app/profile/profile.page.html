@@ -39,27 +39,27 @@
             <h3 class="playername">{{ user.firstname | titlecase }} {{ user.lastname | titlecase }}</h3>
             <h5 class="country">{{ user.email }}</h5>
             
-            <h6 class="ranking">
+            <h6>
               <ion-icon name="keypad-outline"></ion-icon>
               <ion-text> ID: </ion-text>
               <ion-text> <b>{{ user.id }}</b></ion-text>
             </h6>
-            <h6 class="ranking">
+            <h6>
               <ion-icon name="people-outline"></ion-icon>
               <ion-text> Role: </ion-text>
               <ion-text> <b>{{ user.role | titlecase }}</b></ion-text>
             </h6>
-            <h6 class="ranking">
+            <h6>
               <ion-icon name="briefcase-outline"></ion-icon>
               <ion-text> Designation: </ion-text>
               <ion-text> <b>{{ user.designation | titlecase }} </b></ion-text>
             </h6>
-            <h6 class="ranking">
+            <h6>
               <ion-icon name="business-outline"></ion-icon>
               <ion-text> Department: </ion-text>
               <ion-text> <b>{{ user.department | uppercase }} </b></ion-text>
             </h6>
-            <h6 class="=ranking" *ngIf="user.role === 'employee'">
+            <h6 *ngIf="user.role === 'employee'">
               <ion-icon name="moon-outline"></ion-icon>
               <ion-text> Shift: </ion-text>
               <ion-text> <b>{{ user.shift | titlecase }} </b></ion-text>
