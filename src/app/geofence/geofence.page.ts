@@ -2,8 +2,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Plugins } from '@capacitor/core';
+import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable, from } from 'rxjs';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 const { Geolocation } = Plugins;
 
@@ -17,14 +17,13 @@ import { map, first } from 'rxjs/operators';
 export class GeofencePage implements OnInit {
   locations: Observable<any>;
   checkLocation: Observable<any>;
-  locationsCollection: AngularFirestoreCollection<any>;
   geofenceCollection: AngularFirestoreCollection<any>;
   user = null;
 
   @ViewChild('map', {static: false}) mapElement: ElementRef;
   map: any;
   markers = [];
-
+  marker: any;
   listenerHandle: any;
   path = [];
   latLngArray = [];
@@ -37,8 +36,10 @@ export class GeofencePage implements OnInit {
   isVisible = false;
   optionsVisible = false;
   watch = null;
-  isModified = false;
   fenceId: string;
+  fullImagePath: string;
+  polyLine: any;
+  // isModified = false;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.anonLogin();
@@ -52,87 +53,102 @@ export class GeofencePage implements OnInit {
     this.loadMap();
   }
 
-  loadMap() {
-    const latLng = new google.maps.LatLng(24.622102, 73.708055);
-
-    const mapOptions = {
-      center: latLng,
-      zoom: 18,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-  }
-
   anonLogin() {
     this.afAuth.signInAnonymously().then(ref => {
       this.user = ref.user;
-      // console.log('user: ', this.user);
-
-      this.locationsCollection = this.afs.collection(
-        'locations/${this.user.uid}/track',
-        // tslint:disable-next-line: no-shadowed-variable
-        ref => ref.orderBy('timestamp')
-      );
-
-      // load firebase data
-      this.locations = this.locationsCollection.snapshotChanges().pipe(
-        map(actions =>
-          actions.map(a => {
-            const data = a.payload.doc.data();
-            const id = a.payload.doc.id;
-            return { id, ...data };
-          })
-        )
-      );
-      // update map
-      this.locations.subscribe(locations => {
-        // console.log('new locations: ', locations);
-        // this.updateMap(locations);
-      });
+      console.log('User: ', this.user);
     });
   }
 
-  updateMap(locations) {
-    this.markers.map(marker => marker.setMap(null));
-    this.markers = [];
+  loadMap() {
+    Geolocation.getCurrentPosition().then((resp) => {
+      const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
 
-    for (const loc of locations) {
-      const latLng = new google.maps.LatLng(loc.lat, loc.lng);
+      const mapOptions = {
+        center: latLng,
+        zoom: 20,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-      const marker = new google.maps.Marker({
+      this.fullImagePath = '/assets/icon/man.png';
+      this.marker = new google.maps.Marker({
         position: latLng,
         animation: google.maps.Animation.DROP,
-        map: this.map
+        map: this.map,
+        icon: this.fullImagePath
       });
-      this.markers.push(marker);
-    }
-  }
 
-  addNewLocation(lat, lng, timestamp) {
-    this.locationsCollection.add({
-      lat,
-      lng,
-      timestamp
+      const infowindow = new google.maps.InfoWindow({
+        content: 'Hi, there!'
+      });
+      this.marker.addListener('mouseover', () => {
+        infowindow.open(this.map, this.marker);
+      });
+      this.marker.addListener('mouseout', () => {
+        infowindow.close();
+      });
+
+      this.showFences();
+      this.sleep(3000).then(() => {this.startTracking(); });
     });
-
-    const position = new google.maps.LatLng(lat, lng);
-    this.map.setCenter(position);
-    this.map.setZoom(15);
   }
 
   startTracking() {
     this.isTracking = true;
     this.watch = Geolocation.watchPosition({}, (position, err) => {
-      console.log('new position: ', position);
+      console.log('New Position: ', position);
       if (position) {
         this.inOrOut(position.coords.latitude, position.coords.longitude);
-        this.addNewLocation(
-          position.coords.latitude,
-          position.coords.longitude,
-          position.timestamp
-        );
+        this.currentLocationUpdate(position.coords);
       }
+    });
+  }
+
+  inOrOut(lat, lng) {
+    this.afs.collection<any>('geofences', ref => ref.where('department', '==', 'IT'))
+    .valueChanges()
+    .pipe(first())
+    .subscribe(data => {
+      const path = [];
+      data.forEach(fenceData => {
+        fenceData.obj.forEach(coord => {
+          path.push(new google.maps.LatLng(coord));
+        });
+      });
+      const fence = new google.maps.Polygon({
+        paths: path
+      });
+      const result = google.maps.geometry.poly.containsLocation(new google.maps.LatLng(lat, lng), fence);
+      if (result) {
+        console.log('Inside Geofence');
+        // alert('Inside Geofence');
+      } else {
+        console.log('Outside Geofence');
+        // alert('Outside Geofence');
+      }
+    });
+  }
+
+  currentLocationUpdate(coords) {
+    const latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
+    this.map.setCenter(latLng);
+
+    this.marker.setMap(null);
+    this.marker = new google.maps.Marker({
+      position: latLng,
+      map: this.map,
+      icon: this.fullImagePath
+    });
+
+    const infowindow = new google.maps.InfoWindow({
+      content: 'Chinmay Jain'
+    });
+    this.marker.addListener('mouseover', () => {
+      infowindow.open(this.map, this.marker);
+    });
+    this.marker.addListener('mouseout', () => {
+      infowindow.close();
     });
   }
 
@@ -142,8 +158,114 @@ export class GeofencePage implements OnInit {
     });
   }
 
-  deleteLocation(pos) {
-    this.locationsCollection.doc(pos.id).delete();
+  createGeofence() {
+    this.isCreating = true;
+    this.listenerHandle = this.map.addListener('click', mapsMouseEvent => {
+      const coord = mapsMouseEvent.latLng;
+      this.placeMarker(coord);
+    });
+  }
+
+  placeMarker(latLng) {
+    this.path = this.path.concat(latLng);
+    const marker = new google.maps.Marker({
+      position: latLng,
+      animation: google.maps.Animation.BOUNCE,
+      map: this.map
+    });
+    this.markers.push(marker);
+  }
+
+  placeGeofence() {
+    google.maps.event.removeListener(this.listenerHandle);
+    this.isEditing = true;
+    this.createFenceOnMap();
+    this.markers.forEach(marker => {
+      marker.setMap(null);
+    });
+    this.markers = [];
+  }
+
+  createFenceOnMap() {
+    this.fence = new google.maps.Polygon({
+      paths: this.path,
+      strokeColor: '#0000FF',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#0000FF',
+      fillOpacity: 0.4,
+      editable: true
+    });
+    this.path = [];
+    this.fence.setMap(this.map);
+    this.fence.addListener('mouseover', event => {
+      const bounds = new google.maps.LatLngBounds();
+      this.afs.collection<any>('geofences', ref => ref.where('department', '==', 'IT'))
+      .valueChanges()
+      .pipe(first())
+      .subscribe(data => {
+        const path = [];
+        data.forEach(fenceData => {
+          fenceData.obj.forEach(coord => {
+            path.push(new google.maps.LatLng(coord));
+          });
+        });
+        let i;
+        for (i = 0; i < path.length; i++) {
+          bounds.extend(path[i]);
+        }
+        const center = bounds.getCenter();
+
+        this.infoWindow = new google.maps.InfoWindow();
+        const contentString = 'IT Department';
+        this.infoWindow.setContent(contentString);
+        this.infoWindow.setPosition(center);
+        this.infoWindow.open(this.map);
+      });
+    });
+    this.fence.addListener('mouseout', event => {
+      this.infoWindow.close();
+    });
+    this.fence.addListener('click', event => {
+      this.optionsVisible = true;
+      this.afs.collection<any>('geofences')
+      .valueChanges()
+      .pipe(first())
+      .subscribe(data => {
+        for (const fenceData of data) {
+          const path = [];
+          fenceData.obj.forEach(coord => {
+            path.push(new google.maps.LatLng(coord));
+          });
+          const fence = new google.maps.Polygon({
+            paths: path
+          });
+          const ltlg = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+          const result = google.maps.geometry.poly.containsLocation(ltlg, fence);
+          if (result) {
+            this.fenceId = fenceData.id;
+            console.log(result, 'Fence ID: ', this.fenceId);
+            break;
+          }
+        }
+      });
+    });
+    this.allFences.push(this.fence);
+  }
+
+  saveGeofence() {
+    this.fence.setEditable(false);
+    this.isCreating = false;
+    this.isEditing = false;
+    this.optionsVisible = false;
+
+    this.fence.getPath().getArray().forEach(coord => {
+      const lat = coord.lat();
+      const lng = coord.lng();
+      this.latLngArray.push({lat, lng});
+    });
+    this.addNewCoords(this.latLngArray);
+    this.latLngArray = [];
   }
 
   addNewCoords(obj) {
@@ -151,9 +273,21 @@ export class GeofencePage implements OnInit {
     this.geofenceCollection.doc(this.fenceId).set({obj, department: 'IT', id: this.fenceId});
   }
 
+  deleteGeofence() {
+    this.geofenceCollection.doc<any>(this.fenceId).delete();
+    this.optionsVisible = false;
+    this.isCreating = false;
+    this.isEditing = false;
+    this.hideFences();
+    this.sleep(1000).then(() => {this.showFences(); });
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   showFences() {
     this.isVisible = true;
-    // console.log(this.afs.collection('geofences').get());
     this.afs.collection<any>('geofences', ref => ref.where('department', '==', 'IT'))
     .valueChanges()
     .pipe(first())
@@ -162,8 +296,7 @@ export class GeofencePage implements OnInit {
         fenceData.obj.forEach(coord => {
           this.path.push(new google.maps.LatLng(coord));
         });
-        console.log('Inside showFences', this.path);
-        this.createFence();
+        this.createFenceOnMap();
         this.fence.setEditable(false);
       });
     });
@@ -177,197 +310,12 @@ export class GeofencePage implements OnInit {
     this.allFences = [];
   }
 
-  editGeofence() {
-    this.isCreating = true;
-    this.listenerHandle = this.map.addListener('click', mapsMouseEvent => {
-      const coord = mapsMouseEvent.latLng;
-      this.placeMarker(coord);
-    });
-  }
-
-  createFenceObj() {
-    this.fence = new google.maps.Polygon({
-      paths: this.path,
-      strokeColor: '#0000FF',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#0000FF',
-      fillOpacity: 0.4,
-      editable: true
-    });
-  }
-
-  createFence() {
-    this.createFenceObj();
-    this.path = [];
-    this.fence.setMap(this.map);
-    this.fence.addListener('mouseover', this.showInfo);
-    this.fence.addListener('mouseout', this.hideInfo);
-    this.fence.addListener('click', event => {
-      console.log(event);
-      this.optionsVisible = true;
-      this.afs.collection<any>('geofences')
-      .valueChanges()
-      .pipe(first())
-      .subscribe(data => {
-        console.log(data);
-        for (const fenceData of data) {
-          const path = [];
-          fenceData.obj.forEach(coord => {
-            path.push(new google.maps.LatLng(coord));
-          });
-          const fence = new google.maps.Polygon({
-            paths: path,
-            strokeColor: '#0000FF',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#0000FF',
-            fillOpacity: 0.4,
-            editable: true
-          });
-          const ltlg = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
-          const result = google.maps.geometry.poly.containsLocation(ltlg, fence);
-          console.log(result);
-          if (result) {
-            // this.fence = fence;
-            this.fenceId = fenceData.id;
-            console.log(this.fenceId);
-            break;
-          }
-        }
-      });
-    });
-    this.allFences.push(this.fence);
-    // console.log('All Fences', this.allFences);
-  }
-
-  hideInfo() {
-    this.infoWindow.close();
-  }
-
-  showInfo() {
-    this.infoWindow = new google.maps.InfoWindow();
-    const contentString = 'IT Department';
-    const bounds = new google.maps.LatLngBounds();
-    let i;
-
-    // Bring coords from db here
-    // The Bermuda Triangle
-    const polygonCoords = [
-      new google.maps.LatLng(24.62232045897288, 73.70660660713197),
-      new google.maps.LatLng(24.623144610489263, 73.70775995700838),
-      new google.maps.LatLng(24.62255453806249, 73.70899377315523),
-      new google.maps.LatLng(24.621666985861314, 73.70841978042604),
-      new google.maps.LatLng(24.6217255059807, 73.70738444774629)
-    ];
-
-    for (i = 0; i < polygonCoords.length; i++) {
-      bounds.extend(polygonCoords[i]);
-    }
-
-    // The Center of the Bermuda Triangle - (25.3939245, -72.473816)
-    const center = bounds.getCenter();
-    // console.log(bounds.getCenter());
-
-    // Set the info window's content and position.
-    this.infoWindow.setContent(contentString);
-    this.infoWindow.setPosition(center);
-
-    this.infoWindow.open(this.map);
-  }
-
-  modifyFence() {
-    console.log(this.fence);
-    this.allFences[0].setEditable(true);
-    this.isCreating = true;
-    this.isEditing = true;
-    this.isModified = true;
-  }
-
-  deleteFence() {
-    console.log('delete fence');
-    // console.log(this.fenceId);
-    this.geofenceCollection.doc<any>(this.fenceId).delete();
-    this.optionsVisible = false;
-    this.path = [];
-    this.hideFences();
-    this.sleep(1000).then(() => {this.showFences(); });
-    this.isCreating = false;
-    this.isEditing = false;
-  }
-
-  placeGeofence() {
-    google.maps.event.removeListener(this.listenerHandle);
-    this.isEditing = true;
-    // console.log('Inside placeGeofence', this.path);
-    this.createFence();
-    this.markers.forEach(marker => {
-      marker.setMap(null);
-    });
-    this.markers = [];
-  }
-
-  saveGeofence() {
-    // if (this.isModified) {
-    //   this.deleteFence();
-    //   this.isModified = false;
-    // }
-    this.fence.setEditable(false);
-    this.isCreating = false;
-    this.isEditing = false;
-    this.optionsVisible = false;
-    this.getFenceCoords();
-    // console.log(this.latLngArray);
-    this.addNewCoords(this.latLngArray);
-    this.latLngArray = [];
-  }
-
-  getFenceCoords() {
-    this.fence.getPath().getArray().forEach(coord => {
-      const lat = coord.lat();
-      const lng = coord.lng();
-      this.latLngArray.push({lat, lng});
-    });
-  }
-
-  placeMarker(latLng) {
-    this.path = this.path.concat(latLng);
-    // console.log(this.path);
-    const marker = new google.maps.Marker({
-      position: latLng,
-      animation: google.maps.Animation.BOUNCE,
-      map: this.map
-    });
-    this.markers.push(marker);
-  }
-
-  inOrOut(lat, lng) {
-    // Get respective fence for a user from db
-    const path = [
-      { lat: 24.62232045897288, lng: 73.70660660713197},
-      { lat: 24.623144610489263, lng: 73.70775995700838},
-      { lat: 24.62255453806249, lng: 73.70899377315523},
-      { lat: 24.621666985861314, lng: 73.70841978042604},
-      { lat: 24.6217255059807, lng: 73.70738444774629}
-    ];
-    const fence = new google.maps.Polygon({
-      paths: path,
-      strokeColor: '#0000FF',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#0000FF',
-      fillOpacity: 0.4
-    });
-    // fence.setMap(this.map);
-    const result = google.maps.geometry.poly.containsLocation(new google.maps.LatLng(lat, lng), fence);
-    if (result) {
-      console.log('Inside Geofence');
-    } else {
-      console.log('Outside Geofence');
-    }
-  }
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  // // Future Feature
+  // modifyFence() {
+  //   console.log(this.fence);
+  //   this.allFences[0].setEditable(true);
+  //   this.isCreating = true;
+  //   this.isEditing = true;
+  //   this.isModified = true;
+  // }
 }
