@@ -7,51 +7,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- <ion-grid fixed>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input [(ngModel)]="present" type="number" (ionChange)="modifyChart()" placeholder="Present(P)"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input [(ngModel)]="absent" type="number" placeholder="Absent(A)"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input [(ngModel)]="earlyLeavers" type="number" placeholder="Early leavers(EL)"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input [(ngModel)]="lateComers" type="number" placeholder="Late Comers(LC)"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
-<!-- 
-  <ion-item>
-    <ion-label>Date</ion-label>
-    <ion-datetime [(ngModel)]="date" (ionChange)="getDateStat()" display-format="DD/MM/YYYY"></ion-datetime>
-  </ion-item>
-
-  <div class="pie-chart">
-    <canvas baseChart 
-    style="margin-top: 80px;"
-    class="chart"
-    [data]="pieChartData"
-    [labels]="pieChartLabels"  
-    [chartType]="chartType"
-    
-  >
-    </canvas>
-  </div>
-</ion-content> -->
-
 <ion-grid>
   <ion-row>
     <ion-col size="10">
@@ -64,53 +19,39 @@
     </ion-col>
   </ion-row>
 </ion-grid>
-<!-- <div *ngIf="members">
-  <ion-list *ngFor="let member of members | async">
-    <ion-item [routerLink]="['/tabs/others-profile', member.uid]">
-      <ion-avatar slot="start">
-        <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>
-        <p>{{ member.designation | titlecase }}</p>
-      </ion-label>
-      <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
-    </ion-item>
-  </ion-list>
-</div> -->
 
 <div>
   <ion-list>
     <ion-list-header>
       <ion-label>Today's Status</ion-label>
     </ion-list-header>
-    <ion-item>
+
+    <ion-item *ngFor="let member of members$ | async" >
       <ion-avatar slot="start">
         <ion-img src="assets/user.png"></ion-img>
       </ion-avatar>
       <ion-label>
         <ion-text>
-          <b>Mayank Kataria</b>
-          <!-- <h3>Status: <b>Present</b> </h3> -->
-          <h3>Clock In: <b>10:00 AM</b> </h3>
-          <!-- <h3>Clock Out: <b>06:00 PM</b> </h3> -->
-          <!-- <h3>Amount: <b>100 Rs</b> </h3> -->
+          <b>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </b>
+          <h3>Clock In: <b>{{ dateTimeService.display('hours', null, member.clockInTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockInTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockInTime.toDate()) }}</b> </h3>
+          <h3>Clock Out: <b>{{ dateTimeService.display('hours', null, member.clockOutTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockOutTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockOutTime.toDate()) }}</b> </h3>
+          <h3>Amount: <b>{{ member.amount }} Rs</b> </h3>
         </ion-text>
       </ion-label>
       <div>
-        <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
-        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <!-- <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge> -->
+        <ion-badge *ngIf="member.inStatus == 'late arrival'" slot="end" color="warning" mode="ios" size="large">LA</ion-badge>
+        <ion-badge *ngIf="member.status == 'present'" slot="end" color="success" mode="ios" size="large">P</ion-badge>
+        <ion-badge *ngIf="member.outStatus == 'early departure'" slot="end" color="primary" mode="ios" size="large">ED</ion-badge>
       </div>
     </ion-item>
+
     <ion-item>
       <ion-avatar slot="start">
         <ion-img src="assets/user.png"></ion-img>
       </ion-avatar>
       <ion-label>
         <ion-text>
-          <b>Chinmay Jain</b>
-          <!-- <h3>Status: <b>Present</b> </h3> -->
+          <b>Prem Chopra</b>
           <h3>Clock In: <b>09:00 AM</b> </h3>
           <h3>Clock Out: <b>04:00 PM</b> </h3>
           <h3>Amount: <b>60 Rs</b> </h3>
@@ -185,7 +126,7 @@
       </ion-avatar>
       <ion-label>
         <ion-text>
-          <b>Gauri Shrimali</b>
+          <b>Nikita Rawat</b>
           <!-- <h3>Status: <b>Present</b> </h3> -->
           <h3>Clock In: <b>10:00 AM</b> </h3>
           <h3>Clock Out: <b>04:00 PM</b> </h3>

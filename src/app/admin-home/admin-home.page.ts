@@ -4,100 +4,52 @@ import { UserService } from '../services/user.service';
 import { ChartDataSets } from 'chart.js';
 import { StatService } from '../services/stat.service';
 import { Observable } from 'rxjs';
+import { MemberService } from '../services/member.service';
+import { DateTimeService } from '../services/date-time.service';
 
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.page.html',
   styleUrls: ['./admin-home.page.scss'],
 })
-export class AdminHomePage {
+export class AdminHomePage implements OnInit {
 
-  // presentees: number;
-  // absentees: number;
-  // earlyLeavers: number;
-  // lateComers: number;
-  // // date: string = new Date().toISOString();
-  // date = new Date(2020, 6, 2).toISOString();
-  // dateStat$: Observable<any>;
+  members$: Observable<any[]>;
 
-  // // Option
-  // ChartOptions = {
-  //   responsive: true,
-  //   title: {
-  //     display: true,
-  //     text: 'price'
-  //   },
-  //   pan: {
-  //     enabled: true,
-  //     mode: 'xy'
-  //   },
-  //   zoom: {
-  //     enabled: true,
-  //     mode: 'xy'
-  //   },
+  clockInTime = {
+    hr: {
+      value: 0,
+      text: '00'
+    },
+    min: {
+      value: 0,
+      text: '00'
+    }
+  };
 
-  // };
-  // chartColors: Color[] = [
-  //   {
-  //     borderColor: '#000000',
-  //     backgroundColor: '#ff00ff'
-  //   }
-  // ];
-  // chartType = 'pie';
-  // showLegend: false;
+  clockOutTime = {
+    hr: {
+      value: 0,
+      text: '00'
+    },
+    min: {
+      value: 0,
+      text: '00'
+    }
+  };
 
-  // // For search
-  // stock = '';
+  constructor(
+    private memberService: MemberService,
+    public dateTimeService: DateTimeService
+  ) {}
 
-  // // Data
-  // public pieChartLabels: Label[] = ['Present', 'Absent', 'Early leavers', 'Late comers'];
-  // public pieChartData: SingleDataSet = [this.presentees, this.absentees, this.earlyLeavers, this.lateComers];
+  ngOnInit() {
+    this.members$ = this.memberService.getTodayStatus$();
+  //   this.members$.subscribe(todaysData => {
+  //     array.forEach(element => {
+  //     });
+  //     this.clockInTime.text = this.dateTimeService.display('minutes', todaysData.clockInTime.hr)
+  //   })
+  }
 
-  // constructor(
-  //   private userService: UserService,
-  //   private statService: StatService
-  // ) {
-  //   // this.getData();
-  //   // userService.getURole$()
-  //   //   .subscribe(role => console.log('role: ', role));
-  // }
-
-  // ngOnInit() {
-  //   this.getDateStat();
-  // }
-
-  // getDateStat() {
-  //   console.log('get date stat');
-  //   console.log('this date: ', this.date);
-  //   this.dateStat$ = this.statService.getDateStat$(new Date(this.date));
-  //   this.dateStat$.subscribe(data => {
-  //     console.log('date stat: ', data);
-  //     this.presentees = data.presentees;
-  //     this.absentees = data.absentees;
-  //     this.lateComers = data.lateComers;
-  //     this.earlyLeavers = data.earlyLeavers;
-  //     this.modifyChart();
-  //   });
-  // }
-
-  // modifyChart() {
-  //   this.pieChartData = [this.presentees, this.absentees, this.earlyLeavers, this.lateComers];
-  // }
-
-  // // getData() {
-  // //   this.http.get('https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=demo')
-  // //     .subscribe(res => {
-  // //       console.log('Res: ', res);
-  // //       const history = res ['historical'];
-
-  // //       this.chartData[0].data = [];
-  // //       this.chartLabels = [];
-
-  // //       for(let entry of history){
-  // //         this.chartLabels.push(entry.date);
-  // //         this.chartData[0].data.push(entry['close']);
-  // //       }
-  // //       console.log('data: ', this.chartData);
-  // //     });
-  // // }
 }

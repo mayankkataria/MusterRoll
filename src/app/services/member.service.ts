@@ -35,7 +35,12 @@ export class MemberService {
   }
 
   getMember$(uid: string): Observable<any> {
-    console.log('get member');
+    console.log('get member $');
     return this.afs.doc<any>('members/' + uid).valueChanges();
+  }
+
+  getTodayStatus$() {
+    console.log('get today status $');
+    return this.afs.collection<any>('today_status').valueChanges();
   }
 }
