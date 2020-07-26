@@ -1,5 +1,15 @@
-.pie-chart{
-    position: relative; 
-    height:40vh; 
-    width:100vw;
+.emp-profile {
+    position: relative;
+    height: 75px;
+    width: 75px;
+}
+
+.fence-badge {
+    margin-right: auto;
+    position: absolute;
+    top: 75%;
+    bottom: 0;
+    left: 25%;
+    // bottom: 0;
+    // right: 50%;
 }

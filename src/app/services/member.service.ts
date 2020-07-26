@@ -36,11 +36,26 @@ export class MemberService {
 
   getMember$(uid: string): Observable<any> {
     console.log('get member $');
-    return this.afs.doc<any>('members/' + uid).valueChanges();
+    return this.afs.doc<any>('members/' + uid)
+    .valueChanges();
   }
 
   getTodayStatus$() {
     console.log('get today status $');
-    return this.afs.collection<any>('today_status').valueChanges();
+    return this.afs.collection<any>('today_status', ref => ref
+    .orderBy('recentDate')
+    )
+    .valueChanges();
+  }
+
+  setMergeTodaysLog(todaysLog: any, uid: string) {
+    this.afs.doc<any>(`today_status/${uid}`)
+      .set(todaysLog, { merge: true });
+  //   this.getUid$()
+  //     .subscribe(uid => {
+  //       console.log('get uid subscribe');
+  //       this.afs.doc<any>(`members/${uid}/log/${dateLog.date.toDateString()}`)
+  //         .set(dateLog, { merge: true });
+  //     });
   }
 }

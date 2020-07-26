@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { MemberService } from '../services/member.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-employee',
@@ -15,11 +16,13 @@ export class AddEmployeePage implements OnInit {
   shiftEnd: any;
   shiftStartPicker: any;
   shiftEndPicker: any;
+  toast: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private memberService: MemberService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastController: ToastController
     ) { }
 
   ngOnInit() {
@@ -101,6 +104,11 @@ export class AddEmployeePage implements OnInit {
         this.memberService.addMember(employeeDetails)
           .then(async () => {
             // this.authService.signOutEmp();
+            this.toast = await this.toastController.create({
+              message: 'Employee added successfully',
+              duration: 3000
+            });
+            await this.toast.present();
             this.employeeForm.reset();
       });
       })

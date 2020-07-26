@@ -27,15 +27,21 @@
     </ion-list-header>
 
     <ion-item *ngFor="let member of members$ | async" >
-      <ion-avatar slot="start">
+      <ion-avatar class="emp-profile" slot="start">
         <ion-img src="assets/user.png"></ion-img>
+        <div class="fence-badge">
+          <ion-badge *ngIf="member.fenceStatus" color="success" mode="ios">IN</ion-badge>
+          <ion-badge *ngIf="!member.fenceStatus" color="danger" mode="ios">OUT</ion-badge>
+        </div>
       </ion-avatar>
       <ion-label>
         <ion-text>
           <b>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </b>
-          <h3>Clock In: <b>{{ dateTimeService.display('hours', null, member.clockInTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockInTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockInTime.toDate()) }}</b> </h3>
-          <h3>Clock Out: <b>{{ dateTimeService.display('hours', null, member.clockOutTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockOutTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockOutTime.toDate()) }}</b> </h3>
-          <h3>Amount: <b>{{ member.amount }} Rs</b> </h3>
+          <!-- <h3>Clock In: <b>{{ dateTimeService.display('hours', null, member.clockInTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockInTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockInTime.toDate()) }}</b> </h3> -->
+          <!-- <h3>Clock Out: <b>{{ dateTimeService.display('hours', null, member.clockOutTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockOutTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockOutTime.toDate()) }}</b> </h3> -->
+          <h3 *ngIf="member.clockInTime">Clock In: <b>{{ member.clockInTime.hr.text }}:{{ member.clockInTime.min.text }} {{ member.clockInTime.meridiem }}</b> </h3>
+          <h3 *ngIf="member.clockOutTime">Clock Out: <b>{{ member.clockOutTime.hr.text }}:{{ member.clockOutTime.min.text }} {{ member.clockOutTime.meridiem }}</b> </h3>
+          <h3 *ngIf="member.amount">Amount: <b>{{ member.amount }} Rs</b> </h3>
         </ion-text>
       </ion-label>
       <div>

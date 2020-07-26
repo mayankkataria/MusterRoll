@@ -96,17 +96,6 @@ export class UserService {
     return this.getUser$()
       .pipe(
         map(userData$ => userData$.role)
-        // map(userData => {
-        //   console.log('user data: ', userData);
-        //   return userData.role;
-        // })
         );
-
-      // .pipe(switchMap(userData$ => {
-      //   console.log('user data: ', userData$);
-      //   if (userData$) {
-      //     return userData$.role;
-      //   }
-      // }));
   }
 }

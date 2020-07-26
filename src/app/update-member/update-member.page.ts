@@ -48,7 +48,7 @@ export class UpdateMemberPage implements OnInit {
       shiftEnd: [{}, Validators.required],
       salary: [0, Validators.required],
       perUnitTime: ['min'],
-      role: ['member']
+      role: ['employee']
     });
 
     this.memberForm.patchValue(this.memberData);
@@ -148,8 +148,9 @@ export class UpdateMemberPage implements OnInit {
   async showUpdateToast() {
     const updateToast = await this.toastController.create({
       message: 'Updated Successfully',
-      duration: 3000
+      duration: 1000
     });
+    await updateToast.present();
   }
 
   updateMember() {
@@ -163,8 +164,8 @@ export class UpdateMemberPage implements OnInit {
     this.memberDetails.shiftEnd = {...this.shiftEndObj};
     console.log('emp details: ', this.memberDetails);
     this.memberService.updateMember(this.memberDetails)
-      .then(() => {
-        this.showUpdateToast();
+      .then(async () => {
+        await this.showUpdateToast();
         this.closeModal();
       })
       .catch(err => console.log('Update error: ', err));
