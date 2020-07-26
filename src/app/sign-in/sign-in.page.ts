@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,10 +14,12 @@ export class SignInPage implements OnInit, OnDestroy {
   email: string;
   password: string;
   loginSubscription: Subscription;
+  platform: string;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private plt: Platform
   ) { }
 
   ngOnInit() {
@@ -26,6 +29,7 @@ export class SignInPage implements OnInit, OnDestroy {
           this.authService.signOut();
         }
       });
+
   }
 
   ngOnDestroy() {
@@ -37,7 +41,11 @@ export class SignInPage implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.authService.signIn(this.email, this.password)
       .then(() => {
-        this.router.navigate(['tabs']);
+        if (this.plt.is('mobile')) {
+          this.router.navigate(['tabs']);
+        } else if (this.plt.is('desktop')) {
+          this.router.navigate(['side-menu']);
+        }
       })
       .catch(error => console.log('cant sign in, error: ', error));
   }

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VerifyFacePageRoutingModule } from './verify-face-routing.module';
+import { SideMenuPageRoutingModule } from './side-menu-routing.module';
 
-import { VerifyFacePage } from './verify-face.page';
+import { SideMenuPage } from './side-menu.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerifyFacePageRoutingModule
+    SideMenuPageRoutingModule
   ],
-  declarations: [VerifyFacePage]
+  declarations: [SideMenuPage]
 })
-export class VerifyFacePageModule {}
+export class SideMenuPageModule {}

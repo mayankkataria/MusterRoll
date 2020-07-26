@@ -21,28 +21,8 @@ const routes: Routes = [
     // canActivate: [AdminGuard]
   },
   {
-    path: 'add-face',
-    loadChildren: () => import('./add-face/add-face.module').then(m => m.AddFacePageModule),
-    // canActivate: [EmployeeGuard]
-  },
-  {
-    path: 'add-fingerprint',
-    loadChildren: () => import('./add-fingerprint/add-fingerprint.module').then(m => m.AddFingerprintPageModule),
-    // canActivate: [EmployeeGuard]
-  },
-  {
     path: 'leave',
     loadChildren: () => import('./leave/leave.module').then(m => m.LeavePageModule),
-    // canActivate: [EmployeeGuard]
-  },
-  {
-    path: 'verify-face',
-    loadChildren: () => import('./verify-face/verify-face.module').then(m => m.VerifyFacePageModule),
-    // canActivate: [EmployeeGuard]
-  },
-  {
-    path: 'verify-fingerprint',
-    loadChildren: () => import('./verify-fingerprint/verify-fingerprint.module').then(m => m.VerifyFingerprintPageModule),
     // canActivate: [EmployeeGuard]
   },
   {
@@ -87,6 +67,10 @@ const routes: Routes = [
   {
     path: 'update-member',
     loadChildren: () => import('./update-member/update-member.module').then( m => m.UpdateMemberPageModule)
+  },
+  {
+    path: 'side-menu',
+    loadChildren: () => import('./side-menu/side-menu.module').then( m => m.SideMenuPageModule)
   },
 ];
 

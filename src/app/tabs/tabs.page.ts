@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -10,11 +10,9 @@ import { Platform } from '@ionic/angular';
 export class TabsPage implements OnInit {
 
   userRole: string;
-  tabPlcmnt: string;
 
   constructor(
     private userService: UserService,
-    private plt: Platform
   ) { }
 
   ngOnInit() {
@@ -24,4 +22,8 @@ export class TabsPage implements OnInit {
       });
   }
 
+
 }
+
+
+
