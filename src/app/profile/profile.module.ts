@@ -15,6 +15,7 @@ import { ProfilePage } from './profile.page';
     IonicModule,
     ProfilePageRoutingModule
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage],
+  entryComponents:[ProfilePage]
 })
 export class ProfilePageModule {}

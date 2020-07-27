@@ -17,6 +17,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
+import { SuperTabsModule} from '@ionic-super-tabs/angular';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -27,7 +28,8 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    SuperTabsModule.forRoot()
   ],
   providers: [
     StatusBar,

@@ -17,6 +17,7 @@ import { FilterModalPageModule } from '../filter-modal/filter-modal.module';
     MembersPageRoutingModule,
     FilterModalPageModule
   ],
-  declarations: [MembersPage]
+  declarations: [MembersPage],
+  entryComponents:[MembersPage]
 })
 export class MembersPageModule {}
