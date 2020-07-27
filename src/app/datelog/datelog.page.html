@@ -6,18 +6,26 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
+  <ion-grid *ngIf="dateLog$ | async as dateLog">
+    <ion-row *ngIf="dateLog.date">
+      <ion-col offset="0">
+        <ion-label>Date: </ion-label>
+        <ion-text>
+          <b> {{ dateLog.date.toDate().toDateString().split(' ')[2] }} {{ dateLog.date.toDate().toDateString().split(' ')[1] }} {{ dateLog.date.toDate().toDateString().split(' ')[3] }} ({{ dateLog.date.toDate().toDateString().split(' ')[0] }}) </b>
+        </ion-text>
+      </ion-col>
+    </ion-row>
     <br>
-    <ion-row *ngIf="inStatus === 'late arrival'">
+    <ion-row *ngIf="dateLog.inStatus === 'late arrival'">
       <ion-col offset="0">
         <ion-label>In Status: </ion-label>
         <ion-text>
-          <b> {{ inStatus | titlecase }} </b>
+          <b> {{ dateLog.inStatus | titlecase }} </b>
         </ion-text>
         <br>
         <ion-label>Late by: </ion-label>
         <ion-text>
-          <b> {{ lateDuration.hr.text }} hr {{ lateDuration.min.text }} min </b>
+          <b> {{ dateLog.lateDuration.hr.text }} hr {{ dateLog.lateDuration.min.text }} min </b>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -26,37 +34,37 @@
       <ion-col offset="0">
         <ion-label>Out Status: </ion-label>
         <ion-text>
-          <b> {{ outStatus | titlecase }} </b>
+          <b> {{ dateLog.outStatus | titlecase }} </b>
         </ion-text>
         <br>
         <ion-label>Early by: </ion-label>
         <ion-text>
-          <b> {{ earlyDuration.hr.text }} hr {{ earlyDuration.min.text }} min </b>
+          <b> {{ dateLog.earlyDuration.hr.text }} hr {{ dateLog.earlyDuration.min.text }} min </b>
         </ion-text>
       </ion-col>
     </ion-row>
     <br>
-    <ion-row *ngIf="clockInTime">
+    <ion-row *ngIf="dateLog.clockInTime">
       <ion-col offset="0">
         <ion-label>Clock In: </ion-label>
         <ion-text>
-          <b>{{ clockInTime.hr.text }}:{{ clockInTime.min.text }} {{ clockInTime.meridiem }}</b>
+          <b>{{ dateLog.clockInTime.hr.text }}:{{ dateLog.clockInTime.min.text }} {{ dateLog.clockInTime.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="clockOutTime">
+    <ion-row *ngIf="dateLog.clockOutTime">
       <ion-col offset="0">
         <ion-label>Clock Out: </ion-label>
         <ion-text>
-          <b>{{ clockOutTime.hr.text }}:{{ clockOutTime.min.text }} {{ clockOutTime.meridiem }}</b>
+          <b>{{ dateLog.clockOutTime.hr.text }}:{{ dateLog.clockOutTime.min.text }} {{ dateLog.clockOutTime.meridiem }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="dateLog.durationTime">
       <ion-col offset="0">
         <ion-label>Duration: </ion-label>
         <ion-text>
-          <b>{{ durationTime.hr.text }}</b>:<b>{{ durationTime.min.text }}</b>:<b>{{ durationTime.sec.text }}</b>
+          <b>{{ dateLog.durationTime.hr.text }}</b>:<b>{{ dateLog.durationTime.min.text }}</b>:<b>{{ dateLog.durationTime.sec.text }}</b>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -64,7 +72,7 @@
       <ion-col offset="0">
         <ion-label>Amount: </ion-label>
         <ion-text>
-          <b>{{ amount }} Rs</b>
+          <b>{{ dateLog.amount }} Rs</b>
         </ion-text>
       </ion-col>
     </ion-row>

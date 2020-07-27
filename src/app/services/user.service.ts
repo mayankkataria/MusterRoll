@@ -100,7 +100,8 @@ export class UserService {
   }
 
   getDateLog$(dateId: string) {
-
+    return this.getUid$()
+    .pipe(switchMap(userId => this.afs.doc<any>(`members/${userId}/log/${dateId}`).valueChanges()));
   }
 
   getURole$() {

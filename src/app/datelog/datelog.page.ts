@@ -5,6 +5,7 @@ import { UserService } from '../services/user.service';
 import { DateTimeService } from '../services/date-time.service';
 import { ClockInPage } from '../clock-in/clock-in.page';
 import { FenceHistoryPage } from '../fence-history/fence-history.page';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-datelog',
@@ -132,15 +133,22 @@ export class DatelogPage implements OnInit {
   public MINS_PER_DAY = 1440;
   durationSubscription: Subscription;
 
+  dateId: string;
+  dateLog$: Observable<any>;
+
   constructor(
     private modalCrl: ModalController,
     private userService: UserService,
     private dateTimeService: DateTimeService,
     private modalController: ModalController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.dateId = this.activatedRoute.snapshot.params.dateId;
+    this.dateLog$ = this.userService.getDateLog$(this.dateId);
+    this.dateLog$.subscribe(dateLog => console.log('date log: ', dateLog));
     // this.amount = 0;
     // this.user$ = this.userService.getUser$();
     // this.user$.subscribe(user => {

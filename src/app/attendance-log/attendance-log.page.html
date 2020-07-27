@@ -8,7 +8,7 @@
 <ion-content>
   <ion-list>
 
-    <ion-item *ngFor="let log of logItems$ | async">
+    <ion-item *ngFor="let log of logItems$ | async" [routerLink]="['/datelog', log.dateId]" routerLinkActive="router-link-active" >
       <ion-label>
         <ion-text>
           <b *ngIf="log.date" > {{ log.date.toDate().toDateString().split(' ')[2] }} {{ log.date.toDate().toDateString().split(' ')[1] }} {{ log.date.toDate().toDateString().split(' ')[3] }}</b>

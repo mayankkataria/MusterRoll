@@ -257,7 +257,7 @@ export class EmployeeHomePage implements OnInit {
 
     this.toast = await this.toastController.create({
       message: 'Clocked In',
-      duration: 3000
+      duration: 1000
     });
     await this.toast.present();
 

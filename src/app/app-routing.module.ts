@@ -81,8 +81,12 @@ const routes: Routes = [
     loadChildren: () => import('./attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
   },
   {
-    path: 'datelog',
+    path: 'datelog/:dateId',
     loadChildren: () => import('./datelog/datelog.module').then(m => m.DatelogPageModule)
+  },
+  {
+    path: 'others-profile/:uid',
+    loadChildren: () => import('./others-profile/others-profile.module').then(m => m.OthersProfilePageModule)
   },
 ];
 
