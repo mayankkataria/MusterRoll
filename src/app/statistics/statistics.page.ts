@@ -8,6 +8,8 @@ import { DataSet } from '../models/dataset.model';
 import { StatService } from '../services/stat.service';
 import { Observable } from 'rxjs';
 import { DateTimeService } from '../services/date-time.service';
+import { SingleStatsPage } from './single-stats/single-stats.page';
+import { MultipleStatsPage } from './multiple-stats/multiple-stats.page';
 
 @Component({
   selector: 'app-statistics',
@@ -15,6 +17,9 @@ import { DateTimeService } from '../services/date-time.service';
   styleUrls: ['./statistics.page.scss'],
 })
 export class StatisticsPage {
+
+  singleStats = SingleStatsPage;
+  multiStats = MultipleStatsPage;
 
   // @ViewChild('barChart', { static: true }) barChart;
 

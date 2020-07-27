@@ -18,6 +18,6 @@ import { HomePage } from './home.page';
     ])
   ],
   declarations: [HomePage],
-  entryComponents:[HomePage]
+  entryComponents: [HomePage]
 })
 export class HomePageModule {}

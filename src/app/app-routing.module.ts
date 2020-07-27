@@ -72,6 +72,10 @@ const routes: Routes = [
     path: 'side-menu',
     loadChildren: () => import('./side-menu/side-menu.module').then( m => m.SideMenuPageModule)
   },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsPageModule),
+  },
 ];
 
 @NgModule({

@@ -17,6 +17,7 @@ import { ChartsModule } from 'ng2-charts';
     AdminHomePageRoutingModule,
     ChartsModule
   ],
-  declarations: [AdminHomePage]
+  declarations: [AdminHomePage],
+  entryComponents: [AdminHomePage]
 })
 export class AdminHomePageModule {}

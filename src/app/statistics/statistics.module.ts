@@ -8,15 +8,21 @@ import { StatisticsPageRoutingModule } from './statistics-routing.module';
 
 import { StatisticsPage } from './statistics.page';
 import { ChartsModule } from 'ng2-charts';
+import { SuperTabsModule } from '@ionic-super-tabs/angular';
+import { SingleStatsPageModule } from './single-stats/single-stats.module';
+import { MultipleStatsPageModule } from './multiple-stats/multiple-stats.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     ChartsModule,
-    StatisticsPageRoutingModule
+    StatisticsPageRoutingModule,
+    SuperTabsModule,
+    SingleStatsPageModule,
+    MultipleStatsPageModule
   ],
   declarations: [StatisticsPage],
-  entryComponents:[StatisticsPage]
+  entryComponents: [StatisticsPage]
 })
 export class StatisticsPageModule {}
