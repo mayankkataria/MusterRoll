@@ -94,9 +94,13 @@ export class UserService {
     this.getUid$()
       .subscribe(uid => {
         console.log('get uid subscribe');
-        this.afs.doc<any>(`members/${uid}/log/${dateLog.date.toDateString()}`)
+        this.afs.doc<any>(`members/${uid}/log/${dateLog.dateId}`)
           .set(dateLog, { merge: true });
       });
+  }
+
+  getDateLog$(dateId: string) {
+
   }
 
   getURole$() {

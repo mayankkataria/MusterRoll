@@ -8,6 +8,7 @@ import { switchMap } from 'rxjs/operators';
 import * as functions from 'firebase-functions';
 import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @Component({
@@ -40,10 +41,10 @@ export class EmployeeHomePage implements OnInit {
   lastname: string;
 
   dateLog: {
-    date: Date, status?: string, inStatus: string, outStatus?: string,
+    dateId: string, date: Date, status?: string, inStatus: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
     lateDuration?: {}, earlyDuration?: {}, amount?: number
-  } = { date: new Date(), inStatus: 'absent' };
+  } = { dateId: this.afs.createId(), date: new Date(), inStatus: 'absent' };
 
   todayLog: { recentDate?: Date, firstname?: string, lastname?: string, status?: string, inStatus?: string, outStatus?: string,
              clockInTime?: {}, clockOutTime?: {}, durationTime?: {}, lateBy?: {}, earlyBy?: {}, amount?: number,
@@ -161,7 +162,8 @@ export class EmployeeHomePage implements OnInit {
     private dateTimeService: DateTimeService,
     private modalController: ModalController,
     private toastController: ToastController,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private afs: AngularFirestore
   ) { }
 
   ngOnInit() {
