@@ -14,6 +14,7 @@ import { MembersPageModule } from '../members/members.module';
 import { ProfilePageModule } from '../profile/profile.module';
 import { AdminHomePageModule } from '../admin-home/admin-home.module';
 import { EmployeeHomePageModule } from '../employee-home/employee-home.module';
+import { AttendanceLogPageModule } from '../attendance-log/attendance-log.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +27,8 @@ import { EmployeeHomePageModule } from '../employee-home/employee-home.module';
     // HomePageModule,
     StatisticsPageModule,
     MembersPageModule,
-    ProfilePageModule
+    ProfilePageModule,
+    AttendanceLogPageModule
   ],
   declarations: [
     TabsPage,

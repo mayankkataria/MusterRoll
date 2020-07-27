@@ -52,10 +52,10 @@ const routes: Routes = [
         loadChildren: () => import('../clock-in/clock-in.module').then(m => m.ClockInPageModule),
         // canActivate: [EmployeeGuard]
       },
-      {
-        path: 'attendance-log',
-        loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
-      },
+      // {
+      //   path: 'attendance-log',
+      //   loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+      // },
       {
         path: 'datelog',
         loadChildren: () => import('../datelog/datelog.module').then(m => m.DatelogPageModule)

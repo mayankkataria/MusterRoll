@@ -15,6 +15,7 @@ import { AttendanceLogPage } from './attendance-log.page';
     IonicModule,
     AttendanceLogPageRoutingModule
   ],
-  declarations: [AttendanceLogPage]
+  declarations: [AttendanceLogPage],
+  entryComponents: [AttendanceLogPage]
 })
 export class AttendanceLogPageModule {}

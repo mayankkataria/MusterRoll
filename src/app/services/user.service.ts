@@ -54,6 +54,14 @@ export class UserService {
       );
   }
 
+  getUserLogs$() {
+    return this.getUid$()
+      .pipe(switchMap(uid => this.afs.collection<any>('members/' + uid + '/log', ref => ref
+        .orderBy('date', 'desc')
+      )
+        .valueChanges()));
+  }
+
   getUserLog$() {
     return this.getUid$()
       .pipe(switchMap(uid => this.afs.collection<any>('members/' + uid + '/log', ref => ref

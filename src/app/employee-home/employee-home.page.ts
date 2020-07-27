@@ -40,7 +40,7 @@ export class EmployeeHomePage implements OnInit {
   lastname: string;
 
   dateLog: {
-    date: Date, inStatus: string, outStatus?: string,
+    date: Date, status?: string, inStatus: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
     lateDuration?: {}, earlyDuration?: {}, amount?: number
   } = { date: new Date(), inStatus: 'absent' };
@@ -53,6 +53,7 @@ export class EmployeeHomePage implements OnInit {
   dateLogObserver = {
     next: dateLog => {
       console.log('date: ', this.dateLog.date.toDateString());
+      console.log('date: ', this.dateLog.date.getMonth());
       this.userService.setMergeDateLog(dateLog);
     },
   };
@@ -61,7 +62,7 @@ export class EmployeeHomePage implements OnInit {
   todayLogObserver = {
     next: todayLog => {
       todayLog.recentDate = Date.now();
-      this.memberService.setMergeTodaysLog(todayLog, this.userUid);
+      // this.memberService.setMergeTodaysLog(todayLog, this.userUid);
     },
   };
 
@@ -237,6 +238,7 @@ export class EmployeeHomePage implements OnInit {
     this.todayLog.firstname = this.firstname;
     this.todayLog.lastname = this.lastname;
     this.todayLog.status = 'present';
+    this.dateLog.status = 'present';
     this.calDuration();
     const date = new Date();
     this.clockInTime = {

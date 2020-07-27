@@ -76,6 +76,14 @@ const routes: Routes = [
     path: 'statistics',
     loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsPageModule),
   },
+  {
+    path: 'attendance-log',
+    loadChildren: () => import('./attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+  },
+  {
+    path: 'datelog',
+    loadChildren: () => import('./datelog/datelog.module').then(m => m.DatelogPageModule)
+  },
 ];
 
 @NgModule({
