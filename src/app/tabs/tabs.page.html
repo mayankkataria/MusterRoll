@@ -64,24 +64,24 @@
 <ion-content>
   <super-tabs>
 
-    <super-tabs-toolbar slot="bottom">
+    <super-tabs-toolbar color="white" slot="bottom">
 
-      <super-tab-button >
+      <super-tab-button id="icon">
         <ion-icon name="home"></ion-icon>
         <ion-label>Home</ion-label>
       </super-tab-button>
 
-      <super-tab-button *ngIf="userRole === 'admin'" >
+      <super-tab-button id="icon" *ngIf="userRole === 'admin'" >
         <ion-icon name="stats-chart"></ion-icon>
         <ion-label>Statistics</ion-label>
       </super-tab-button>
 
-      <super-tab-button >
+      <super-tab-button id="icon">
         <ion-icon name="people"></ion-icon>
         <ion-label>Members</ion-label>
       </super-tab-button>
 
-      <super-tab-button>
+      <super-tab-button id="icon">
         <ion-icon name="person"></ion-icon>
         <ion-label>Profile</ion-label>
       </super-tab-button>
@@ -110,6 +110,7 @@
           <ion-nav [root]="members"></ion-nav>
         </ion-content>
       </super-tab>
+
 
       <super-tab>
         <ion-content>
