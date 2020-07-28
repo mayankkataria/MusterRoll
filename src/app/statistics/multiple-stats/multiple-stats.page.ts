@@ -16,11 +16,11 @@ export class MultipleStatsPage implements OnInit {
   bars: Chart;
   colorArray: any;
   dataSet: any;
-  absentees = { label: 'Absentees', data: [], backgroundColor: 'red' };
-  lateComers = { label: 'Late Comers', data: [], backgroundColor: 'blue' };
-  presentees = { label: 'Presentees', data: [], backgroundColor: 'green' };
-  earlyLeavers = { label: 'Early Leavers', data: [], backgroundColor: 'orange' };
-  label: string;
+  absentees = { label: 'Absentees', data: [], backgroundColor: 'red', borderColor: 'red', borderWidth: 1 };
+  lateComers = { label: 'Late Comers', data: [], backgroundColor: 'blue', borderColor: 'blue', borderWidth: 1 };
+  presentees = { label: 'Presentees', data: [], backgroundColor: 'green', borderColor: 'green', borderWidth: 1 };
+  earlyLeavers = { label: 'Early Leavers', data: [], backgroundColor: 'orange', borderColor: 'orange', borderWidth: 1 };
+  label: any;
   fromDate: string = new Date(2020, 6, 1).toISOString();
   fromDateObj: Date = new Date(2020, 6, 1);
   fromDatePicker: any;
@@ -32,6 +32,7 @@ export class MultipleStatsPage implements OnInit {
   dateStringLabels: string[] = [];
   singleDate = false;
   chartType = 'bar';
+  chartTypeVal = 'bar';
 
   constructor(
     private statService: StatService,
@@ -40,28 +41,34 @@ export class MultipleStatsPage implements OnInit {
 
   ngOnInit() {
     this.label = 'presentees';
-    this.stats$ = this.statService.getStats$();
+    // this.stats$ = this.statService.getStats$();
   }
 
   ionViewDidEnter() {
     this.getStatsRange();
   }
 
+  // showMultiple() {
+  //   console.log('label: ', this.label);
+  //   console.log('label size: ', this.label.length);
+  // }
+
   async getStatsRange() {
-    console.log('from date: ', this.fromDate);
-    console.log('to date: ', this.toDate);
-    if (this.fromDate === this.toDate) {
-      this.singleDate = true;
-      console.log('single date: ', this.singleDate);
-      return;
-    }
+    // console.log('from date: ', this.fromDate);
+    // console.log('to date: ', this.toDate);
+    // if (this.fromDate === this.toDate) {
+    //   this.singleDate = true;
+    //   console.log('single date: ', this.singleDate);
+    //   return;
+    // }
     console.log('get stats range');
     this.absentees.data = [];
     this.presentees.data = [];
     this.earlyLeavers.data = [];
     this.lateComers.data = [];
     this.dateStringLabels = [];
-    this.getLabel();
+    // this.getLabel();
+    // this.makeDataset();
     this.stats$ = this.statService.getStatsRange$(new Date(this.fromDate), new Date(this.toDate));
     this.stats$.subscribe(rangeData => {
       console.log('range data: ', rangeData);
@@ -78,9 +85,34 @@ export class MultipleStatsPage implements OnInit {
         if (this.bars) {
           this.bars.destroy();
         }
-        this.createBarChart();
+        this.chooseChart();
+        this.makeDataset();
+        this.createChart();
       });
     });
+  }
+
+  makeDataset() {
+    console.log('make dataset');
+    this.dataSet = [];
+    if (this.label.includes('absentees')) {
+      this.dataSet.push(this.absentees);
+    // this.dataSet = { ...this.dataSet, ...{ absentees: this.absentees } };
+      // this.dataSet = Object.assign({}, this.absentees);
+    }
+    if (this.label.includes('lateComers')) {
+      this.dataSet.push(this.lateComers);
+      // this.dataSet = { ...this.dataSet, ...{ lateComers: this.lateComers } };
+    // this.dataSet = Object.assign({}, this.lateComers);
+    }
+    if (this.label.includes('presentees')) {
+      this.dataSet.push(this.presentees);
+      // this.dataSet = Object.assign({}, this.presentees);
+    }
+    if (this.label.includes('earlyLeavers')) {
+      this.dataSet.push(this.earlyLeavers);
+      // this.dataSet = Object.assign({}, this.earlyLeavers);
+    }
   }
 
   async getLabel() {
@@ -106,14 +138,14 @@ export class MultipleStatsPage implements OnInit {
     this.toDateObj = new Date(this.toDate);
   }
 
-  createChart() {
-    switch (this.chartType) {
+  chooseChart() {
+    switch (this.chartTypeVal) {
       case 'bar':
-        this.createBarChart();
+        this.initBarChart();
         break;
 
       case 'line':
-        this.createLineChart();
+        this.initLineChart();
         break;
 
       // case 'group-line':
@@ -121,7 +153,7 @@ export class MultipleStatsPage implements OnInit {
       //   break;
 
       case 'area':
-        this.createAreaChart();
+        this.initAreaChart();
         break;
 
       // case 'group-area':
@@ -129,20 +161,20 @@ export class MultipleStatsPage implements OnInit {
       //   break;
 
       default:
-        this.createBarChart();
+        this.initBarChart();
         break;
     }
   }
 
-  createBarChart() {
-    console.log('create bar chart');
+  createChart() {
+    console.log('create chart');
     console.log('date string labels: ', this.dateStringLabels);
     console.log('date set: ', this.dataSet);
     this.bars = new Chart(this.barChart.nativeElement, {
       type: this.chartType,
       data: {
         labels: this.dateStringLabels,
-        datasets: [this.dataSet]
+        datasets: this.dataSet
       },
       options: {
         // responsive: true,
@@ -157,119 +189,59 @@ export class MultipleStatsPage implements OnInit {
     });
   }
 
-  createLineChart() {
-    this.chartType = 'line';
-    this.getStatsRange();
-    console.log('create line chart');
-
-    const speedCanvas = document.getElementById('speedChart');
-
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-
-    const dataFirst = {
-      label: 'Car A - Speed (mph)',
-      data: [0, 59, 75, 20, 20],
-      lineTension: 0,
-      fill: false,
-      borderColor: 'red'
-    };
-
-    const dataSecond = {
-      label: 'Car B - Speed (mph)',
-      data: [20, 15, 60, 60, 65],
-      lineTension: 0,
-      fill: false,
-      borderColor: 'blue'
-    };
-
-    // const speedData = {
-    //   labels: ['0s', '10s', '20s', '30s', '40s'],
-    //   datasets: [dataFirst, dataSecond]
-    // };
-
-    const chartOptions = {
-      legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          boxWidth: 80,
-          fontColor: 'black'
-        }
-      }
-    };
-
-    // const lineChart = new Chart(speedCanvas, {
-    //   type: 'line',
-    //   data: speedData,
-    //   options: chartOptions
-    // });
+  initBarChart() {
+    console.log('create bar chart');
+    this.chartType = 'bar';
+    this.absentees.backgroundColor = 'red';
+    this.presentees.backgroundColor = 'green';
+    this.earlyLeavers.backgroundColor = 'blue';
+    this.lateComers.backgroundColor = 'orange';
   }
 
-  createGroupLineChart() {
+  initLineChart() {
+    console.log('create line chart');
+    this.chartType = 'line';
+
+    this.absentees.backgroundColor = 'rgba(0, 0, 0, 0)';
+    this.presentees.backgroundColor = 'rgba(0, 0, 0, 0)';
+    this.earlyLeavers.backgroundColor = 'rgba(0, 0, 0, 0)';
+    this.lateComers.backgroundColor = 'rgba(0, 0, 0, 0)';
+
+    this.absentees.borderColor = 'red';
+    this.presentees.borderColor = 'green';
+    this.earlyLeavers.borderColor = 'blue';
+    this.lateComers.borderColor = 'orange';
+
+    this.absentees.borderWidth = 1;
+    this.presentees.borderWidth = 1;
+    this.earlyLeavers.borderWidth = 1;
+    this.lateComers.borderWidth = 1;
+  }
+
+  initGroupLineChart() {
     console.log('create group line chart');
   }
 
-  createAreaChart() {
-    this.chartType = 'line';
-    this.getStatsRange();
+  initAreaChart() {
     console.log('create area chart');
+    this.chartType = 'line';
+    this.absentees.backgroundColor = 'red';
+    this.presentees.backgroundColor = 'green';
+    this.earlyLeavers.backgroundColor = 'blue';
+    this.lateComers.backgroundColor = 'orange';
+
+    this.absentees.borderColor = 'rgba(0, 0, 0, 0)';
+    this.presentees.borderColor = 'rgba(0, 0, 0, 0)';
+    this.earlyLeavers.borderColor = 'rgba(0, 0, 0, 0)';
+    this.lateComers.borderColor = 'rgba(0, 0, 0, 0)';
   }
 
-  createGroupAreaChart() {
+  initGroupAreaChart() {
     console.log('create group area chart');
   }
 
   canvasClicked() {
     console.log('canvas clicked');
   }
-
-  // createLineChart() {
-  //   this.chartType = 'line';
-  //   this.getStatsRange();
-  //   console.log('create line chart');
-    // var speedCanvas = document.getElementById("speedChart");
-
-    // Chart.defaults.global.defaultFontFamily = "Lato";
-    // Chart.defaults.global.defaultFontSize = 18;
-
-    // var dataFirst = {
-    //   label: "Car A - Speed (mph)",
-    //   data: [0, 59, 75, 20, 20],
-    //   lineTension: 0,
-    //   fill: false,
-    //   borderColor: 'red'
-    // };
-
-    // var dataSecond = {
-    //   label: "Car B - Speed (mph)",
-    //   data: [20, 15, 60, 60, 65],
-    //   lineTension: 0,
-    //   fill: false,
-    //   borderColor: 'blue'
-    // };
-
-    // var speedData = {
-    //   labels: ["0s", "10s", "20s", "30s", "40s"],
-    //   datasets: [dataFirst, dataSecond]
-    // };
-
-    // var chartOptions = {
-    //   legend: {
-    //     display: true,
-    //     position: 'top',
-    //     labels: {
-    //       boxWidth: 80,
-    //       fontColor: 'black'
-    //     }
-    //   }
-    // };
-
-    // var lineChart = new Chart(speedCanvas, {
-    //   type: 'line',
-    //   data: speedData,
-    //   options: chartOptions
-    // });
-  // }
 
 }
