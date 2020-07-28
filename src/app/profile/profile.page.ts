@@ -9,7 +9,7 @@ import { DateTimeService } from '../services/date-time.service';
 import { ActionSheetController, Platform } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource, Capacitor } from '@capacitor/core';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-
+import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -17,7 +17,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 })
 export class ProfilePage implements OnInit {
 
-
+  attendanceDetails=AttendanceLogPage;
   @ViewChild('filePicker', { static: false }) filePickerRef: ElementRef<HTMLInputElement>;
   photo: SafeResourceUrl;
   isDesktop: boolean;

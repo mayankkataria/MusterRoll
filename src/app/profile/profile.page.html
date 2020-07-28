@@ -79,9 +79,14 @@
             </h6>  
 
           </div>
-          <ion-button [routerLink]="['attendance-log']" expand="full" color="medium">
+          <!-- <ion-button [routerLink]="['attendance-log']" expand="full" color="medium">
             Attendance Log
-          </ion-button>
+          </ion-button> -->
+          <ion-nav-link router-direction="forward" [component]="attendanceDetails">
+            <ion-button expand="full" color="medium">
+              Attendance Log
+            </ion-button>
+          </ion-nav-link>
         </div>
       </div>
     </ion-content>
