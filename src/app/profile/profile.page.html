@@ -79,10 +79,7 @@
             </h6>  
 
           </div>
-          <!-- <ion-button [routerLink]="['attendance-log']" expand="full" color="medium">
-            Attendance Log
-          </ion-button> -->
-          <ion-nav-link router-direction="forward" [component]="attendancePage">
+          <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage">
             <ion-button expand="full" color="medium">
               Attendance Log
             </ion-button>

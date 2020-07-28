@@ -57,7 +57,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
   <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="single-stats" >
@@ -70,16 +70,11 @@
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs> 
-</ion-content>
+</ion-content> -->
 
-<!-- <super-tabs>
+<super-tabs>
 
   <super-tabs-toolbar slot="bottom">
-
-    <super-tab-button>
-      <ion-icon name="pie-chart"></ion-icon>
-      <ion-label>Single</ion-label>
-    </super-tab-button>
 
     <super-tab-button>
       <ion-icon name="pie-chart"></ion-icon>
@@ -96,6 +91,24 @@
   <super-tabs-container>
 
     <super-tab>
+      <ion-nav [root]="singleStats"></ion-nav>
+      <!-- <ion-content>
+        <ion-nav-link router-direction="forward" [component]="singleStats"></ion-nav-link>
+      </ion-content> -->
+    </super-tab>
+
+    <super-tab>
+      <ion-nav [root]="multiStats"></ion-nav>
+      <!-- <ion-nav-link router-direction="forward" [component]="multiStats"></ion-nav-link> -->
+    </super-tab>
+
+    <!-- <super-tab>
+      <ion-content>
+        <ion-nav [root]="multiStats"></ion-nav>
+      </ion-content>
+    </super-tab>
+
+    <super-tab>
       <ion-content>
         <ion-nav [root]="singleStats"></ion-nav>
       </ion-content>
@@ -105,8 +118,8 @@
       <ion-content>
         <ion-nav [root]="multiStats"></ion-nav>
       </ion-content>
-    </super-tab>
-    
+    </super-tab> -->
+
   </super-tabs-container>
 
-</super-tabs>  -->
+</super-tabs>

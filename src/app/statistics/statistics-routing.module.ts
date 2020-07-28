@@ -17,14 +17,14 @@ const routes: Routes = [
         path: '',
         loadChildren: () => import('./single-stats/single-stats.module').then( m => m.SingleStatsPageModule)
       },
-      {
-        path: 'single-stats',
-        loadChildren: () => import('./single-stats/single-stats.module').then( m => m.SingleStatsPageModule)
-      },
-      {
-        path: 'multiple-stats',
-        loadChildren: () => import('./multiple-stats/multiple-stats.module').then( m => m.MultipleStatsPageModule)
-      }
+      // {
+      //   path: 'single-stats',
+      //   loadChildren: () => import('./single-stats/single-stats.module').then( m => m.SingleStatsPageModule)
+      // },
+      // {
+      //   path: 'multiple-stats',
+      //   loadChildren: () => import('./multiple-stats/multiple-stats.module').then( m => m.MultipleStatsPageModule)
+      // }
     ]
   },
   {

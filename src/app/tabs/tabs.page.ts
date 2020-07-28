@@ -19,8 +19,7 @@ export class TabsPage implements OnInit {
   members = MembersPage;
   profile = ProfilePage;
   statistics = StatisticsPage;
-  adminHome = AdminHomePage;
-  employeeHome = EmployeeHomePage;
+  home: any;
 
 constructor(
   private userService: UserService,
@@ -30,6 +29,11 @@ ngOnInit() {
   this.userService.getURole$()
     .subscribe(role => {
       this.userRole = role;
+      if (role === 'admin') {
+        this.home = AdminHomePage;
+      } else {
+        this.home = EmployeeHomePage;
+      }
     });
 }
 
