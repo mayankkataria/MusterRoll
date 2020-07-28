@@ -11,7 +11,7 @@
       <ion-toolbar style="padding: 10px;">
         <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
         <ion-buttons slot="end">
-          <ion-button [routerLink]="['/settings']">
+          <ion-button (click)="showSettingsSheet()">
             <ion-icon style="color: white;"  slot="icon-only" name="settings"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -26,7 +26,7 @@
               <img [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'">
               <div>
                 <ion-fab class="camera-fab" slot="fixed">
-                  <ion-fab-button (click)="showActionSheet()">
+                  <ion-fab-button (click)="showCamSheet()">
                     <ion-icon name="camera"></ion-icon>
                   </ion-fab-button>
                 </ion-fab>
@@ -82,7 +82,7 @@
           <!-- <ion-button [routerLink]="['attendance-log']" expand="full" color="medium">
             Attendance Log
           </ion-button> -->
-          <ion-nav-link router-direction="forward" [component]="attendanceDetails">
+          <ion-nav-link router-direction="forward" [component]="attendancePage">
             <ion-button expand="full" color="medium">
               Attendance Log
             </ion-button>

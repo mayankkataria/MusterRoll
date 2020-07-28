@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { FilterModalPage } from '../filter-modal/filter-modal.page';
 import { UserService } from '../services/user.service';
 import { map } from 'rxjs/operators';
+import { OthersProfilePage } from '../others-profile/others-profile.page';
 
 @Component({
   selector: 'app-members',
@@ -13,10 +14,12 @@ import { map } from 'rxjs/operators';
 })
 export class MembersPage implements OnInit {
 
-  members: Observable<any>;
+  members$: Observable<any>;
   filteredDept: string;
   filteredDes: string;
   userRole: string;
+
+  othersProfilePage = OthersProfilePage;
 
   constructor(
     private memberService: MemberService,
@@ -25,7 +28,7 @@ export class MembersPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.members = this.memberService.fetchAllMembers$();
+    this.members$ = this.memberService.fetchAllMembers$();
     this.userService.getURole$()
       .subscribe(role => this.userRole = role);
   }

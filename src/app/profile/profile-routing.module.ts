@@ -16,10 +16,10 @@ const routes: Routes = [
     //   },
     // ]
   },
-  {
-    path: 'attendance-log',
-    loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
-  },
+  // {
+  //   path: 'attendance-log',
+  //   loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+  // },
 ];
 
 @NgModule({

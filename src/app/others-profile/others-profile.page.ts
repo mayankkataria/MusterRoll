@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MemberService } from '../services/member.service';
@@ -16,7 +16,9 @@ import { UpdateMemberPage } from '../update-member/update-member.page';
 })
 export class OthersProfilePage implements OnInit {
 
-  memberUid: string;
+  @Input() memberUid: string;
+
+  // memberUid: string;
   member$: Observable<any>;
   memberData: any;
   shiftStart = {
@@ -44,7 +46,7 @@ export class OthersProfilePage implements OnInit {
   userRole: string;
 
   constructor(
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
     private memberService: MemberService,
     private dateTimeService: DateTimeService,
     private actionSheetController: ActionSheetController,
@@ -55,9 +57,10 @@ export class OthersProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('member uid: ', this.memberUid);
     this.userService.getURole$()
       .subscribe(role => this.userRole = role);
-    this.memberUid = this.route.snapshot.params.uid;
+    // this.memberUid = this.route.snapshot.params.uid;
     this.member$ = this.memberService.getMember$(this.memberUid);
     this.member$.subscribe(memberData => {
       this.memberData = memberData;
