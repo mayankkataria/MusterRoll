@@ -17,8 +17,12 @@ const routes: Routes = [
   {
     path: 'geofence',
     loadChildren: () => import('./geofence/geofence.module').then(m => m.GeofencePageModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
     // canActivate: [AdminGuard]
+  },
+  {
+    path: 'clock-in',
+    loadChildren :() => import('./clock-in/clock-in.module').then(m => m.ClockInPageModule),
   },
   {
     path: 'leave',
