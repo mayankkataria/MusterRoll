@@ -11,7 +11,6 @@ import { ChartsModule } from 'ng2-charts';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { SingleStatsPageModule } from './single-stats/single-stats.module';
 import { MultipleStatsPageModule } from './multiple-stats/multiple-stats.module';
-import { SingleStatsPage } from './single-stats/single-stats.page';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,9 +18,9 @@ import { SingleStatsPage } from './single-stats/single-stats.page';
     IonicModule,
     ChartsModule,
     StatisticsPageRoutingModule,
-    SuperTabsModule,
     SingleStatsPageModule,
-    MultipleStatsPageModule
+    MultipleStatsPageModule,
+    SuperTabsModule
   ],
   declarations: [StatisticsPage],
   entryComponents: [StatisticsPage]

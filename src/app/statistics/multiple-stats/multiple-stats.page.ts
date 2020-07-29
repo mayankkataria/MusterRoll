@@ -20,7 +20,7 @@ export class MultipleStatsPage implements OnInit {
   lateComers = { label: 'Late Comers', data: [], backgroundColor: 'blue', borderColor: 'blue', borderWidth: 1 };
   presentees = { label: 'Presentees', data: [], backgroundColor: 'green', borderColor: 'green', borderWidth: 1 };
   earlyLeavers = { label: 'Early Leavers', data: [], backgroundColor: 'orange', borderColor: 'orange', borderWidth: 1 };
-  label: any;
+  label: string[];
   fromDate: string = new Date(2020, 6, 1).toISOString();
   fromDateObj: Date = new Date(2020, 6, 1);
   fromDatePicker: any;
@@ -40,7 +40,7 @@ export class MultipleStatsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.label = 'presentees';
+    this.label = ['presentees'];
     // this.stats$ = this.statService.getStats$();
   }
 
@@ -48,27 +48,13 @@ export class MultipleStatsPage implements OnInit {
     this.getStatsRange();
   }
 
-  // showMultiple() {
-  //   console.log('label: ', this.label);
-  //   console.log('label size: ', this.label.length);
-  // }
-
   async getStatsRange() {
-    // console.log('from date: ', this.fromDate);
-    // console.log('to date: ', this.toDate);
-    // if (this.fromDate === this.toDate) {
-    //   this.singleDate = true;
-    //   console.log('single date: ', this.singleDate);
-    //   return;
-    // }
     console.log('get stats range');
     this.absentees.data = [];
     this.presentees.data = [];
     this.earlyLeavers.data = [];
     this.lateComers.data = [];
     this.dateStringLabels = [];
-    // this.getLabel();
-    // this.makeDataset();
     this.stats$ = this.statService.getStatsRange$(new Date(this.fromDate), new Date(this.toDate));
     this.stats$.subscribe(rangeData => {
       console.log('range data: ', rangeData);
@@ -97,36 +83,30 @@ export class MultipleStatsPage implements OnInit {
     this.dataSet = [];
     if (this.label.includes('absentees')) {
       this.dataSet.push(this.absentees);
-    // this.dataSet = { ...this.dataSet, ...{ absentees: this.absentees } };
-      // this.dataSet = Object.assign({}, this.absentees);
     }
     if (this.label.includes('lateComers')) {
       this.dataSet.push(this.lateComers);
-      // this.dataSet = { ...this.dataSet, ...{ lateComers: this.lateComers } };
-    // this.dataSet = Object.assign({}, this.lateComers);
     }
     if (this.label.includes('presentees')) {
       this.dataSet.push(this.presentees);
-      // this.dataSet = Object.assign({}, this.presentees);
     }
     if (this.label.includes('earlyLeavers')) {
       this.dataSet.push(this.earlyLeavers);
-      // this.dataSet = Object.assign({}, this.earlyLeavers);
     }
   }
 
-  async getLabel() {
-    console.log('get label');
-    if (this.label === 'absentees') {
-      this.dataSet = Object.assign({}, this.absentees);
-    } else if (this.label === 'lateComers') {
-      this.dataSet = Object.assign({}, this.lateComers);
-    } else if (this.label === 'presentees') {
-      this.dataSet = Object.assign({}, this.presentees);
-    } else {
-      this.dataSet = Object.assign({}, this.earlyLeavers);
-    }
-  }
+  // async getLabel() {
+  //   console.log('get label');
+  //   if (this.label === 'absentees') {
+  //     this.dataSet = Object.assign({}, this.absentees);
+  //   } else if (this.label === 'lateComers') {
+  //     this.dataSet = Object.assign({}, this.lateComers);
+  //   } else if (this.label === 'presentees') {
+  //     this.dataSet = Object.assign({}, this.presentees);
+  //   } else {
+  //     this.dataSet = Object.assign({}, this.earlyLeavers);
+  //   }
+  // }
 
   async getFromDate() {
     console.log('get from date');
@@ -148,17 +128,9 @@ export class MultipleStatsPage implements OnInit {
         this.initLineChart();
         break;
 
-      // case 'group-line':
-      //   this.createGroupLineChart();
-      //   break;
-
       case 'area':
         this.initAreaChart();
         break;
-
-      // case 'group-area':
-      //   this.createGroupAreaChart();
-      //   break;
 
       default:
         this.initBarChart();
@@ -218,10 +190,6 @@ export class MultipleStatsPage implements OnInit {
     this.lateComers.borderWidth = 1;
   }
 
-  initGroupLineChart() {
-    console.log('create group line chart');
-  }
-
   initAreaChart() {
     console.log('create area chart');
     this.chartType = 'line';
@@ -234,10 +202,6 @@ export class MultipleStatsPage implements OnInit {
     this.presentees.borderColor = 'rgba(0, 0, 0, 0)';
     this.earlyLeavers.borderColor = 'rgba(0, 0, 0, 0)';
     this.lateComers.borderColor = 'rgba(0, 0, 0, 0)';
-  }
-
-  initGroupAreaChart() {
-    console.log('create group area chart');
   }
 
   canvasClicked() {

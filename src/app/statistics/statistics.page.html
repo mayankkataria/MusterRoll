@@ -74,14 +74,16 @@
 
 <super-tabs>
 
-  <super-tabs-toolbar slot="bottom">
+  <super-tabs-toolbar color="white" slot="bottom">
 
-    <super-tab-button>
-      <ion-icon name="pie-chart"></ion-icon>
-      <ion-label>Single</ion-label>
-    </super-tab-button>
+    <!-- <ion-nav-link router-direction="forward" [component]="singleStats"> -->
+      <super-tab-button id="icon">
+        <ion-icon name="pie-chart"></ion-icon>
+        <ion-label>Single</ion-label>
+      </super-tab-button>
+    <!-- </ion-nav-link> -->
 
-    <super-tab-button>
+    <super-tab-button id="icon">
       <ion-icon name="bar-chart"></ion-icon>
       <ion-label>Range</ion-label>
     </super-tab-button>

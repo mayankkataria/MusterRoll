@@ -9,6 +9,7 @@ import * as functions from 'firebase-functions';
 import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { StatService } from '../services/stat.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class EmployeeHomePage implements OnInit {
   userLog$: Observable<any>;
   user$: Observable<any>;
   userUid: string;
-  inStatus = 'absent';
+  inStatus: string;
   outStatus = null;
   duration: string;
   amount: number;
@@ -39,16 +40,19 @@ export class EmployeeHomePage implements OnInit {
   toast: any;
   firstname: string;
   lastname: string;
+  todaysDate: Date;
 
   dateLog: {
-    dateId: string, date: Date, status?: string, inStatus: string, outStatus?: string,
+    dateId: string, date: Date, status?: string, inStatus?: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
     lateDuration?: {}, earlyDuration?: {}, amount?: number
-  } = { dateId: this.afs.createId(), date: new Date(), inStatus: 'absent' };
+  } = { dateId: this.afs.createId(), date: new Date(), status: 'absent' };
 
-  todayLog: { recentDate?: Date, firstname?: string, lastname?: string, status?: string, inStatus?: string, outStatus?: string,
-             clockInTime?: {}, clockOutTime?: {}, durationTime?: {}, lateBy?: {}, earlyBy?: {}, amount?: number,
-             fenceStatus?: boolean } = {};
+  todayLog: {
+    recentDate?: Date, firstname?: string, lastname?: string, status?: string, inStatus?: string, outStatus?: string,
+    clockInTime?: {}, clockOutTime?: {}, durationTime?: {}, lateBy?: {}, earlyBy?: {}, amount?: number,
+    fenceStatus?: boolean
+  } = {};
 
   dateLogObservable: Observable<any> = new Observable();
   dateLogObserver = {
@@ -163,10 +167,13 @@ export class EmployeeHomePage implements OnInit {
     private modalController: ModalController,
     private toastController: ToastController,
     private memberService: MemberService,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private statService: StatService
   ) { }
 
   ngOnInit() {
+    this.todaysDate = new Date(2020, 6, 29);
+    // this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
@@ -235,46 +242,50 @@ export class EmployeeHomePage implements OnInit {
     //   await this.toast.present();
     //   return;
     // }
-    // if (biometricResult === 'biometric_success') {
-    this.clockedIn = true;
-    this.todayLog.firstname = this.firstname;
-    this.todayLog.lastname = this.lastname;
-    this.todayLog.status = 'present';
-    this.dateLog.status = 'present';
-    this.calDuration();
-    const date = new Date();
-    this.clockInTime = {
-      hr: {
-        text: this.dateTimeService.display('hours', null, date),
-        value: this.dateTimeService.getHours(date)
-      },
-      min: {
-        text: this.dateTimeService.display('minutes', null, date),
-        value: this.dateTimeService.getMinutes(date)
-      },
-      meridiem: this.dateTimeService.getMeridiem(new Date())
-    };
+    const biometricResult = 'biometric_success';
+    if (biometricResult === 'biometric_success') {
+      status = 'present';
+      this.statService.decrementAbsentee(this.todaysDate);
+      this.statService.incrementStats(this.todaysDate, status);
+      this.clockedIn = true;
+      this.todayLog.firstname = this.firstname;
+      this.todayLog.lastname = this.lastname;
+      this.todayLog.status = status;
+      this.dateLog.status = status;
+      this.calDuration();
+      const date = new Date();
+      this.clockInTime = {
+        hr: {
+          text: this.dateTimeService.display('hours', null, date),
+          value: this.dateTimeService.getHours(date)
+        },
+        min: {
+          text: this.dateTimeService.display('minutes', null, date),
+          value: this.dateTimeService.getMinutes(date)
+        },
+        meridiem: this.dateTimeService.getMeridiem(new Date())
+      };
 
-    this.toast = await this.toastController.create({
-      message: 'Clocked In',
-      duration: 1000
-    });
-    await this.toast.present();
+      this.toast = await this.toastController.create({
+        message: 'Clocked In',
+        duration: 1000
+      });
+      await this.toast.present();
 
-    // this.dateLog = { ...this.dateLog, ...{ clockInTime: this.clockInTime } };
+      // this.dateLog = { ...this.dateLog, ...{ clockInTime: this.clockInTime } };
 
-    this.dateLog.clockInTime = this.clockInTime;
-    this.todayLog.clockInTime = this.clockInTime;
-    this.dateLogObserver.next(this.dateLog);
-    this.todayLogObserver.next(this.todayLog);
+      this.dateLog.clockInTime = this.clockInTime;
+      this.todayLog.clockInTime = this.clockInTime;
+      this.dateLogObserver.next(this.dateLog);
+      this.todayLogObserver.next(this.todayLog);
 
-    // this.dateLogObs = new Observable(obs => {
-    //   obs.next(this.dateLog);
-    // });
+      // this.dateLogObs = new Observable(obs => {
+      //   obs.next(this.dateLog);
+      // });
 
-    this.assignInStatus();
+      this.assignInStatus();
 
-    // }
+    }
 
   }
 
@@ -282,6 +293,7 @@ export class EmployeeHomePage implements OnInit {
     if (this.clockInTime.hr.value !== this.shiftStartTime.hr.value
       || this.clockInTime.min.value !== this.shiftStartTime.min.value) {
       this.inStatus = 'late arrival';
+      this.statService.incrementStats(this.todaysDate, this.inStatus);
       this.calLateDuration();
     } else {
       this.inStatus = null;
@@ -386,6 +398,7 @@ export class EmployeeHomePage implements OnInit {
     if (this.clockOutTime.hr.value !== this.shiftEndTime.hr.value
       || this.clockOutTime.min.value !== this.shiftEndTime.min.value) {
       this.outStatus = 'early departure';
+      this.statService.incrementStats(this.todaysDate, this.outStatus);
       this.calEarlyDuration();
     } else {
       this.outStatus = null;
