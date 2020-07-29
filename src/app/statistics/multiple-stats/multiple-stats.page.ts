@@ -41,6 +41,7 @@ export class MultipleStatsPage implements OnInit {
 
   ngOnInit() {
     this.label = ['presentees'];
+    this.getStatsRange();
     // this.stats$ = this.statService.getStats$();
   }
 

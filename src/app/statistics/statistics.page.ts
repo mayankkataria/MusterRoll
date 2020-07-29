@@ -11,7 +11,7 @@ import { DateTimeService } from '../services/date-time.service';
 import { SingleStatsPage } from './single-stats/single-stats.page';
 import { MultipleStatsPage } from './multiple-stats/multiple-stats.page';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-statistics',
@@ -23,21 +23,13 @@ export class StatisticsPage {
   singleStats = SingleStatsPage;
   multiStats = MultipleStatsPage;
 
-  constructor(
-    private statService: StatService,
-    private dateTimeService: DateTimeService,
-    private router: Router,
-    private navCtrl: NavController
-  ) { }
-
-  // ngOnInit() {
-  //   this.label = 'presentees';
-  //   this.stats$ = this.statService.getStats$();
-  // }
-
-  // superTabClick(ev) {
-  //   console.log('st clicked: ', ev);
-  //   // this.router.navigate(['tabs/statistics/single-stats']);
-  //   this.navCtrl.navigateBack('tabs/statistics/single-stats');
-  // }
+  @ViewChild('slides', { static: true }) slider: IonSlides;
+  segment = 0;
+  constructor() { }
+  async segmentChanged(ev: any) {
+    await this.slider.slideTo(this.segment);
+  }
+  async slideChanged() {
+    this.segment = await this.slider.getActiveIndex();
+  }
 }
