@@ -208,4 +208,11 @@ export class MultipleStatsPage implements OnInit {
     console.log('canvas clicked');
   }
 
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getStatsRange();
+      event.target.complete();
+    }, 2000);
+  }
+
 }
