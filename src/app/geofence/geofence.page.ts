@@ -41,23 +41,20 @@ export class GeofencePage implements OnInit {
   polyLine: any;
   // isModified = false;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
-    this.anonLogin();
-   }
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
   ngOnInit() {
     this.geofenceCollection = this.afs.collection('geofences');
+    this.userLogin();
   }
 
   ionViewWillEnter() {
     this.loadMap();
   }
 
-  anonLogin() {
-    this.afAuth.signInAnonymously().then(ref => {
-      this.user = ref.user;
-      console.log('User: ', this.user);
-    });
+  userLogin() {
+    this.afAuth.authState
+      .subscribe(user => this.user = user);
   }
 
   loadMap() {

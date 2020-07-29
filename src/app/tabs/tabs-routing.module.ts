@@ -52,6 +52,10 @@ const routes: Routes = [
         loadChildren: () => import('../clock-in/clock-in.module').then(m => m.ClockInPageModule),
         // canActivate: [EmployeeGuard]
       },
+      {
+        path: 'geofence',
+        loadChildren: () => import('../geofence/geofence.module').then(m => m.GeofencePageModule),
+      },
       // {
       //   path: 'attendance-log',
       //   loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
