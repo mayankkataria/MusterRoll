@@ -19,6 +19,8 @@ export class MembersPage implements OnInit {
   filteredDes: string;
   userRole: string;
 
+  public showSearchBar = false;
+
   othersProfilePage = OthersProfilePage;
   contentLoaded=false;
   constructor(
@@ -37,6 +39,11 @@ export class MembersPage implements OnInit {
       .subscribe(role => this.userRole = role);
   }
 
+  clickedSearch(event:Event)
+  {
+    this.showSearchBar = !this.showSearchBar;
+  }
+  
   async openFilterModal() {
     const filterModal = await this.modalCtrl.create({
       component: FilterModalPage
