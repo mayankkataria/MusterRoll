@@ -14,13 +14,17 @@
       <ion-label>User ID: {{ user.uid }}</ion-label>
     </ion-item> -->
 
+    <ion-button (click)="loadMap()">
+      Re-Center
+    </ion-button>
+    
     <ion-button (click)="startTracking()" *ngIf="!isTracking">
       <ion-icon name="locate" slot="start"></ion-icon>
       Start Tracking
     </ion-button>
 
     <ion-button (click)="stopTracking()" *ngIf="isTracking">
-      <ion-icon name="hand" slot="start"></ion-icon>
+      <ion-icon name="hand-right-outline" slot="start"></ion-icon>
       Stop Tracking
     </ion-button>
 
@@ -32,10 +36,6 @@
       Hide Geofences
     </ion-button> -->
     
-    <!-- <ion-button (click)="inOrOut()">
-      Mark Attendance
-    </ion-button> -->
-
     <ion-button (click)="createGeofence()" *ngIf="!isCreating && !isEditing">
       Create Geofence
     </ion-button>
