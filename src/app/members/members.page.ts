@@ -20,12 +20,16 @@ export class MembersPage implements OnInit {
   userRole: string;
 
   othersProfilePage = OthersProfilePage;
-
+  contentLoaded=false;
   constructor(
     private memberService: MemberService,
     private modalCtrl: ModalController,
     private userService: UserService
-  ) { }
+  ) { 
+    setTimeout(() => {
+      this.contentLoaded=true;
+    },3000);
+  }
 
   ngOnInit() {
     this.members$ = this.memberService.fetchAllMembers$();
