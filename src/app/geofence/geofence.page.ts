@@ -39,6 +39,7 @@ export class GeofencePage implements OnInit {
   fenceId: string;
   fullImagePath: string;
   polyLine: any;
+  currentLocation: any;
   // isModified = false;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
@@ -60,7 +61,7 @@ export class GeofencePage implements OnInit {
   loadMap() {
     Geolocation.getCurrentPosition().then((resp) => {
       const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-
+      this.currentLocation = latLng;
       const mapOptions = {
         center: latLng,
         zoom: 20,
@@ -91,9 +92,14 @@ export class GeofencePage implements OnInit {
     });
   }
 
+  reCenter() {
+    console.log('Re-center karega, Re-center kr');
+    this.map.setCenter(this.currentLocation);
+  }
+
   startTracking() {
     this.isTracking = true;
-    this.watch = Geolocation.watchPosition({}, (position, err) => {
+    this.watch = Geolocation.watchPosition({}, (position) => {
       console.log('New Position: ', position);
       if (position) {
         this.inOrOut(position.coords.latitude, position.coords.longitude);
@@ -139,7 +145,7 @@ export class GeofencePage implements OnInit {
     });
 
     const infowindow = new google.maps.InfoWindow({
-      content: 'Chinmay Jain'
+      content: 'You are here :)'
     });
     this.marker.addListener('mouseover', () => {
       infowindow.open(this.map, this.marker);
