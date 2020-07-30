@@ -21,7 +21,7 @@ export class ProfilePage implements OnInit {
 
   attendancePage = AttendanceLogPage;
   @ViewChild('filePicker', { static: false }) filePickerRef: ElementRef<HTMLInputElement>;
-  photo: SafeResourceUrl;
+  photo: SafeResourceUrl = '/assets/user.png';
   isDesktop: boolean;
 
   userData: any;
@@ -106,8 +106,26 @@ export class ProfilePage implements OnInit {
 
   accessGallery() {
     // this.camService.accessGallery()
+    // .then(photo => {
+    //   this.userService.getUid$()
+    //     .subscribe(userUid => {
+    //       console.log('uid subscribe');
+    //       const base64String = photo.base64String;
+    //       this.storageService.setProfilePic(userUid, base64String)
+    //       .then(() => {
+    //         this.storageService.getProfilePicUrl$(userUid)
+    //           .subscribe(url => {
+    //             this.profilePicUrl = url;
+    //             this.userService.updateProfilePic(url);
+    //           });
+    //       })
+    //       .catch(err => console.log('img store error: ', err));
+    //     });
+    // })
     //   .catch(err => console.log('access gallery error: ', err));
+
     // this.filePickerRef.nativeElement.click();
+
     if (!Capacitor.isPluginAvailable('Camera') || this.isDesktop) {
       this.filePickerRef.nativeElement.click();
       return;
@@ -157,16 +175,37 @@ export class ProfilePage implements OnInit {
     const reader = new FileReader();
 
     if (!file.type.match(pattern)) {
-      console.log('File format not supported');
+      alert('File format not supported');
       return;
     }
 
-    reader.onload = () => {
-      this.photo = reader.result.toString();
-    };
-
     reader.readAsDataURL(file);
 
+    reader.onload = () => {
+      this.photo = reader.result.toString();
+      // console.log('photo: ', this.photo);
+      this.userService.getUid$()
+          .subscribe(userUid => {
+            console.log('uid subscribe');
+            this.storageService.setProfilePic(userUid, this.photo)
+            .then(() => {
+              this.storageService.getProfilePicUrl$(userUid)
+                .subscribe(url => {
+                  this.profilePicUrl = url;
+                  this.userService.updateProfilePic(url);
+                });
+            })
+            .catch(err => console.log('img store error: ', err));
+          });
+    };
+
+
+    console.log('file: ', file);
+
+  }
+
+  imgChanged() {
+    console.log('img changed');
   }
 
   async signOut() {

@@ -6,88 +6,89 @@
 </ion-header> -->
 
 <!-- <div class="div"> -->
-  <!-- <div class="inner-div"> -->
-    <ion-header translucent no-border>
-      <ion-toolbar style="padding: 10px;">
-        <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
-        <ion-buttons slot="end">
-          <ion-button (click)="showSettingsSheet()">
-            <ion-icon style="color: white;"  slot="icon-only" name="settings"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content fullscreen="true" slot="fixed">
-      <div *ngIf="user$ | async as user">
-        <div class="card">
-          <div class="header">
-            <div class="avatar">
-              <img class="profile-pic" [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'">
-              <div>
-                <ion-fab class="camera-fab" slot="fixed">
-                  <ion-fab-button (click)="showCamSheet()">
-                    <ion-icon name="camera"></ion-icon>
-                  </ion-fab-button>
-                </ion-fab>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="user-meta ion-text-center">
-            <h3 class="playername">{{ user.firstname | titlecase }} {{ user.lastname | titlecase }}</h3>
-            <h5 class="country">{{ user.role | uppercase }}</h5>
-            
-            <h6>
-              <ion-icon name="keypad-outline"></ion-icon>
-              <ion-text> ID: </ion-text>
-              <ion-text> <b>{{ user.id }}</b></ion-text>
-            </h6>
-            <h6>
-              <ion-icon name="mail-outline"></ion-icon>
-              <ion-text> Email: </ion-text>
-              <ion-text> <b>{{ user.email }}</b></ion-text>
-            </h6>
-            <h6>
-              <ion-icon name="briefcase-outline"></ion-icon>
-              <ion-text> Designation: </ion-text>
-              <ion-text> <b>{{ user.designation | titlecase }} </b></ion-text>
-            </h6>
-            <h6>
-              <ion-icon name="business-outline"></ion-icon>
-              <ion-text> Department: </ion-text>
-              <ion-text> <b>{{ user.department | uppercase }} </b></ion-text>
-            </h6>
-            <h6 *ngIf="user.role === 'employee'">
-              <ion-icon name="moon-outline"></ion-icon>
-              <ion-text> Shift: </ion-text>
-              <ion-text> <b>{{ user.shift | titlecase }} </b></ion-text>
-            </h6>
-            <h6 *ngIf="user.role === 'employee'">
-              <ion-icon name="stopwatch-outline"></ion-icon>
-              <ion-text> Shift Timings: </ion-text>
-              <ion-text><b>
-                  {{ shiftStart.hr.text }}:{{ shiftStart.min.text }} {{ shiftStart.meridiem }} -
-                  {{ shiftEnd.hr.text }}:{{ shiftEnd.min.text }} {{ shiftEnd.meridiem }}
-                </b></ion-text>
-            </h6>
-            <h6 *ngIf="user.role === 'employee'">
-              <ion-icon name="wallet-outline"></ion-icon>
-              <ion-text> Salary: </ion-text>
-              <ion-text> <b>{{ user.salary }} Rs. / {{ user.perUnitTime }} </b></ion-text>
-            </h6>  
+<!-- <div class="inner-div"> -->
+<ion-header translucent no-border>
+  <ion-toolbar style="padding: 10px;">
+    <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="showSettingsSheet()">
+        <ion-icon style="color: white;" slot="icon-only" name="settings"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content fullscreen="true" slot="fixed">
+  <div *ngIf="user$ | async as user">
+    <div class="card">
+      <div class="header">
+        <div class="avatar">
+          <img class="profile-pic" [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'">
+          <div>
+            <ion-fab class="camera-fab" slot="fixed">
+              <ion-fab-button (click)="showCamSheet()">
+                <ion-icon name="camera"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
           </div>
-          <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage">
-            <ion-button expand="full" color="medium">
-              Attendance Log
-            </ion-button>
-          </ion-nav-link>
+          <input type="file" *ngIf="isDesktop" [hidden]="true" #filePicker (change)="onFileChoose($event)" />
         </div>
       </div>
-    </ion-content>
-  <!-- </div> -->
+    </div>
+    <div class="card-body">
+      <div class="user-meta ion-text-center">
+        <h3 class="playername">{{ user.firstname | titlecase }} {{ user.lastname | titlecase }}</h3>
+        <h5 class="country">{{ user.role | uppercase }}</h5>
+
+        <h6>
+          <ion-icon name="keypad-outline"></ion-icon>
+          <ion-text> ID: </ion-text>
+          <ion-text> <b>{{ user.id }}</b></ion-text>
+        </h6>
+        <h6>
+          <ion-icon name="mail-outline"></ion-icon>
+          <ion-text> Email: </ion-text>
+          <ion-text> <b>{{ user.email }}</b></ion-text>
+        </h6>
+        <h6>
+          <ion-icon name="briefcase-outline"></ion-icon>
+          <ion-text> Designation: </ion-text>
+          <ion-text> <b>{{ user.designation | titlecase }} </b></ion-text>
+        </h6>
+        <h6>
+          <ion-icon name="business-outline"></ion-icon>
+          <ion-text> Department: </ion-text>
+          <ion-text> <b>{{ user.department | uppercase }} </b></ion-text>
+        </h6>
+        <h6 *ngIf="user.role === 'employee'">
+          <ion-icon name="moon-outline"></ion-icon>
+          <ion-text> Shift: </ion-text>
+          <ion-text> <b>{{ user.shift | titlecase }} </b></ion-text>
+        </h6>
+        <h6 *ngIf="user.role === 'employee'">
+          <ion-icon name="stopwatch-outline"></ion-icon>
+          <ion-text> Shift Timings: </ion-text>
+          <ion-text><b>
+              {{ shiftStart.hr.text }}:{{ shiftStart.min.text }} {{ shiftStart.meridiem }} -
+              {{ shiftEnd.hr.text }}:{{ shiftEnd.min.text }} {{ shiftEnd.meridiem }}
+            </b></ion-text>
+        </h6>
+        <h6 *ngIf="user.role === 'employee'">
+          <ion-icon name="wallet-outline"></ion-icon>
+          <ion-text> Salary: </ion-text>
+          <ion-text> <b>{{ user.salary }} Rs. / {{ user.perUnitTime }} </b></ion-text>
+        </h6>
+
+      </div>
+      <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage">
+        <ion-button expand="full" color="medium">
+          Attendance Log
+        </ion-button>
+      </ion-nav-link>
+    </div>
+  </div>
+</ion-content>
+<!-- </div> -->
 <!-- </div> -->
 
 <!-- <ion-content>
