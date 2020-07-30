@@ -6,22 +6,57 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <div *ngIf="contentLoaded">
+    <ion-list>
+      <ion-item *ngFor="let log of logItems$ | async" [routerLink]="['/datelog', log.dateId]" routerLinkActive="router-link-active" >
+        <ion-label>
+          <ion-text>
+            <b *ngIf="log.date" > {{ log.date.toDate().toDateString().split(' ')[2] }} {{ log.date.toDate().toDateString().split(' ')[1] }} {{ log.date.toDate().toDateString().split(' ')[3] }}</b>
+            <h3 *ngIf="log.clockInTime" >Clock In: <b>{{ log.clockInTime.hr.text }}:{{ log.clockInTime.min.text }} {{ log.clockInTime.meridiem }}</b> </h3>
+            <h3 *ngIf="log.clockOutTime" >Clock Out: <b>{{ log.clockOutTime.hr.text }}:{{ log.clockOutTime.min.text }} {{ log.clockOutTime.meridiem }}</b> </h3>
+            <h3 *ngIf="log.amount" >Amount: <b> {{ log.amount }} Rs</b> </h3>
+          </ion-text>
+        </ion-label>
+        <div>
+          <ion-badge *ngIf="log.inStatus === 'late arrival'" slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
+          <ion-badge *ngIf="log.status === 'present'" slot="end" color="success" mode="ios" size="large">P</ion-badge>
+          <ion-badge *ngIf="log.outStatus === 'early departure'" slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
 
-    <ion-item *ngFor="let log of logItems$ | async" [routerLink]="['/datelog', log.dateId]" routerLinkActive="router-link-active" >
-      <ion-label>
-        <ion-text>
-          <b *ngIf="log.date" > {{ log.date.toDate().toDateString().split(' ')[2] }} {{ log.date.toDate().toDateString().split(' ')[1] }} {{ log.date.toDate().toDateString().split(' ')[3] }}</b>
-          <h3 *ngIf="log.clockInTime" >Clock In: <b>{{ log.clockInTime.hr.text }}:{{ log.clockInTime.min.text }} {{ log.clockInTime.meridiem }}</b> </h3>
-          <h3 *ngIf="log.clockOutTime" >Clock Out: <b>{{ log.clockOutTime.hr.text }}:{{ log.clockOutTime.min.text }} {{ log.clockOutTime.meridiem }}</b> </h3>
-          <h3 *ngIf="log.amount" >Amount: <b> {{ log.amount }} Rs</b> </h3>
-        </ion-text>
-      </ion-label>
-      <div>
-        <ion-badge *ngIf="log.inStatus === 'late arrival'" slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
-        <ion-badge *ngIf="log.status === 'present'" slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <ion-badge *ngIf="log.outStatus === 'early departure'" slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
-      </div>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="!contentLoaded">
+    <ion-list>
+      <ion-item *ngFor="let log of logItems$ | async" [routerLink]="['/datelog', log.dateId]" routerLinkActive="router-link-active" >
+        <ion-label>
+          <ion-text>
+            <b *ngIf="log.date" >
+              <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+              </b>
+            <h3 *ngIf="log.clockInTime" >
+              <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+            </h3>
+            <h3 *ngIf="log.clockOutTime" >
+              <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+            </h3>
+            <h3 *ngIf="log.amount" >
+              <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+            </h3>
+          </ion-text>
+        </ion-label>
+        <div>
+          <ion-badge *ngIf="log.inStatus === 'late arrival'" slot="end" color="warning" mode="ios" size="large">
+            <ion-skeleton-text animated style="width: 10%"></ion-skeleton-text>            
+          </ion-badge>
+          <ion-badge *ngIf="log.status === 'present'" slot="end" color="success" mode="ios" size="large">
+            <ion-skeleton-text animated style="width: 10%"></ion-skeleton-text>
+          </ion-badge>
+          <ion-badge *ngIf="log.outStatus === 'early departure'" slot="end" color="primary" mode="ios" size="large">
+            <ion-skeleton-text animated style="width: 10%"></ion-skeleton-text>
+          </ion-badge>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

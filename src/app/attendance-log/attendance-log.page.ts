@@ -14,7 +14,7 @@ export class AttendanceLogPage implements OnInit {
   //   day?, date?, month?, year?
   // } = {};
   // dateArr = [];
-
+  contentLoaded=false;
   constructor(
     private userService: UserService
   ) {
@@ -33,6 +33,10 @@ export class AttendanceLogPage implements OnInit {
     //     this.dateString.year = this.dateArr[3];
     //   });
     // });
+
+    setTimeout(() => {
+      this.contentLoaded=true;
+    },3000);
   }
 
   ngOnInit() {
