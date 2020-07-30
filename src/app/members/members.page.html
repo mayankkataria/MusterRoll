@@ -10,13 +10,13 @@
     </ion-buttons>
     <ion-title *ngIf="!showSearchBar">Members</ion-title>
     <!-- <ion-back-button *ngIf="showSearchBar"></ion-back-button> -->
-    <ion-searchbar *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
+    <ion-searchbar *ngIf="showSearchBar" [(ngModel)]="searchFieldValue"
+    name="searchBar" (ionChange)="searchSuggest()" #searchBar placeholder="Search Members" animated="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-fab *ngIf="userRole === 'admin'" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button [routerLink]="['/add-employee']">
       <ion-icon name="person-add"></ion-icon>

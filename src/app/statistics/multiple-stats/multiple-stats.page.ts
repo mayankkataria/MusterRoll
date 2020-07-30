@@ -11,9 +11,9 @@ import { DateTimeService } from 'src/app/services/date-time.service';
 })
 export class MultipleStatsPage implements OnInit {
 
-  @ViewChild('barChart', { static: true }) barChart;
+  @ViewChild('chartView', { static: true }) chartView;
 
-  bars: Chart;
+  chart: Chart;
   colorArray: any;
   dataSet: any;
   absentees = { label: 'Absentees', data: [], backgroundColor: 'red', borderColor: 'red', borderWidth: 1 };
@@ -24,8 +24,8 @@ export class MultipleStatsPage implements OnInit {
   fromDate: string = new Date(2020, 6, 1).toISOString();
   fromDateObj: Date = new Date(2020, 6, 1);
   fromDatePicker: any;
-  toDate: string = new Date().toISOString();
-  toDateObj: Date = new Date();
+  toDate: string = new Date(2020, 6, 7).toISOString();
+  toDateObj: Date = new Date(2020, 6, 7);
   toDatePicker: any;
   stats$: Observable<any[]>;
   dateRange: Date[];
@@ -69,8 +69,8 @@ export class MultipleStatsPage implements OnInit {
         this.earlyLeavers.data.push(data.earlyLeavers);
         this.lateComers.data.push(data.lateComers);
         this.presentees.data.push(data.presentees);
-        if (this.bars) {
-          this.bars.destroy();
+        if (this.chart) {
+          this.chart.destroy();
         }
         this.chooseChart();
         this.makeDataset();
@@ -143,7 +143,7 @@ export class MultipleStatsPage implements OnInit {
     console.log('create chart');
     console.log('date string labels: ', this.dateStringLabels);
     console.log('date set: ', this.dataSet);
-    this.bars = new Chart(this.barChart.nativeElement, {
+    this.chart = new Chart(this.chartView.nativeElement, {
       type: this.chartType,
       data: {
         labels: this.dateStringLabels,

@@ -16,12 +16,22 @@ export class MembersPage implements OnInit {
 
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
 
-  members$: Observable<any>;
-  filteredDept: string;
-  filteredDes: string;
+  members$: Observable<any[]>;
+  members: any[];
+  filteredDept = 'all';
+  filteredDes = 'all';
   userRole: string;
   public showSearchBar = false;
 
+  departmentList: string[];
+  designationList: string[];
+  deptOption = 'All';
+  desOption = 'All';
+
+
+  public searchFieldValue = '';
+  public searchResults: any;
+  public showSearchSuggestion = false;
 
   othersProfilePage = OthersProfilePage;
   contentLoaded = false;
@@ -64,11 +74,51 @@ export class MembersPage implements OnInit {
   ngOnInit() {
     this.userService.getURole$()
       .subscribe(role => this.userRole = role);
+    this.fetchDistinct();
     // this.platform.backButton.subscribeWithPriority(10, () => {
     //   if (this.showSearchBar) {
     //     this.cancelSearchBar();
     //   }
     // });
+  }
+
+  searchSuggest() {
+    console.log(this.searchFieldValue);
+    this.members$ = this.memberService.showSearchResults(this.searchFieldValue.toLowerCase());
+  }
+
+  filter() {
+    this.memberService.deptFilter$.next(this.filteredDept.toLowerCase());
+    this.memberService.desFilter$.next(this.filteredDes.toLowerCase());
+    this.members$ = this.memberService.filter();
+  }
+
+  fetchDistinct() {
+    this.members$ = this.memberService.fetchAllMembers$();
+    this.departmentList = [];
+    this.designationList = [];
+    // This function filter unique/distinct values
+    // fetching distinct department values
+    this.members$.subscribe(
+      x => {
+        x.forEach(element => {
+          console.log(element.department);
+          if (!this.departmentList.includes(element.department)) {
+            this.departmentList.push(element.department);
+          }
+      });
+    });
+
+     // fetching distinct designation values
+    this.members$.subscribe(
+      x => {
+        x.forEach(element => {
+        if (!this.designationList.includes(element.designation)) {
+          this.designationList.push(element.designation);
+        }
+      });
+    }
+    );
   }
 
   clickedSearchIcon(event: Event) {
@@ -98,7 +148,13 @@ export class MembersPage implements OnInit {
 
   async openFilterModal() {
     const filterModal = await this.modalCtrl.create({
-      component: FilterModalPage
+      component: FilterModalPage,
+      componentProps: {
+        departmentList: this.departmentList,
+        designationList: this.designationList,
+        department: this.filteredDept,
+        designation: this.filteredDes
+      }
     });
     await filterModal.present();
     filterModal.onDidDismiss()
@@ -106,6 +162,9 @@ export class MembersPage implements OnInit {
         if (filterData.data) {
           this.filteredDept = filterData.data.filteredDept;
           this.filteredDes = filterData.data.filteredDes;
+          console.log('filter dept: ', this.filteredDept);
+          console.log('filter des: ', this.filteredDes);
+          this.filter();
         }
       })
       .catch(err => console.log('onDidDismiss error: ', err));

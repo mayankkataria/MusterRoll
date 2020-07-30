@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -8,16 +8,21 @@ import { ModalController } from '@ionic/angular';
 })
 export class FilterModalPage implements OnInit {
 
-  departmentList: string[] = ['All', 'IT', 'HR', 'RESOURCE'];
-  designationList: string[] = ['All', 'QA', 'Manager', 'Accountant', 'Receptionist'];
-  department = 'All';
-  designation = 'All';
+  @Input()
+  departmentList: string[]; designationList: string[]; department: string; designation: string;
+
+  // departmentList: string[] = ['All', 'IT', 'HR', 'RESOURCE'];
+  // designationList: string[] = ['All', 'QA', 'Manager', 'Accountant', 'Receptionist'];
+  // department = 'all';
+  // designation = 'all';
 
   constructor(
     private modalCtrl: ModalController
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('departmentList: ', this.departmentList);
+  }
 
   filter() {
     this.modalCtrl.dismiss({
