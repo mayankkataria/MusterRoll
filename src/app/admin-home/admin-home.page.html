@@ -1,25 +1,21 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      MusterRoll
-    </ion-title>
-    <!-- <ion-icon [routerLink]="['/statistics']" routerLinkActive="router-link-active"  class="ion-margin" slot="end" name="stats-chart"></ion-icon> -->
+    <ion-buttons slot="primary">
+      <ion-button [hidden]="showSearchBar" (click)="clickedSearchIcon($event)">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button color="dark" (click)="openFilterModal()">
+        <ion-icon name="funnel"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="!showSearchBar">MusterRoll</ion-title>
+    <!-- <ion-back-button *ngIf="showSearchBar"></ion-back-button> -->
+    <ion-searchbar *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<ion-grid>
-  <ion-row>
-    <ion-col size="10">
-      <ion-searchbar placeholder="Search Name" type="text"></ion-searchbar>
-    </ion-col>
-    <ion-col size="2">
-      <ion-button color="light">
-        <ion-icon name="funnel"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-grid>
 
 <div>
   <ion-list>

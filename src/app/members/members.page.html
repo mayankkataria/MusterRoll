@@ -1,78 +1,66 @@
-
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="primary">
-      <ion-button (click)="clickedSearch($event)">
+      <ion-button [hidden]="showSearchBar" (click)="clickedSearchIcon($event)">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
       <ion-button color="dark" (click)="openFilterModal()">
         <ion-icon name="funnel"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title >Members</ion-title>
-    <ion-searchbar *ngIf="showSearchBar" placeholder="Search Favorites" >
+    <ion-title *ngIf="!showSearchBar">Members</ion-title>
+    <!-- <ion-back-button *ngIf="showSearchBar"></ion-back-button> -->
+    <ion-searchbar *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
     </ion-searchbar>
   </ion-toolbar>
-  </ion-header>
+</ion-header>
 
 <ion-content>
 
   <ion-fab *ngIf="userRole === 'admin'" vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [routerLink]="['/add-employee']"><ion-icon name="person-add"></ion-icon></ion-fab-button>
+    <ion-fab-button [routerLink]="['/add-employee']">
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
-
-  <ion-grid>
-    <!-- <ion-row>
-      <ion-col size="10">
-        <ion-searchbar placeholder="Search Name" type="text"></ion-searchbar>
-      </ion-col>
-      <ion-col size="2">
-        <ion-button color="light" (click)="openFilterModal()">
-          <ion-icon name="funnel"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row> -->
-  </ion-grid>
-  <div *ngIf="contentLoaded">
-    <div *ngIf="members$">
-      <ion-list>
-          <ion-nav-link *ngFor="let member of members$ | async" router-direction="forward" [component]="othersProfilePage" [componentProps]="{memberUid: member.uid}" >
-          <ion-item>
-            <ion-avatar slot="start">
-              <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
-            </ion-avatar>
-            <ion-label>
-              <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>
-              <p>{{ member.designation | titlecase }}</p>
-            </ion-label>
-            <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
-          </ion-item>
-        </ion-nav-link>
-      </ion-list>
-    </div>
+  <div *ngIf="members$ && contentLoaded">
+    <ion-list>
+      <ion-nav-link *ngFor="let member of members$ | async" router-direction="forward" [component]="othersProfilePage"
+        [componentProps]="{memberUid: member.uid}">
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-img class="member-img" [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <h2> <b> {{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </b> </h2>
+            <p>{{ member.designation | titlecase }}</p>
+          </ion-label>
+          <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge>
+        </ion-item>
+      </ion-nav-link>
+    </ion-list>
   </div>
 
-    <div *ngIf="!contentLoaded">
-      <div *ngIf="members$">
-        <ion-list>
-            <ion-nav-link *ngFor="let member of members$ | async" router-direction="forward" [component]="othersProfilePage" [componentProps]="{memberUid: member.uid}" >
-            <ion-item>
-              <ion-avatar slot="start">
-                <ion-skeleton-text animated></ion-skeleton-text>
-              </ion-avatar>
-              <ion-label>
-                <h2>
-                  <ion-skeleton-text animated></ion-skeleton-text>
-                </h2>
-                <p>
-                  <ion-skeleton-text animated></ion-skeleton-text>  
-                </p>
-              </ion-label>
-              <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">
-                <ion-skeleton-text animated></ion-skeleton-text></ion-badge> 
-            </ion-item>
-          </ion-nav-link>
-        </ion-list>
-      </div>
-    </div>
+  <div *ngIf="!contentLoaded && members$">
+    <ion-list>
+      <ion-nav-link *ngFor="let member of members$ | async" router-direction="forward" [component]="othersProfilePage"
+        [componentProps]="{memberUid: member.uid}">
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-label>
+            <h2>
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </h2>
+            <p>
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </p>
+          </ion-label>
+          <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-badge>
+        </ion-item>
+      </ion-nav-link>
+    </ion-list>
+  </div>
 </ion-content>
