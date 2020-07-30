@@ -17,6 +17,6 @@ import { AddEmployeePage } from './add-employee.page';
     IonicModule,
     AddEmployeePageRoutingModule
   ],
-  declarations: [AddEmployeePage]
+  declarations: [AddEmployeePage],
 })
 export class AddEmployeePageModule {}

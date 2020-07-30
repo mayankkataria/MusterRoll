@@ -7,13 +7,28 @@ import { IonicModule } from '@ionic/angular';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
-
+import { SuperTabsModule} from '@ionic-super-tabs/angular';
+import { HomePageModule } from '../home/home.module';
+import { StatisticsPageModule } from '../statistics/statistics.module';
+import { MembersPageModule } from '../members/members.module';
+import { ProfilePageModule } from '../profile/profile.module';
+import { AdminHomePageModule } from '../admin-home/admin-home.module';
+import { EmployeeHomePageModule } from '../employee-home/employee-home.module';
+import { AttendanceLogPageModule } from '../attendance-log/attendance-log.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TabsPageRoutingModule
+    TabsPageRoutingModule,
+    SuperTabsModule,
+    AdminHomePageModule,
+    EmployeeHomePageModule,
+    // HomePageModule,
+    StatisticsPageModule,
+    MembersPageModule,
+    ProfilePageModule,
+    AttendanceLogPageModule
   ],
   declarations: [
     TabsPage,

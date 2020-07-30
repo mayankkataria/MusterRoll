@@ -22,6 +22,7 @@ import { ClockInPageModule } from '../clock-in/clock-in.module';
   exports: [
     EmployeeHomePage
   ],
-  declarations: [EmployeeHomePage]
+  declarations: [EmployeeHomePage],
+  entryComponents: [EmployeeHomePage]
 })
 export class EmployeeHomePageModule {}

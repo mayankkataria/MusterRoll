@@ -53,9 +53,13 @@ const routes: Routes = [
         // canActivate: [EmployeeGuard]
       },
       {
-        path: 'attendance-log',
-        loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+        path: 'geofence',
+        loadChildren: () => import('../geofence/geofence.module').then(m => m.GeofencePageModule),
       },
+      // {
+      //   path: 'attendance-log',
+      //   loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+      // },
       {
         path: 'datelog',
         loadChildren: () => import('../datelog/datelog.module').then(m => m.DatelogPageModule)

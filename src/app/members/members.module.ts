@@ -8,6 +8,7 @@ import { MembersPageRoutingModule } from './members-routing.module';
 
 import { MembersPage } from './members.page';
 import { FilterModalPageModule } from '../filter-modal/filter-modal.module';
+import { OthersProfilePageModule } from '../others-profile/others-profile.module';
 
 @NgModule({
   imports: [
@@ -15,8 +16,10 @@ import { FilterModalPageModule } from '../filter-modal/filter-modal.module';
     FormsModule,
     IonicModule,
     MembersPageRoutingModule,
-    FilterModalPageModule
+    FilterModalPageModule,
+    OthersProfilePageModule
   ],
-  declarations: [MembersPage]
+  declarations: [MembersPage],
+  entryComponents: [MembersPage]
 })
 export class MembersPageModule {}

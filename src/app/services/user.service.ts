@@ -54,6 +54,14 @@ export class UserService {
       );
   }
 
+  getUserLogs$() {
+    return this.getUid$()
+      .pipe(switchMap(uid => this.afs.collection<any>('members/' + uid + '/log', ref => ref
+        .orderBy('date', 'desc')
+      )
+        .valueChanges()));
+  }
+
   getUserLog$() {
     return this.getUid$()
       .pipe(switchMap(uid => this.afs.collection<any>('members/' + uid + '/log', ref => ref
@@ -86,9 +94,14 @@ export class UserService {
     this.getUid$()
       .subscribe(uid => {
         console.log('get uid subscribe');
-        this.afs.doc<any>(`members/${uid}/log/${dateLog.date.toDateString()}`)
+        this.afs.doc<any>(`members/${uid}/log/${dateLog.dateId}`)
           .set(dateLog, { merge: true });
       });
+  }
+
+  getDateLog$(dateId: string) {
+    return this.getUid$()
+    .pipe(switchMap(userId => this.afs.doc<any>(`members/${userId}/log/${dateId}`).valueChanges()));
   }
 
   getURole$() {

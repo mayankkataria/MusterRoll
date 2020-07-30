@@ -17,6 +17,7 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule,
     SingleStatsPageRoutingModule
   ],
-  declarations: [SingleStatsPage]
+  declarations: [],
+  entryComponents: [SingleStatsPage]
 })
 export class SingleStatsPageModule {}

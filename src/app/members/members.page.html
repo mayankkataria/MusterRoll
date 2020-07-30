@@ -22,18 +22,20 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div *ngIf="members">
-    <ion-list *ngFor="let member of members | async">
-      <ion-item [routerLink]="['/tabs/others-profile', member.uid]">
-        <ion-avatar slot="start">
-          <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>
-          <p>{{ member.designation | titlecase }}</p>
-        </ion-label>
-        <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
-      </ion-item>
+  <div *ngIf="members$">
+    <ion-list>
+        <ion-nav-link *ngFor="let member of members$ | async" router-direction="forward" [component]="othersProfilePage" [componentProps]="{memberUid: member.uid}" >
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-img [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </h2>
+            <p>{{ member.designation | titlecase }}</p>
+          </ion-label>
+          <ion-badge slot="end" color="success" *ngIf="member.role === 'admin'">Admin</ion-badge> 
+        </ion-item>
+      </ion-nav-link>
     </ion-list>
   </div>
 </ion-content>

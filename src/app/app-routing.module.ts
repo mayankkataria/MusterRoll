@@ -17,8 +17,10 @@ const routes: Routes = [
   {
     path: 'geofence',
     loadChildren: () => import('./geofence/geofence.module').then(m => m.GeofencePageModule),
-    canActivate: [AuthGuard]
-    // canActivate: [AdminGuard]
+  },
+  {
+    path: 'clock-in',
+    loadChildren :() => import('./clock-in/clock-in.module').then(m => m.ClockInPageModule),
   },
   {
     path: 'leave',
@@ -71,6 +73,22 @@ const routes: Routes = [
   {
     path: 'side-menu',
     loadChildren: () => import('./side-menu/side-menu.module').then( m => m.SideMenuPageModule)
+  },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsPageModule),
+  },
+  {
+    path: 'attendance-log',
+    loadChildren: () => import('./attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+  },
+  {
+    path: 'datelog/:dateId',
+    loadChildren: () => import('./datelog/datelog.module').then(m => m.DatelogPageModule)
+  },
+  {
+    path: 'others-profile/:uid',
+    loadChildren: () => import('./others-profile/others-profile.module').then(m => m.OthersProfilePageModule)
   },
 ];
 

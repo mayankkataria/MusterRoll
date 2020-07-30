@@ -3,6 +3,7 @@
     <ion-title>
       MusterRoll
     </ion-title>
+    <!-- <ion-icon [routerLink]="['/statistics']" routerLinkActive="router-link-active"  class="ion-margin" slot="end" name="stats-chart"></ion-icon> -->
   </ion-toolbar>
 </ion-header>
 
@@ -37,8 +38,6 @@
       <ion-label>
         <ion-text>
           <b>{{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </b>
-          <!-- <h3>Clock In: <b>{{ dateTimeService.display('hours', null, member.clockInTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockInTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockInTime.toDate()) }}</b> </h3> -->
-          <!-- <h3>Clock Out: <b>{{ dateTimeService.display('hours', null, member.clockOutTime.toDate()) }}:{{ dateTimeService.display('minutes', null, member.clockOutTime.toDate()) }} {{ dateTimeService.getMeridiem(member.clockOutTime.toDate()) }}</b> </h3> -->
           <h3 *ngIf="member.clockInTime">Clock In: <b>{{ member.clockInTime.hr.text }}:{{ member.clockInTime.min.text }} {{ member.clockInTime.meridiem }}</b> </h3>
           <h3 *ngIf="member.clockOutTime">Clock Out: <b>{{ member.clockOutTime.hr.text }}:{{ member.clockOutTime.min.text }} {{ member.clockOutTime.meridiem }}</b> </h3>
           <h3 *ngIf="member.amount">Amount: <b>{{ member.amount }} Rs</b> </h3>
@@ -49,113 +48,6 @@
         <ion-badge *ngIf="member.status == 'present'" slot="end" color="success" mode="ios" size="large">P</ion-badge>
         <ion-badge *ngIf="member.outStatus == 'early departure'" slot="end" color="primary" mode="ios" size="large">ED</ion-badge>
       </div>
-    </ion-item>
-
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="assets/user.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <ion-text>
-          <b>Prem Chopra</b>
-          <h3>Clock In: <b>09:00 AM</b> </h3>
-          <h3>Clock Out: <b>04:00 PM</b> </h3>
-          <h3>Amount: <b>60 Rs</b> </h3>
-        </ion-text>
-      </ion-label>
-      <div>
-        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
-        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="assets/user.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <ion-text>
-          <b>Tushar Sharma</b>
-          <!-- <h3>Status: <b>Present</b> </h3> -->
-          <h3>Clock In: <b>09:00 AM</b> </h3>
-          <h3>Clock Out: <b>04:30 PM</b> </h3>
-          <h3>Amount: <b>60 Rs</b> </h3>
-        </ion-text>
-      </ion-label>
-      <div>
-        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
-        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="assets/user.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <ion-text>
-          <b>Palak Intodia</b>
-          <!-- <h3>Status: <b>Present</b> </h3> -->
-          <h3>Clock In: <b>10:00 AM</b> </h3>
-          <h3>Clock Out: <b>06:00 PM</b> </h3>
-          <h3>Amount: <b>100 Rs</b> </h3>
-        </ion-text>
-      </ion-label>
-      <div>
-        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
-        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <!-- <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge> -->
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="assets/user.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <ion-text>
-          <b>Kalpit Malviya</b>
-          <!-- <h3>Status: <b>Present</b> </h3> -->
-          <h3>Clock In: <b>10:00 AM</b> </h3>
-          <h3>Clock Out: <b>06:00 PM</b> </h3>
-          <h3>Amount: <b>100 Rs</b> </h3>
-        </ion-text>
-      </ion-label>
-      <div>
-        <!-- <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge> -->
-        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <!-- <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge> -->
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="assets/user.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <ion-text>
-          <b>Nikita Rawat</b>
-          <!-- <h3>Status: <b>Present</b> </h3> -->
-          <h3>Clock In: <b>10:00 AM</b> </h3>
-          <h3>Clock Out: <b>04:00 PM</b> </h3>
-          <h3>Amount: <b>100 Rs</b> </h3>
-        </ion-text>
-      </ion-label>
-      <div>
-        <ion-badge slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
-        <ion-badge slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <ion-badge slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="assets/user.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <ion-text>
-          <b>Devendra Singh</b>
-          <!-- <h3>Status: <b>Absent</b> </h3> -->
-        </ion-text>
-      </ion-label>
-      <ion-badge slot="end" color="danger" mode="ios" size="large">A</ion-badge>
     </ion-item>
   </ion-list>
 </div>

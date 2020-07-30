@@ -16,11 +16,11 @@ export class MultipleStatsPage implements OnInit {
   bars: Chart;
   colorArray: any;
   dataSet: any;
-  absentees = { label: 'Absentees', data: [], backgroundColor: 'red' };
-  lateComers = { label: 'Late Comers', data: [], backgroundColor: 'blue' };
-  presentees = { label: 'Presentees', data: [], backgroundColor: 'green' };
-  earlyLeavers = { label: 'Early Leavers', data: [], backgroundColor: 'orange' };
-  label: string;
+  absentees = { label: 'Absentees', data: [], backgroundColor: 'red', borderColor: 'red', borderWidth: 1 };
+  lateComers = { label: 'Late Comers', data: [], backgroundColor: 'blue', borderColor: 'blue', borderWidth: 1 };
+  presentees = { label: 'Presentees', data: [], backgroundColor: 'green', borderColor: 'green', borderWidth: 1 };
+  earlyLeavers = { label: 'Early Leavers', data: [], backgroundColor: 'orange', borderColor: 'orange', borderWidth: 1 };
+  label: string[];
   fromDate: string = new Date(2020, 6, 1).toISOString();
   fromDateObj: Date = new Date(2020, 6, 1);
   fromDatePicker: any;
@@ -32,6 +32,7 @@ export class MultipleStatsPage implements OnInit {
   dateStringLabels: string[] = [];
   singleDate = false;
   chartType = 'bar';
+  chartTypeVal = 'bar';
 
   constructor(
     private statService: StatService,
@@ -39,8 +40,9 @@ export class MultipleStatsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.label = 'presentees';
-    this.stats$ = this.statService.getStats$();
+    this.label = ['presentees'];
+    this.getStatsRange();
+    // this.stats$ = this.statService.getStats$();
   }
 
   ionViewDidEnter() {
@@ -48,20 +50,12 @@ export class MultipleStatsPage implements OnInit {
   }
 
   async getStatsRange() {
-    console.log('from date: ', this.fromDate);
-    console.log('to date: ', this.toDate);
-    if (this.fromDate === this.toDate) {
-      this.singleDate = true;
-      console.log('single date: ', this.singleDate);
-      return;
-    }
     console.log('get stats range');
     this.absentees.data = [];
     this.presentees.data = [];
     this.earlyLeavers.data = [];
     this.lateComers.data = [];
     this.dateStringLabels = [];
-    this.getLabel();
     this.stats$ = this.statService.getStatsRange$(new Date(this.fromDate), new Date(this.toDate));
     this.stats$.subscribe(rangeData => {
       console.log('range data: ', rangeData);
@@ -78,23 +72,42 @@ export class MultipleStatsPage implements OnInit {
         if (this.bars) {
           this.bars.destroy();
         }
-        this.createBarChart();
+        this.chooseChart();
+        this.makeDataset();
+        this.createChart();
       });
     });
   }
 
-  async getLabel() {
-    console.log('get label');
-    if (this.label === 'absentees') {
-      this.dataSet = Object.assign({}, this.absentees);
-    } else if (this.label === 'lateComers') {
-      this.dataSet = Object.assign({}, this.lateComers);
-    } else if (this.label === 'presentees') {
-      this.dataSet = Object.assign({}, this.presentees);
-    } else {
-      this.dataSet = Object.assign({}, this.earlyLeavers);
+  makeDataset() {
+    console.log('make dataset');
+    this.dataSet = [];
+    if (this.label.includes('absentees')) {
+      this.dataSet.push(this.absentees);
+    }
+    if (this.label.includes('lateComers')) {
+      this.dataSet.push(this.lateComers);
+    }
+    if (this.label.includes('presentees')) {
+      this.dataSet.push(this.presentees);
+    }
+    if (this.label.includes('earlyLeavers')) {
+      this.dataSet.push(this.earlyLeavers);
     }
   }
+
+  // async getLabel() {
+  //   console.log('get label');
+  //   if (this.label === 'absentees') {
+  //     this.dataSet = Object.assign({}, this.absentees);
+  //   } else if (this.label === 'lateComers') {
+  //     this.dataSet = Object.assign({}, this.lateComers);
+  //   } else if (this.label === 'presentees') {
+  //     this.dataSet = Object.assign({}, this.presentees);
+  //   } else {
+  //     this.dataSet = Object.assign({}, this.earlyLeavers);
+  //   }
+  // }
 
   async getFromDate() {
     console.log('get from date');
@@ -106,43 +119,35 @@ export class MultipleStatsPage implements OnInit {
     this.toDateObj = new Date(this.toDate);
   }
 
-  createChart() {
-    switch (this.chartType) {
+  chooseChart() {
+    switch (this.chartTypeVal) {
       case 'bar':
-        this.createBarChart();
+        this.initBarChart();
         break;
 
       case 'line':
-        this.createLineChart();
+        this.initLineChart();
         break;
-
-      // case 'group-line':
-      //   this.createGroupLineChart();
-      //   break;
 
       case 'area':
-        this.createAreaChart();
+        this.initAreaChart();
         break;
 
-      // case 'group-area':
-      //   this.createGroupAreaChart();
-      //   break;
-
       default:
-        this.createBarChart();
+        this.initBarChart();
         break;
     }
   }
 
-  createBarChart() {
-    console.log('create bar chart');
+  createChart() {
+    console.log('create chart');
     console.log('date string labels: ', this.dateStringLabels);
     console.log('date set: ', this.dataSet);
     this.bars = new Chart(this.barChart.nativeElement, {
       type: this.chartType,
       data: {
         labels: this.dateStringLabels,
-        datasets: [this.dataSet]
+        datasets: this.dataSet
       },
       options: {
         // responsive: true,
@@ -157,28 +162,58 @@ export class MultipleStatsPage implements OnInit {
     });
   }
 
-  createLineChart() {
-    this.chartType = 'line';
-    this.getStatsRange();
+  initBarChart() {
+    console.log('create bar chart');
+    this.chartType = 'bar';
+    this.absentees.backgroundColor = 'red';
+    this.presentees.backgroundColor = 'green';
+    this.earlyLeavers.backgroundColor = 'blue';
+    this.lateComers.backgroundColor = 'orange';
+  }
+
+  initLineChart() {
     console.log('create line chart');
-  }
-
-  createGroupLineChart() {
-    console.log('create group line chart');
-  }
-
-  createAreaChart() {
     this.chartType = 'line';
-    this.getStatsRange();
-    console.log('create area chart');
+
+    this.absentees.backgroundColor = 'rgba(0, 0, 0, 0)';
+    this.presentees.backgroundColor = 'rgba(0, 0, 0, 0)';
+    this.earlyLeavers.backgroundColor = 'rgba(0, 0, 0, 0)';
+    this.lateComers.backgroundColor = 'rgba(0, 0, 0, 0)';
+
+    this.absentees.borderColor = 'red';
+    this.presentees.borderColor = 'green';
+    this.earlyLeavers.borderColor = 'blue';
+    this.lateComers.borderColor = 'orange';
+
+    this.absentees.borderWidth = 1;
+    this.presentees.borderWidth = 1;
+    this.earlyLeavers.borderWidth = 1;
+    this.lateComers.borderWidth = 1;
   }
 
-  createGroupAreaChart() {
-    console.log('create group area chart');
+  initAreaChart() {
+    console.log('create area chart');
+    this.chartType = 'line';
+    this.absentees.backgroundColor = 'red';
+    this.presentees.backgroundColor = 'green';
+    this.earlyLeavers.backgroundColor = 'blue';
+    this.lateComers.backgroundColor = 'orange';
+
+    this.absentees.borderColor = 'rgba(0, 0, 0, 0)';
+    this.presentees.borderColor = 'rgba(0, 0, 0, 0)';
+    this.earlyLeavers.borderColor = 'rgba(0, 0, 0, 0)';
+    this.lateComers.borderColor = 'rgba(0, 0, 0, 0)';
   }
 
   canvasClicked() {
     console.log('canvas clicked');
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getStatsRange();
+      event.target.complete();
+    }, 2000);
   }
 
 }

@@ -1,11 +1,13 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-back-button slot="start" defaultHref="tabs/statistics"></ion-back-button>
-    <ion-title>Statistics</ion-title>
-  </ion-toolbar>
-</ion-header> -->
 
-<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  
   <ion-item>
     <ion-label>From</ion-label>
     <ion-datetime [(ngModel)]="fromDate" (ionChange)="getStatsRange()" display-format="DD/MM/YYYY"></ion-datetime>
@@ -16,8 +18,8 @@
   </ion-item>
   <ion-item>
     <ion-label>Status</ion-label>
-    <ion-select [(ngModel)]="label" value="absentees" (ionChange)="getStatsRange()" interface="popup" placeholder="Status">
-      <ion-select-option value="all">All</ion-select-option>
+    <ion-select [(ngModel)]="label" multiple=true value="absentees" (ionChange)="getStatsRange()" interface="popup" placeholder="Status">
+      <!-- <ion-select-option value="all">All</ion-select-option> -->
       <ion-select-option value="presentees">Presentees</ion-select-option>
       <ion-select-option value="absentees">Absentees</ion-select-option>
       <ion-select-option value="lateComers">Late Comers</ion-select-option>
@@ -26,7 +28,7 @@
   </ion-item>
   <ion-item>
     <ion-label>Chart</ion-label>
-    <ion-select [(ngModel)]="chartType" (ionChange)="createChart()" value="bar" placeholder="Select Chart">
+    <ion-select [(ngModel)]="chartTypeVal" (ionChange)="getStatsRange()" value="bar" placeholder="Select Chart">
       <ion-select-option value="bar">Bar</ion-select-option>
       <ion-select-option value="line">Line</ion-select-option>
       <ion-select-option value="area">Area</ion-select-option>
@@ -38,26 +40,26 @@
     <canvas #barChart>
     </canvas>
   </div>
-  <ion-list *ngIf="label !== 'all' && stats$ | async as stats">
-    <h2 class="ion-margin">{{ label | titlecase }}</h2>
+  <ion-list *ngIf="label.length === 1 && stats$ | async as stats">
+    <h2 class="ion-margin">{{ label[0] | titlecase }}</h2>
     <ion-item *ngFor="let statItem of stats; let i=index">
       <ion-label>
         <h2>
           <ion-icon slot="start" name="calendar-outline"></ion-icon> {{ dateStringLabels[i] }}
         </h2>
-        <p *ngIf="label === 'presentees'">
+        <p *ngIf="label[0] === 'presentees'">
           <ion-icon slot="start" name="people"></ion-icon> {{ statItem.presentees }}
         </p>
-        <p *ngIf="label === 'absentees'">
+        <p *ngIf="label[0] === 'absentees'">
           <ion-icon slot="start" name="people"></ion-icon> {{ statItem.absentees }}
         </p>
-        <p *ngIf="label === 'lateComers'">
+        <p *ngIf="label[0] === 'lateComers'">
           <ion-icon slot="start" name="people"></ion-icon> {{ statItem.lateComers }} 
         </p>
-        <p *ngIf="label === 'earlyLeavers'">
+        <p *ngIf="label[0] === 'earlyLeavers'">
           <ion-icon slot="start" name="people"></ion-icon> {{ statItem.earlyLeavers }} 
         </p>
       </ion-label>
     </ion-item>
   </ion-list>
-</ion-content>
+<!-- </ion-content> -->

@@ -14,6 +14,10 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: '',
+        loadChildren: () => import('./single-stats/single-stats.module').then( m => m.SingleStatsPageModule)
+      },
+      {
         path: 'single-stats',
         loadChildren: () => import('./single-stats/single-stats.module').then( m => m.SingleStatsPageModule)
       },

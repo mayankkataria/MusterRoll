@@ -9,7 +9,9 @@ import { DateTimeService } from '../services/date-time.service';
 import { ActionSheetController, Platform } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource, Capacitor } from '@capacitor/core';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-
+import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -17,7 +19,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 })
 export class ProfilePage implements OnInit {
 
-
+  attendancePage = AttendanceLogPage;
   @ViewChild('filePicker', { static: false }) filePickerRef: ElementRef<HTMLInputElement>;
   photo: SafeResourceUrl;
   isDesktop: boolean;
@@ -56,7 +58,9 @@ export class ProfilePage implements OnInit {
     private dateTimeService: DateTimeService,
     private actionSheetController: ActionSheetController,
     private platform: Platform,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
+    private router: Router
   ) {
     console.log('profile page constructor');
    }
@@ -111,7 +115,7 @@ export class ProfilePage implements OnInit {
 
   }
 
-  async showActionSheet() {
+  async showCamSheet() {
     const photoSheet = await this.actionSheetController.create({
       header: 'Albums',
       buttons: [{
@@ -133,6 +137,20 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
+  async showSettingsSheet() {
+    const photoSheet = await this.actionSheetController.create({
+      header: 'Settings',
+      buttons: [{
+        text: 'Modify Geofence',
+        handler: () => { this.router.navigate(['geofence']); }
+      }, {
+        text: 'Sign Out',
+        handler: () => this.signOut()
+      }]
+    });
+    await photoSheet.present();
+  }
+
   onFileChoose(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     const pattern = /image-*/;
@@ -149,6 +167,11 @@ export class ProfilePage implements OnInit {
 
     reader.readAsDataURL(file);
 
+  }
+
+  async signOut() {
+    await this.authService.signOut();
+    window.location.replace('/sign-in');
   }
 
   // constructor(
