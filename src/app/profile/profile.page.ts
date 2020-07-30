@@ -25,6 +25,7 @@ export class ProfilePage implements OnInit {
   isDesktop: boolean;
 
   userData: any;
+  userUid: string;
   user$: Observable<any>;
   profilePicUrl: any;
   shiftStart = {
@@ -63,12 +64,13 @@ export class ProfilePage implements OnInit {
     private router: Router
   ) {
     console.log('profile page constructor');
-   }
+  }
 
   ngOnInit() {
     console.log('profile ng oninit');
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(userData => {
+      this.userUid = userData.uid;
       if (userData && userData.role === 'employee') {
         this.shiftStart.hr.text = this.dateTimeService.display('hours', userData.shiftStart.hr);
         this.shiftStart.min.text = this.dateTimeService.display('minutes', userData.shiftStart.min);
@@ -86,51 +88,29 @@ export class ProfilePage implements OnInit {
   capturePhoto() {
     this.camService.capturePhoto()
       .then(photo => {
-        this.userService.getUid$()
-          .subscribe(userUid => {
-            console.log('uid subscribe');
-            const base64String = photo.base64String;
-            this.storageService.setProfilePic(userUid, base64String)
-            .then(() => {
-              this.storageService.getProfilePicUrl$(userUid)
-                .subscribe(url => {
-                  this.profilePicUrl = url;
-                  this.userService.updateProfilePic(url);
-                });
-            })
-            .catch(err => console.log('img store error: ', err));
-          });
+        // this.userService.getUid$()
+        //   .subscribe(userUid => {
+        console.log('uid subscribe');
+        const base64String = photo.base64String;
+        this.storageService.setProfilePic(this.userUid, base64String)
+          .then(() => {
+            this.storageService.getProfilePicUrl$(this.userUid)
+              .subscribe(url => {
+                this.profilePicUrl = url;
+                this.userService.updateProfilePic(url);
+              });
+          })
+          .catch(err => console.log('img store error: ', err));
+        // });
       })
       .catch(err => console.log('capture photo error: ', err));
   }
 
   accessGallery() {
-    // this.camService.accessGallery()
-    // .then(photo => {
-    //   this.userService.getUid$()
-    //     .subscribe(userUid => {
-    //       console.log('uid subscribe');
-    //       const base64String = photo.base64String;
-    //       this.storageService.setProfilePic(userUid, base64String)
-    //       .then(() => {
-    //         this.storageService.getProfilePicUrl$(userUid)
-    //           .subscribe(url => {
-    //             this.profilePicUrl = url;
-    //             this.userService.updateProfilePic(url);
-    //           });
-    //       })
-    //       .catch(err => console.log('img store error: ', err));
-    //     });
-    // })
-    //   .catch(err => console.log('access gallery error: ', err));
-
-    // this.filePickerRef.nativeElement.click();
-
     if (!Capacitor.isPluginAvailable('Camera') || this.isDesktop) {
       this.filePickerRef.nativeElement.click();
       return;
     }
-
   }
 
   async showCamSheet() {
@@ -139,7 +119,7 @@ export class ProfilePage implements OnInit {
       buttons: [{
         text: 'Delete',
         role: 'destructive',
-        handler: () => console.log('delete')
+        handler: () => this.deleteImg()
       }, {
         text: 'Access Gallery',
         handler: () => this.accessGallery()
@@ -169,6 +149,11 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
+  deleteImg() {
+    this.userService.deleteProfilePic();
+    this.storageService.deleteProfilePic(this.userUid);
+  }
+
   onFileChoose(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     const pattern = /image-*/;
@@ -184,19 +169,16 @@ export class ProfilePage implements OnInit {
     reader.onload = () => {
       this.photo = reader.result.toString();
       // console.log('photo: ', this.photo);
-      this.userService.getUid$()
-          .subscribe(userUid => {
-            console.log('uid subscribe');
-            this.storageService.setProfilePic(userUid, this.photo)
-            .then(() => {
-              this.storageService.getProfilePicUrl$(userUid)
-                .subscribe(url => {
-                  this.profilePicUrl = url;
-                  this.userService.updateProfilePic(url);
-                });
-            })
-            .catch(err => console.log('img store error: ', err));
-          });
+      console.log('uid subscribe');
+      this.storageService.setProfilePic(this.userUid, this.photo)
+        .then(() => {
+          this.storageService.getProfilePicUrl$(this.userUid)
+            .subscribe(url => {
+              this.profilePicUrl = url;
+              this.userService.updateProfilePic(url);
+            });
+        })
+        .catch(err => console.log('img store error: ', err));
     };
 
 
@@ -217,11 +199,11 @@ export class ProfilePage implements OnInit {
   //   private platform: Platform,
   //   private sanitizer: DomSanitizer) { }
 
-    // ngOnInit() {
-      // if ((this.platform.is('mobile') && this.platform.is('hybrid')) || this.platform.is('desktop')) {
-      //   this.isDesktop = true;
-      // }
-    // }
+  // ngOnInit() {
+  // if ((this.platform.is('mobile') && this.platform.is('hybrid')) || this.platform.is('desktop')) {
+  //   this.isDesktop = true;
+  // }
+  // }
 
   // async getPicture(type: string) {
   //   if (!Capacitor.isPluginAvailable('Camera') || (this.isDesktop && type === 'gallery')) {
