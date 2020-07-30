@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { UserService } from '../services/user.service';
 import { UpdateMemberPage } from '../update-member/update-member.page';
+import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
 
 @Component({
   selector: 'app-others-profile',
@@ -19,6 +20,7 @@ export class OthersProfilePage implements OnInit {
   @Input() memberUid: string;
 
   // memberUid: string;
+  attendancePage = AttendanceLogPage;
   member$: Observable<any>;
   memberData: any;
   shiftStart = {

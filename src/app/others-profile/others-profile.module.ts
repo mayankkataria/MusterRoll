@@ -8,6 +8,7 @@ import { OthersProfilePageRoutingModule } from './others-profile-routing.module'
 
 import { OthersProfilePage } from './others-profile.page';
 import { UpdateMemberPageModule } from '../update-member/update-member.module';
+import { AttendanceLogPageModule } from '../attendance-log/attendance-log.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { UpdateMemberPageModule } from '../update-member/update-member.module';
     FormsModule,
     IonicModule,
     OthersProfilePageRoutingModule,
-    UpdateMemberPageModule
+    UpdateMemberPageModule,
+    AttendanceLogPageModule
   ],
   declarations: [OthersProfilePage]
 })
