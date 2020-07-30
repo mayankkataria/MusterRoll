@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
-
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',
@@ -17,6 +17,7 @@ export class SignInPage implements OnInit, OnDestroy {
   platform: string;
 
   constructor(
+    private loadingCtrl:LoadingController,
     private authService: AuthService,
     private router: Router,
     private plt: Platform
@@ -37,10 +38,30 @@ export class SignInPage implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
   }
 
-  signIn() {
+   async signIn() {
+    let loading = await this.loadingCtrl.create({
+      message:"Sigining in..",
+      // duration:5000,
+      spinner:"bubbles",
+      // showBackdrop:false,
+      // backdropDismiss:true
+    });
+    // loading.present();
+    setTimeout(() =>{
+      loading.dismiss();
+    },4000)
+
+    // .then((loading) =>{
+    //   loading.present();
+
+    //   setTimeout(() =>{
+    //     loading.dismiss();
+    //   },5000)
+    // })
     this.loginSubscription.unsubscribe();
     this.authService.signIn(this.email, this.password)
       .then(() => {
+        loading.present();
         this.router.navigate(['tabs']);
         // if (this.plt.is('mobile')) {
         //   this.router.navigate(['tabs']);
