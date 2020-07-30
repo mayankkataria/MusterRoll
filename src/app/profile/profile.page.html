@@ -23,7 +23,7 @@
         <div class="card">
           <div class="header">
             <div class="avatar">
-              <img [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'">
+              <img class="profile-pic" [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/user.png'">
               <div>
                 <ion-fab class="camera-fab" slot="fixed">
                   <ion-fab-button (click)="showCamSheet()">
