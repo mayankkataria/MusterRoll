@@ -139,11 +139,9 @@ export class MembersPage implements OnInit {
 
   focusSearchBar() {
     console.log('focus search');
-    // if (this.searchBar) {
     setTimeout(() => {
       this.searchBar.setFocus();
     }, 50);
-    // }
   }
 
   async openFilterModal() {

@@ -36,8 +36,8 @@
       <ion-select-option *ngIf="label === 'all'" value="group-area">Grouped Area</ion-select-option> -->
     </ion-select>
   </ion-item>
-  <div (click)="canvasClicked()" class="chart">
-    <canvas #chartView>
+  <div (click)="canvasClicked()" style="position: relative; height:50vh; width:100vw">
+    <canvas #chartView id="canvas">
     </canvas>
   </div>
   <ion-list *ngIf="label.length === 1 && stats$ | async as stats">

@@ -8,12 +8,14 @@
   <ion-item>
     <ion-label>Department</ion-label>
     <ion-select [(ngModel)]="department" placeholder="Select Department">
+      <ion-select-option value="all">All</ion-select-option>
       <ion-select-option *ngFor="let dept of departmentList" value="{{dept}}">{{dept | titlecase}}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Designation</ion-label>
     <ion-select [(ngModel)]="designation" placeholder="Select Designation">
+      <ion-select-option value="all">All</ion-select-option>
       <ion-select-option *ngFor="let des of designationList" value="{{des}}">{{des | titlecase}}</ion-select-option>
     </ion-select>
   </ion-item>

@@ -38,16 +38,16 @@
   </ion-item>
   <ion-item>
     <ion-label>Chart</ion-label>
-    <ion-select [(ngModel)]="chartType" value="pie" placeholder="Select Chart">
+    <ion-select [(ngModel)]="chartTypeVal" value="pie" placeholder="Select Chart">
       <ion-select-option value="pie">Pie</ion-select-option>
       <ion-select-option value="doughnut">Doughnut</ion-select-option>
       <ion-select-option value="bar">Bar</ion-select-option>
     </ion-select>
   </ion-item>
 
-  <div class="pie-chart">
-    <canvas baseChart style="margin-top: 80px;" [data]="pieChartData" [labels]="pieChartLabels"
-      [chartType]="chartType">
+  <div>
+    <canvas baseChart style="margin-top: 80px;width: 100%" [colors]="chartColors" [data]="pieChartData" [labels]="pieChartLabels"
+      [chartType]="chartTypeVal">
     </canvas>
   </div>
 
