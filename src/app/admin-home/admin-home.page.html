@@ -10,7 +10,7 @@
     </ion-buttons>
     <ion-title *ngIf="!showSearchBar">MusterRoll</ion-title>
     <!-- <ion-back-button *ngIf="showSearchBar"></ion-back-button> -->
-    <ion-searchbar *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
+    <ion-searchbar showCancelButton="true" (ionCancel)="cancelSearchBar()" *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>

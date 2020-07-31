@@ -51,14 +51,19 @@ export class MultipleStatsPage implements OnInit {
 
   async getStatsRange() {
     console.log('get stats range');
-    this.absentees.data = [];
-    this.presentees.data = [];
-    this.earlyLeavers.data = [];
-    this.lateComers.data = [];
-    this.dateStringLabels = [];
+    // this.absentees.data = [];
+    // this.presentees.data = [];
+    // this.earlyLeavers.data = [];
+    // this.lateComers.data = [];
+    // this.dateStringLabels = [];
     this.stats$ = this.statService.getStatsRange$(new Date(this.fromDate), new Date(this.toDate));
     this.stats$.subscribe(rangeData => {
       console.log('range data: ', rangeData);
+      this.absentees.data = [];
+      this.presentees.data = [];
+      this.earlyLeavers.data = [];
+      this.lateComers.data = [];
+      this.dateStringLabels = [];
       rangeData.forEach(data => {
         const date = this.dateTimeService.getDate(data.date.toDate());
         const month = this.dateTimeService.getMonth(data.date.toDate());
@@ -150,11 +155,15 @@ export class MultipleStatsPage implements OnInit {
         datasets: this.dataSet
       },
       options: {
-        // responsive: true,
+        legend: {
+          position: 'top',
+          align: 'end'
+        },
+        // responsive: false,
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
             }
           }]
         }
@@ -169,6 +178,11 @@ export class MultipleStatsPage implements OnInit {
     this.presentees.backgroundColor = 'green';
     this.earlyLeavers.backgroundColor = 'blue';
     this.lateComers.backgroundColor = 'orange';
+
+    this.absentees.borderColor = 'rgba(0, 0, 0, 0)';
+    this.presentees.borderColor = 'rgba(0, 0, 0, 0)';
+    this.earlyLeavers.borderColor = 'rgba(0, 0, 0, 0)';
+    this.lateComers.borderColor = 'rgba(0, 0, 0, 0)';
   }
 
   initLineChart() {

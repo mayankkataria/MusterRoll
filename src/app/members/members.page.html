@@ -9,9 +9,8 @@
       </ion-button>
     </ion-buttons>
     <ion-title *ngIf="!showSearchBar">Members</ion-title>
-    <!-- <ion-back-button *ngIf="showSearchBar"></ion-back-button> -->
-    <ion-searchbar *ngIf="showSearchBar" [(ngModel)]="searchFieldValue"
-    name="searchBar" (ionChange)="searchSuggest()" #searchBar placeholder="Search Members" animated="true">
+    <ion-searchbar showCancelButton="focus" *ngIf="showSearchBar" [(ngModel)]="searchFieldValue"
+    name="searchBar" (ionCancel)="cancelSearchBar()" (ionChange)="searchSuggest()" #searchBar placeholder="Search Members" animated="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>

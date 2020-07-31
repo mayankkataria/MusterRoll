@@ -24,7 +24,7 @@ export class SingleStatsPage implements OnInit {
     responsive: true,
     title: {
       display: true,
-      text: 'price'
+      // text: 'price'
     },
     pan: {
       enabled: true,
@@ -36,17 +36,17 @@ export class SingleStatsPage implements OnInit {
     },
 
   };
-  chartColors: Color[] = [
+  public chartColors: Color[] = [
     {
-      borderColor: '#000000',
-      backgroundColor: '#ff00ff'
-    }
+      backgroundColor: ['green', 'red', 'blue', 'orange']
+    },
   ];
-  chartType = 'pie';
+  chartType: string;
+  chartTypeVal = 'pie';
   showLegend: false;
 
   // For search
-  stock = '';
+  // stock = '';
 
   // Data
   public pieChartLabels: Label[] = ['Present', 'Absent', 'Early leavers', 'Late comers'];
@@ -55,13 +55,13 @@ export class SingleStatsPage implements OnInit {
   constructor(
     private userService: UserService,
     private statService: StatService
-  ) {
-    // this.getData();
-    // userService.getURole$()
-    //   .subscribe(role => console.log('role: ', role));
-  }
+  ) {}
 
   ngOnInit() {
+    this.getDateStat();
+  }
+
+  ionViewDidEnter() {
     this.getDateStat();
   }
 
@@ -70,6 +70,7 @@ export class SingleStatsPage implements OnInit {
     console.log('this date: ', this.date);
     this.dateStat$ = this.statService.getDateStat$(new Date(this.date));
     this.dateStat$.subscribe(data => {
+      this.chartType = this.chartTypeVal;
       console.log('date stat: ', data);
       this.presentees = data.presentees;
       this.absentees = data.absentees;
