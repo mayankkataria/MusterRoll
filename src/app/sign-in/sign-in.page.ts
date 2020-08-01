@@ -40,7 +40,7 @@ export class SignInPage implements OnInit, OnDestroy {
 
    async signIn() {
     let loading = await this.loadingCtrl.create({
-      message:"Sigining in..",
+      message:"Signing in..",
       // duration:5000,
       spinner:"bubbles",
       // showBackdrop:false,
