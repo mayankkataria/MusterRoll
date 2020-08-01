@@ -18,6 +18,9 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 import { SuperTabsModule} from '@ionic-super-tabs/angular';
+
+// import { VoiceIt2Module } from 'voiceit2-nodejs';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,6 +32,7 @@ import { SuperTabsModule} from '@ionic-super-tabs/angular';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    // VoiceIt2Module,
     SuperTabsModule.forRoot()
   ],
   providers: [

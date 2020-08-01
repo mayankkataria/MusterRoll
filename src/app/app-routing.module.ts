@@ -89,7 +89,11 @@ const routes: Routes = [
   {
     path: 'others-profile/:uid',
     loadChildren: () => import('./others-profile/others-profile.module').then(m => m.OthersProfilePageModule)
+  },  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   },
+
 ];
 
 @NgModule({

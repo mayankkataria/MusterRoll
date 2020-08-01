@@ -22,9 +22,7 @@ export class ClockInPage implements OnInit {
   ngOnInit() {
     console.log('add fingerprint ngoninit');
     this.foptions = {
-      title: 'Add fingerprint',
-      subtitle: 'This is subtitle',
-      description: 'This is description of fingerprint aio',
+      title: 'Verify fingerprint',
       fallbackButtonTitle: 'fallback title',
       cancelButtonTitle: 'Cancel title',
       disableBackup: true
