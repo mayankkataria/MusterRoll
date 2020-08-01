@@ -1,5 +1,6 @@
 /// <reference types="@types/googlemaps" />
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ToastController, ActionSheetController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
@@ -38,11 +39,13 @@ export class GeofencePage implements OnInit {
   watch = null;
   fenceId: string;
   fullImagePath: string;
+  msg: string;
   polyLine: any;
   currentLocation: any;
-  // isModified = false;
+  isModified = false;
+  fenceStatus: boolean;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public toastController: ToastController) {}
 
   ngOnInit() {
     this.geofenceCollection = this.afs.collection('geofences');
@@ -123,14 +126,22 @@ export class GeofencePage implements OnInit {
         paths: path
       });
       const result = google.maps.geometry.poly.containsLocation(new google.maps.LatLng(lat, lng), fence);
-      if (result) {
-        console.log('Inside Geofence');
-        // alert('Inside Geofence');
-      } else {
-        console.log('Outside Geofence');
-        // alert('Outside Geofence');
-      }
+      // this.fenceStatus = result;
+      this.presentToast(result);
     });
+  }
+
+  async presentToast(result) {
+    if (result) {
+      this.msg = 'Inside Geofence';
+    } else {
+      this.msg = 'Outside Geofence';
+    }
+    const toast = await this.toastController.create({
+      message: this.msg,
+      duration: 3000
+    });
+    toast.present();
   }
 
   currentLocationUpdate(coords) {
@@ -261,7 +272,9 @@ export class GeofencePage implements OnInit {
     this.isCreating = false;
     this.isEditing = false;
     this.optionsVisible = false;
-
+    if (this.isModified) {
+      this.deleteGeofence();
+    }
     this.fence.getPath().getArray().forEach(coord => {
       const lat = coord.lat();
       const lng = coord.lng();
@@ -313,12 +326,57 @@ export class GeofencePage implements OnInit {
     this.allFences = [];
   }
 
-  // // Future Feature
-  // modifyFence() {
-  //   console.log(this.fence);
-  //   this.allFences[0].setEditable(true);
-  //   this.isCreating = true;
-  //   this.isEditing = true;
-  //   this.isModified = true;
+  modifyFence() {
+    // console.log(this.fence);
+    this.allFences[0].setEditable(true);
+    this.isCreating = true;
+    this.isEditing = true;
+    this.isModified = true;
+  }
+
+  checkStatus() {
+    this.stopTracking();
+    this.sleep(1000).then(() => {this.startTracking(); });
+  }
+
+  // async presentActionSheet() {
+  //   const actionSheet = await this.actionSheetController.create({
+  //     header: 'Albums',
+  //     cssClass: 'my-custom-class',
+  //     buttons: [{
+  //       text: 'Delete',
+  //       role: 'destructive',
+  //       icon: 'trash',
+  //       handler: () => {
+  //         console.log('Delete clicked');
+  //       }
+  //     }, {
+  //       text: 'Share',
+  //       icon: 'share',
+  //       handler: () => {
+  //         console.log('Share clicked');
+  //       }
+  //     }, {
+  //       text: 'Play (open modal)',
+  //       icon: 'caret-forward-circle',
+  //       handler: () => {
+  //         console.log('Play clicked');
+  //       }
+  //     }, {
+  //       text: 'Favorite',
+  //       icon: 'heart',
+  //       handler: () => {
+  //         console.log('Favorite clicked');
+  //       }
+  //     }, {
+  //       text: 'Cancel',
+  //       icon: 'close',
+  //       role: 'cancel',
+  //       handler: () => {
+  //         console.log('Cancel clicked');
+  //       }
+  //     }]
+  //   });
+  //   await actionSheet.present();
   // }
 }

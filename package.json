@@ -46,6 +46,7 @@
     "ng2-charts": "^2.3.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
+    "voiceit2-nodejs": "^2.5.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
