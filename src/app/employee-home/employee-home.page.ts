@@ -10,6 +10,9 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
+// import { voiceit2 } from 'voiceit2-nodejs';
+
+// import voiceit2 = require('voiceit2-nodejs');
 
 
 @Component({
@@ -41,7 +44,8 @@ export class EmployeeHomePage implements OnInit {
   firstname: string;
   lastname: string;
   todaysDate: Date;
-
+  // myVoiceIt = new voiceit2('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
+  // myVoiceIt = new voiceit2('fsdsdf', '');
   dateLog: {
     dateId: string, date: Date, status?: string, inStatus?: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
@@ -172,7 +176,12 @@ export class EmployeeHomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.todaysDate = new Date(2020, 6, 29);
+
+    // this.myVoiceIt.getPhrases({ contentLanguage : 'en-US' }, (jsonResponse) => {
+    //   console.log('json res: ', jsonResponse);
+    // });
+
+    this.todaysDate = new Date(2020, 7, 1);
     // this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
     this.user$ = this.userService.getUser$();
@@ -233,16 +242,16 @@ export class EmployeeHomePage implements OnInit {
   }
 
   async clockIn() {
-    // const biometricResult = await this.getBioResult();
-    // if (biometricResult !== 'biometric_success') {
-    //   this.toast = this.toastController.create({
-    //     message: 'Invalid Biometric',
-    //     duration: 3000
-    //   });
-    //   await this.toast.present();
-    //   return;
-    // }
-    const biometricResult = 'biometric_success';
+    const biometricResult = await this.getBioResult();
+    if (biometricResult !== 'biometric_success') {
+      this.toast = this.toastController.create({
+        message: 'Invalid Biometric',
+        duration: 3000
+      });
+      await this.toast.present();
+      return;
+    }
+    // const biometricResult = 'biometric_success';
     if (biometricResult === 'biometric_success') {
       status = 'present';
       this.statService.decrementAbsentee(this.todaysDate);

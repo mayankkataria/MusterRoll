@@ -10,5 +10,9 @@
     <param name="android-package" value="de.niklasmerz.cordova.biometric.Fingerprint"/>
   </feature>
 
+  <feature name="VoiceItCordova">
+    <param name="android-package" value="com.voiceittech.plugins.VoiceItCordova"/>
+  </feature>
+
   
 </widget>

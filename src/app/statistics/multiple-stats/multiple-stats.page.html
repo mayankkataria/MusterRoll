@@ -1,4 +1,6 @@
-
+<!-- <ion-content style="width: 100%;height: 100%;">
+  <div style="width: 90%;">
+     -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
@@ -8,34 +10,38 @@
     </ion-refresher-content>
   </ion-refresher>
   
-  <ion-item>
-    <ion-label>From</ion-label>
-    <ion-datetime [(ngModel)]="fromDate" (ionChange)="getStatsRange()" display-format="DD/MM/YYYY"></ion-datetime>
-  </ion-item>
-  <ion-item>
-    <ion-label>To</ion-label>
-    <ion-datetime [(ngModel)]="toDate" (ionChange)="getStatsRange()" display-format="DD/MM/YYYY"></ion-datetime>
-  </ion-item>
-  <ion-item>
-    <ion-label>Status</ion-label>
-    <ion-select [(ngModel)]="label" multiple=true value="absentees" (ionChange)="getStatsRange()" interface="popup" placeholder="Status">
-      <!-- <ion-select-option value="all">All</ion-select-option> -->
-      <ion-select-option value="presentees">Presentees</ion-select-option>
-      <ion-select-option value="absentees">Absentees</ion-select-option>
-      <ion-select-option value="lateComers">Late Comers</ion-select-option>
-      <ion-select-option value="earlyLeavers">Early Leavers</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-item>
-    <ion-label>Chart</ion-label>
-    <ion-select [(ngModel)]="chartTypeVal" (ionChange)="getStatsRange()" value="bar" placeholder="Select Chart">
-      <ion-select-option value="bar">Bar</ion-select-option>
-      <ion-select-option value="line">Line</ion-select-option>
-      <ion-select-option value="area">Area</ion-select-option>
-      <!-- <ion-select-option *ngIf="label === 'all'" value="group-line">Grouped Line</ion-select-option>
-      <ion-select-option *ngIf="label === 'all'" value="group-area">Grouped Area</ion-select-option> -->
-    </ion-select>
-  </ion-item>
+  <div style="width: 350px;display: flex;justify-content: center;">
+    <div style="width: 100%;">
+      <ion-item>
+        <ion-label>From</ion-label>
+        <ion-datetime [(ngModel)]="fromDate" (ionChange)="getStatsRange()" display-format="DD/MM/YYYY"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>To</ion-label>
+        <ion-datetime [(ngModel)]="toDate" (ionChange)="getStatsRange()" display-format="DD/MM/YYYY"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Status</ion-label>
+        <ion-select [(ngModel)]="label" multiple=true value="absentees" (ionChange)="getStatsRange()" interface="popup" placeholder="Status">
+          <!-- <ion-select-option value="all">All</ion-select-option> -->
+          <ion-select-option value="presentees">Presentees</ion-select-option>
+          <ion-select-option value="absentees">Absentees</ion-select-option>
+          <ion-select-option value="lateComers">Late Comers</ion-select-option>
+          <ion-select-option value="earlyLeavers">Early Leavers</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Chart</ion-label>
+        <ion-select [(ngModel)]="chartTypeVal" (ionChange)="getStatsRange()" value="bar" placeholder="Select Chart">
+          <ion-select-option value="bar">Bar</ion-select-option>
+          <ion-select-option value="line">Line</ion-select-option>
+          <ion-select-option value="area">Area</ion-select-option>
+          <!-- <ion-select-option *ngIf="label === 'all'" value="group-line">Grouped Line</ion-select-option>
+          <ion-select-option *ngIf="label === 'all'" value="group-area">Grouped Area</ion-select-option> -->
+        </ion-select>
+      </ion-item>
+    </div>
+  </div>
   <div (click)="canvasClicked()" style="position: relative; height:50vh; width:100vw">
     <canvas #chartView id="canvas">
     </canvas>
@@ -63,3 +69,5 @@
     </ion-item>
   </ion-list>
 <!-- </ion-content> -->
+  <!-- </div>
+</ion-content> -->
