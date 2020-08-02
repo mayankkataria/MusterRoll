@@ -14,8 +14,8 @@
       <ion-button large (click)="showSettingsSheet()" *ngIf="roleFlag">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
-      <ion-button (click)="signOut()" *ngIf="!roleFlag">
-        <ion-icon name="log-out" color=white></ion-icon>
+      <ion-button color="light" (click)="signOut()" *ngIf="!roleFlag">
+        <ion-icon size="large"  name="log-out" color=white></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
