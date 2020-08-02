@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -6,7 +7,9 @@ import { Injectable } from '@angular/core';
 })
 export class MapService {
 
-  constructor() { }
+  constructor(
+    private afs: AngularFirestore
+  ) { }
 
   showMap() {}
 
@@ -25,5 +28,9 @@ export class MapService {
   deleteFence() {}
 
   getFenceStatus(): boolean { return true; }
+
+  updateFenceStatus(empId: string, fenceStatus: boolean) {
+    this.afs.doc<any>(`members/${empId}`).set(fenceStatus, {merge: true});
+  }
 
 }

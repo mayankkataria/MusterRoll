@@ -2,7 +2,7 @@
   <ion-toolbar style="padding: 10px;">
     <ion-back-button color="light" slot="start" defaultHref="tabs" ></ion-back-button>
     <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
-    <ion-buttons slot="end">
+    <ion-buttons   *ngIf="userRole === 'admin'" slot="end">
       <ion-button (click)="openSideMenu()">
         <ion-icon style="color: white;" slot="icon-only" name="settings"></ion-icon>
       </ion-button>
