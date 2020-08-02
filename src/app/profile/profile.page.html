@@ -10,10 +10,10 @@
 
 
 <ion-header translucent no-border>
-  <ion-toolbar style="padding: 10px; font-size: 30px;">
+  <ion-toolbar style=" font-size: 17px;">
     <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
     <ion-buttons slot="end">
-      <ion-button large (click)="showSettingsSheet()" *ngIf="roleFlag">
+      <ion-button color="light" large (click)="showSettingsSheet()" *ngIf="roleFlag">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
       <ion-button color="light" (click)="signOut()" *ngIf="!roleFlag">
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="overflow-y: scroll;">
       <div class="user-meta ion-text-center">
         <h3 class="playername">{{ user.firstname | titlecase }} {{ user.lastname | titlecase }}</h3>
         <h5 class="country">{{ user.role | uppercase }}</h5>
