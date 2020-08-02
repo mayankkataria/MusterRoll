@@ -10,16 +10,10 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-<<<<<<< HEAD
 import {Router} from '@angular/router';
 
-// import { voiceit2 } from 'voiceit2-nodejs';
-// import voiceit2 = require('voiceit2-nodejs');
-
-=======
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/map.service';
->>>>>>> 5693fd69e939b56c241649b17738fbeb8071123f
 
 @Component({
   selector: 'app-employee-home',
@@ -179,11 +173,8 @@ export class EmployeeHomePage implements OnInit {
     private memberService: MemberService,
     private afs: AngularFirestore,
     private statService: StatService,
-<<<<<<< HEAD
-    public router:Router
-=======
+    public router: Router,
     private mapService: MapService
->>>>>>> 5693fd69e939b56c241649b17738fbeb8071123f
   ) { }
 
   ngOnInit() {
