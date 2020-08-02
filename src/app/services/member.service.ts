@@ -56,6 +56,12 @@ export class MemberService {
       .set(todaysLog, { merge: true });
   }
 
+  // getFenceStatus$(uid: string) {
+  //   this.afs.doc<any>(`today_status/${uid}`)
+  //     .valueChanges()
+  //     .pipe(todaysData => )
+  // }
+
   filter() {
     return combineLatest([
       this.deptFilter$,

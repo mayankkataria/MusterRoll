@@ -10,9 +10,13 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
+import { MapService } from '../services/map.service';
+import * as voiceFunctions from 'voiceit2-nodejs';
 // import { voiceit2 } from 'voiceit2-nodejs';
 
 // import voiceit2 = require('voiceit2-nodejs');
+
+// const voiceit2 = require('voiceit2-nodejs');
 
 
 @Component({
@@ -44,6 +48,7 @@ export class EmployeeHomePage implements OnInit {
   firstname: string;
   lastname: string;
   todaysDate: Date;
+  // myVoiceIt = new voiceFunctions('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
   // myVoiceIt = new voiceit2('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
   // myVoiceIt = new voiceit2('fsdsdf', '');
   dateLog: {
@@ -71,7 +76,7 @@ export class EmployeeHomePage implements OnInit {
   todayLogObserver = {
     next: todayLog => {
       todayLog.recentDate = Date.now();
-      // this.memberService.setMergeTodaysLog(todayLog, this.userUid);
+      this.memberService.setMergeTodaysLog(todayLog, this.userUid);
     },
   };
 
@@ -172,7 +177,8 @@ export class EmployeeHomePage implements OnInit {
     private toastController: ToastController,
     private memberService: MemberService,
     private afs: AngularFirestore,
-    private statService: StatService
+    private statService: StatService,
+    private mapService: MapService
   ) { }
 
   ngOnInit() {
@@ -181,8 +187,8 @@ export class EmployeeHomePage implements OnInit {
     //   console.log('json res: ', jsonResponse);
     // });
 
-    this.todaysDate = new Date(2020, 7, 1);
-    // this.statService.incrementStats(this.todaysDate, status);
+    this.todaysDate = new Date(2020, 7, 2);
+    this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
