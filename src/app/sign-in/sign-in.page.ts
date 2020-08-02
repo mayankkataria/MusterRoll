@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
+
+import {ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',
@@ -24,7 +27,8 @@ export class SignInPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private router: Router,
-    private plt: Platform
+    private plt: Platform,
+    public toastController:ToastController
   ) { }
 
   ngOnInit() {
@@ -62,6 +66,11 @@ export class SignInPage implements OnInit, OnDestroy {
     //     loading.dismiss();
     //   },5000)
     // })
+
+    const toast = await this.toastController.create({
+      message: ' You entered incorrect details!',
+      duration:2000
+    });
     this.loginSubscription.unsubscribe();
     this.authService.signIn(this.email, this.password)
       .then(() => {
@@ -74,6 +83,7 @@ export class SignInPage implements OnInit, OnDestroy {
         // }
       })
       .catch(error => console.log('cant sign in, error: ', error));
+      toast.present();
   }
 
 }
