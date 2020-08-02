@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
@@ -116,19 +117,25 @@ export class ProfilePage implements OnInit {
   async showCamSheet() {
     const photoSheet = await this.actionSheetController.create({
       header: 'Albums',
+      backdropDismiss: false,
+      mode: 'ios' || 'md',
       buttons: [{
         text: 'Delete',
         role: 'destructive',
+        icon: 'trash-outline',
         handler: () => this.deleteImg()
       }, {
         text: 'Access Gallery',
+        icon: 'image-outline',
         handler: () => this.accessGallery()
       }, {
         text: 'Camera',
+        icon: 'camera-outline',
         handler: () => this.capturePhoto()
       }, {
         text: 'Cancel',
         role: 'cancel',
+        icon: 'close',
         handler: () => console.log('cancel')
       }]
     });
@@ -194,6 +201,8 @@ export class ProfilePage implements OnInit {
     await this.authService.signOut();
     window.location.replace('/sign-in');
   }
+
+
 
   // constructor(
   //   private platform: Platform,
