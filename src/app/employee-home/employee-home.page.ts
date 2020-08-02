@@ -10,10 +10,7 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-// import { voiceit2 } from 'voiceit2-nodejs';
-
-// import voiceit2 = require('voiceit2-nodejs');
-
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-employee-home',
@@ -22,7 +19,7 @@ import { StatService } from '../services/stat.service';
 })
 
 export class EmployeeHomePage implements OnInit {
-
+  messages = this.http.get<any[]>('http://localhost:4201');
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
@@ -165,6 +162,7 @@ export class EmployeeHomePage implements OnInit {
   durationSubscription: Subscription;
 
   constructor(
+    private http: HttpClient,
     private modalCrl: ModalController,
     private userService: UserService,
     private dateTimeService: DateTimeService,
@@ -180,7 +178,7 @@ export class EmployeeHomePage implements OnInit {
     // this.myVoiceIt.getPhrases({ contentLanguage : 'en-US' }, (jsonResponse) => {
     //   console.log('json res: ', jsonResponse);
     // });
-
+    console.log(this.messages);
     this.todaysDate = new Date(2020, 7, 1);
     // this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
@@ -453,4 +451,8 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
+  voiceAuth() {
+    this.http.post<any>('http://localhost:4201/user', {username: 'Hello', password: 'world@123'})
+    .subscribe(next => console.log(next));
+  }
 }
