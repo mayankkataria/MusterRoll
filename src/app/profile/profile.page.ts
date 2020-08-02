@@ -25,6 +25,8 @@ export class ProfilePage implements OnInit {
   photo: SafeResourceUrl = '/assets/user.png';
   isDesktop: boolean;
 
+  roleFlag = true;
+  userRole: string;
   userData: any;
   userUid: string;
   user$: Observable<any>;
@@ -73,6 +75,17 @@ export class ProfilePage implements OnInit {
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(userData => {
       this.userUid = userData.uid;
+      this.userRole = userData.role;
+      if (this.userRole == 'admin')
+      {
+        this.roleFlag = true;
+      }
+      else
+      {
+        this.roleFlag = false;
+      }
+
+      console.log(this.userRole);
       if (userData && userData.role === 'employee') {
         this.shiftStart.hr.text = this.dateTimeService.display('hours', userData.shiftStart.hr);
         this.shiftStart.min.text = this.dateTimeService.display('minutes', userData.shiftStart.min);
@@ -137,12 +150,13 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
-  async showSettingsSheet() {
+  async showSettingsSheet() 
+  {
     const photoSheet = await this.actionSheetController.create({
       header: 'Settings',
       buttons: [{
         text: 'Modify Geofence',
-        handler: () => { this.router.navigate(['geofence']); }
+        handler: () => { this.router.navigate(['geofence'],{queryParams:{role:this.userRole}}); }
       }, {
         text: 'Sign Out',
         handler: () => this.signOut()
