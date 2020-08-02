@@ -53,39 +53,53 @@
 <!-- <ion-card class="card"> -->
 
 
-<ion-content>
-  <div class="div">
-    <ion-img class="logo" src="assets/logo2.png"></ion-img>
-    <ion-label class="sign">Sign In</ion-label>
-    <ion-list>
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-icon name="mail" slot="start"></ion-icon>
-        <ion-input [(ngModel)]="email" type="email">
-        </ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Password</ion-label>
-        <ion-icon name="lock-closed" slot="start"></ion-icon>
-        <ion-input [(ngModel)]="password" type="password" (keyup.enter)="signIn()">
-        </ion-input>
-      </ion-item>
-    </ion-list>
-    <!-- </div> -->
-    <div class="button">
-      <ion-row>
-        <ion-col size="6">
-          <ion-button expand="full" [routerLink]="['/register']" color="secondary" fill="outline" shape="round">
-            Register
+<!-- <ion-content> -->
+<form class="form">
+  <!-- <ion-card class="card"> -->
+    <div class="div">
+      <ion-img class="logo" src="assets/logo2.png"></ion-img>
+      <ion-label class="sign">Sign In</ion-label>
+      <div style="width:90%">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-icon name="mail" slot="start"></ion-icon>
+            <ion-input [(ngModel)]="email" name="email" type="email">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-input [(ngModel)]="password" name="password" type="password" (keyup.enter)="signIn()">
+            </ion-input>
+          </ion-item>
+        </ion-list>
+        <div class="button">
+          <ion-button (click)="signIn()" color="medium" expand="full" shape="round">
+                Sign In
           </ion-button>
-        </ion-col>
-        <ion-col size="6">
-          <ion-button expand="full" (click)="signIn()" color="primary" fill="outline" shape="round">
-            Sign In
-          </ion-button>
-        </ion-col>
-      </ion-row>
+        </div>
+      </div>
     </div>
-  </div>
-</ion-content>
-<!-- </ion-card> -->
+  <!-- </ion-card> -->
+  </form>
+  <!-- </ion-content> -->
+  
+  
+  
+  
+  
+  <!-- <div class="button"> -->
+    <!-- <ion-row> -->
+      <!-- <ion-col size="6">-->
+         <!-- <ion-button expand="full" [routerLink]="['/register']" color="secondary" fill="outline" shape="round">
+          Register
+        </ion-button>  -->
+      <!--        </ion-col> -->
+      <!-- <ion-col> -->
+        <!-- <ion-button (click)="signIn()" color="medium" expand="full" fill="outline" shape="round">
+          Sign In
+        </ion-button> -->
+      <!-- </ion-col> -->
+    <!-- </ion-row> -->
+  <!-- </div> -->

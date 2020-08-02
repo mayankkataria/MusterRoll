@@ -62,37 +62,45 @@
       <ion-label class="registration">Registration</ion-label>
       <div style="width: 70%;">
         <ion-item>
-          <ion-label class="labels" position="floating" >Id</ion-label>
-            <ion-input formControlName="id"></ion-input>
+          <ion-label class="labels" position="floating">Id</ion-label>
+          <ion-input formControlName="id"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.id" color="danger">{{ formErrors.id }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">First Name</ion-label>
-            <ion-input formControlName="firstname"></ion-input>
+          <ion-input formControlName="firstname"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.firstname" color="danger">{{ formErrors.firstname }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">Last Name</ion-label>
-           <ion-input formControlName="lastname"></ion-input>
+          <ion-input formControlName="lastname"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.lastname" color="danger">{{ formErrors.lastname }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">Organisation</ion-label>
-            <ion-input formControlName="orgName"></ion-input>
+          <ion-input formControlName="orgName"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.orgName" color="danger">{{ formErrors.orgName }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">Department</ion-label>
-            <ion-input formControlName="department"></ion-input>
+          <ion-input formControlName="department"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.department" color="danger">{{ formErrors.department }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">Designation</ion-label>
-            <ion-input formControlName="designation"></ion-input>
+          <ion-input formControlName="designation"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.designation" color="danger">{{ formErrors.designation }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">Email</ion-label>
-            <ion-input formControlName="email" type="email"></ion-input>
+          <ion-input formControlName="email" type="email"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.email" color="danger">{{ formErrors.email }}</ion-label>
         <ion-item>
           <ion-label class="labels" position="floating">Password</ion-label>
-             <ion-input formControlName="password" type="password"></ion-input>
+          <ion-input formControlName="password" type="password"></ion-input>
         </ion-item>
+        <ion-label *ngIf="formErrors.password" color="danger">{{ formErrors.password }}</ion-label>
         <div class="button">
           <ion-button color="medium" (click)="register()" shape="round" expand="full">
             Register
@@ -100,11 +108,11 @@
           <div class="routing-button">
             <ion-label>Have an Account?</ion-label>
             <!-- <span> -->
-              <!-- <ion-buttons style="width: 30%;"> -->
-                <button  class="sign" [routerLink]="['/sign-in']">
-                  Sign In
-                </button>
-              <!-- </ion-buttons> -->
+            <!-- <ion-buttons style="width: 30%;"> -->
+            <button class="sign" [routerLink]="['/sign-in']">
+              Sign In
+            </button>
+            <!-- </ion-buttons> -->
             <!-- </span> -->
           </div>
         </div>

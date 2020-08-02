@@ -10,11 +10,16 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
+<<<<<<< HEAD
 import {Router} from '@angular/router';
 
 // import { voiceit2 } from 'voiceit2-nodejs';
 // import voiceit2 = require('voiceit2-nodejs');
 
+=======
+import { HttpClient } from '@angular/common/http';
+import { MapService } from '../services/map.service';
+>>>>>>> 5693fd69e939b56c241649b17738fbeb8071123f
 
 @Component({
   selector: 'app-employee-home',
@@ -23,7 +28,7 @@ import {Router} from '@angular/router';
 })
 
 export class EmployeeHomePage implements OnInit {
-
+  messages = this.http.get<any[]>('http://localhost:4201');
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
@@ -46,6 +51,7 @@ export class EmployeeHomePage implements OnInit {
   firstname: string;
   lastname: string;
   todaysDate: Date;
+  // myVoiceIt = new voiceFunctions('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
   // myVoiceIt = new voiceit2('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
   // myVoiceIt = new voiceit2('fsdsdf', '');
   dateLog: {
@@ -73,7 +79,7 @@ export class EmployeeHomePage implements OnInit {
   todayLogObserver = {
     next: todayLog => {
       todayLog.recentDate = Date.now();
-      // this.memberService.setMergeTodaysLog(todayLog, this.userUid);
+      this.memberService.setMergeTodaysLog(todayLog, this.userUid);
     },
   };
 
@@ -167,6 +173,7 @@ export class EmployeeHomePage implements OnInit {
   durationSubscription: Subscription;
 
   constructor(
+    private http: HttpClient,
     private modalCrl: ModalController,
     private userService: UserService,
     private dateTimeService: DateTimeService,
@@ -175,7 +182,11 @@ export class EmployeeHomePage implements OnInit {
     private memberService: MemberService,
     private afs: AngularFirestore,
     private statService: StatService,
+<<<<<<< HEAD
     public router:Router
+=======
+    private mapService: MapService
+>>>>>>> 5693fd69e939b56c241649b17738fbeb8071123f
   ) { }
 
   ngOnInit() {
@@ -184,8 +195,8 @@ export class EmployeeHomePage implements OnInit {
     //   console.log('json res: ', jsonResponse);
     // });
 
-    this.todaysDate = new Date(2020, 7, 1);
-    // this.statService.incrementStats(this.todaysDate, status);
+    this.todaysDate = new Date(2020, 7, 2);
+    this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
@@ -459,4 +470,12 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
+  voiceAuth() {
+    this.http.post<any>('http://localhost:4201/create_user', {username: 'Hello', password: 'world@123'})
+    .subscribe(next => console.log(next));
+  }
+
+  createEnrollment() {
+    console.log();
+  }
 }

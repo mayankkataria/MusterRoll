@@ -12,6 +12,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -63,7 +64,8 @@ export class ProfilePage implements OnInit {
     private platform: Platform,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingCtrl:LoadingController
   ) {
     console.log('profile page constructor');
   }
@@ -205,7 +207,15 @@ export class ProfilePage implements OnInit {
   }
 
   async signOut() {
+    let loading = await this.loadingCtrl.create({
+      message:"Signing out..",
+      spinner:"bubbles",
+    });
     await this.authService.signOut();
+    loading.present();
+    // setTimeout(() =>{
+    //   loading.dismiss();
+    // },4000)
     window.location.replace('/sign-in');
   }
 
@@ -255,5 +265,3 @@ export class ProfilePage implements OnInit {
   // }
 
 }
-
-
