@@ -10,16 +10,10 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-<<<<<<< HEAD
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
-// import { voiceit2 } from 'voiceit2-nodejs';
-// import voiceit2 = require('voiceit2-nodejs');
-
-=======
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/map.service';
->>>>>>> 5693fd69e939b56c241649b17738fbeb8071123f
 
 @Component({
   selector: 'app-employee-home',
@@ -28,7 +22,7 @@ import { MapService } from '../services/map.service';
 })
 
 export class EmployeeHomePage implements OnInit {
-  messages = this.http.get<any[]>('http://localhost:4201');
+  url = 'http://localhost:4201';
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
@@ -51,9 +45,6 @@ export class EmployeeHomePage implements OnInit {
   firstname: string;
   lastname: string;
   todaysDate: Date;
-  // myVoiceIt = new voiceFunctions('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
-  // myVoiceIt = new voiceit2('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
-  // myVoiceIt = new voiceit2('fsdsdf', '');
   dateLog: {
     dateId: string, date: Date, status?: string, inStatus?: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
@@ -182,19 +173,16 @@ export class EmployeeHomePage implements OnInit {
     private memberService: MemberService,
     private afs: AngularFirestore,
     private statService: StatService,
-<<<<<<< HEAD
-    public router:Router
-=======
+    public router: Router,
     private mapService: MapService
->>>>>>> 5693fd69e939b56c241649b17738fbeb8071123f
   ) { }
 
   ngOnInit() {
+    console.log('emp home ngoninit');
 
-    // this.myVoiceIt.getPhrases({ contentLanguage : 'en-US' }, (jsonResponse) => {
-    //   console.log('json res: ', jsonResponse);
-    // });
-
+    this.todaysDate = new Date(2020, 6, 1);
+    // this.statService.incrementStats(this.todaysDate, status);
+    // this.checkUserExists();
     this.todaysDate = new Date(2020, 7, 2);
     this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
@@ -461,7 +449,7 @@ export class EmployeeHomePage implements OnInit {
     }
   }
   empFence() {
-    this.router.navigate(['/geofence'],{queryParams:{role:this.userRole}});
+    this.router.navigate(['/geofence'], { queryParams: { role: this.userRole } });
   }
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
@@ -470,12 +458,11 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
-  voiceAuth() {
-    this.http.post<any>('http://localhost:4201/create_user', {username: 'Hello', password: 'world@123'})
-    .subscribe(next => console.log(next));
-  }
+  // checkUserExists() {
 
-  createEnrollment() {
-    console.log();
+  // }
+  voiceAuth() {
+    this.http.post<any>(this.url + '/create_user', { username: 'You Rock!!!' })
+      .subscribe(resp => console.log(resp));
   }
 }
