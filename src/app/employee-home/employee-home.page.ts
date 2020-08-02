@@ -12,13 +12,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/map.service';
-import * as voiceFunctions from 'voiceit2-nodejs';
-// import { voiceit2 } from 'voiceit2-nodejs';
-
-// import voiceit2 = require('voiceit2-nodejs');
-
-// const voiceit2 = require('voiceit2-nodejs');
-
 
 @Component({
   selector: 'app-employee-home',
@@ -462,7 +455,11 @@ export class EmployeeHomePage implements OnInit {
   }
 
   voiceAuth() {
-    this.http.post<any>('http://localhost:4201/user', {username: 'Hello', password: 'world@123'})
+    this.http.post<any>('http://localhost:4201/create_user', {username: 'Hello', password: 'world@123'})
     .subscribe(next => console.log(next));
+  }
+
+  createEnrollment() {
+    console.log();
   }
 }
