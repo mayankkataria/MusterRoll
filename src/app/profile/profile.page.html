@@ -13,10 +13,10 @@
   <ion-toolbar style=" font-size: 17px;">
     <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
     <ion-buttons slot="end">
-      <ion-button color="light" large (click)="showSettingsSheet()" *ngIf="roleFlag">
-        <ion-icon name="settings"></ion-icon>
-      </ion-button>
-      <ion-button color="light" (click)="signOut()" *ngIf="!roleFlag">
+      <!-- <ion-button color="light" large (click)="showSettingsSheet()" *ngIf="roleFlag">
+        <ion-icon name="chevron-up-outline">Modify Fence</ion-icon>
+      </ion-button> -->
+      <ion-button color="light" (click)="signOut()">
         <ion-icon size="large"  name="log-out" color=white></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -90,6 +90,12 @@
           Attendance Log
         </ion-button>
       </ion-nav-link>
+      <ion-nav-link *ngIf="user.role === 'admin'">
+        <ion-button expand="full" color="medium" [routerLink]="['/geofence']" routerLinkActive="active">
+          Modify Geofence
+        </ion-button>
+      </ion-nav-link>
+      
     </div>
   </div>
 </ion-content>
