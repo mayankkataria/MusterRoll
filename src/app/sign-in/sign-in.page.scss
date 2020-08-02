@@ -1,4 +1,3 @@
-
 // .login
 // {
 //     max-width:400px;
@@ -14,6 +13,13 @@
 //     overflow-y: auto;
     
 // }
+.form{
+    height: 100%;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .logo
 {
     // width: 250px;
@@ -22,7 +28,7 @@
     margin-left: auto;
     margin-right: auto;
     // opacity: 1;
-    margin-top: 50px;
+    margin-top: 75px;
 }
 .div
 {
@@ -33,8 +39,8 @@
 }
 .button
 {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 75px;
+    margin-bottom: 50px;
     // display:flex;
     // flex-direction: column;
     // align-items: center;
@@ -46,14 +52,19 @@
     // color: rgb(94, 120, 143);
     color:#486786;
     letter-spacing: 1px;
-    padding: 50px;
+    padding: 75px;
+
 }
 // .sign-in
 // {
-//     // --background:#486786;
+//     --background:#486786;
 //     background: none!important;
-//   border: none;
+//     border: none;
 //     color:#486786;
+//     width:50%;
+//     margin-left: auto;
+//     margin-right: auto;
+//     margin-top: 50px;
 // }
 // .login
 // {
