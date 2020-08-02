@@ -10,32 +10,14 @@
 
   <div *ngIf="user">
 
-    <!-- <ion-item>
-      <ion-label>User ID: {{ user.uid }}</ion-label>
-    </ion-item> -->
-
     <ion-button (click)="reCenter()">
       Re-Center
     </ion-button>
-    
-    <ion-button (click)="startTracking()" *ngIf="!isTracking">
-      <ion-icon name="locate" slot="start"></ion-icon>
-      Start Tracking
+
+    <ion-button (click)="checkStatus()">
+      Check Status
     </ion-button>
 
-    <ion-button (click)="stopTracking()" *ngIf="isTracking">
-      <ion-icon name="hand-right-outline" slot="start"></ion-icon>
-      Stop Tracking
-    </ion-button>
-
-    <!-- <ion-button (click)="showFences()" *ngIf="!isVisible">
-      Show Geofences
-    </ion-button>
-
-    <ion-button (click)="hideFences()" *ngIf="isVisible">
-      Hide Geofences
-    </ion-button> -->
-    
     <ion-button (click)="createGeofence()" *ngIf="!isCreating && !isEditing">
       Create Geofence
     </ion-button>
@@ -48,13 +30,31 @@
       Save Geofence
     </ion-button>
 
+    <ion-button (click)="modifyFence()" *ngIf="optionsVisible">
+      Modify Geofence
+    </ion-button>
+
     <ion-button (click)="deleteGeofence()" *ngIf="optionsVisible">
       Delete Geofence
     </ion-button>
     
-    <!-- Future Feature -->
-    <!-- <ion-button (click)="modifyFence()" *ngIf="optionsVisible">
-      Modify Geofence
+    <!-- <ion-button (click)="startTracking()" *ngIf="!isTracking">
+      <ion-icon name="locate" slot="start"></ion-icon>
+      Start Tracking
+    </ion-button>
+
+    <ion-button (click)="stopTracking()" *ngIf="isTracking">
+      <ion-icon name="hand-right-outline" slot="start"></ion-icon>
+      Stop Tracking
+    </ion-button>
+
+    <ion-button (click)="showFences()" *ngIf="!isVisible">
+      Show Geofences
+    </ion-button>
+
+    <ion-button (click)="hideFences()" *ngIf="isVisible">
+      Hide Geofences
     </ion-button> -->
+
   </div>
 </ion-content>
