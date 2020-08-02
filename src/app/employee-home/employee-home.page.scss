@@ -1,0 +1,53 @@
+.image-size{
+    height: 26vh;
+    width: 25vh;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.card {
+    height: 90%;
+    width: 40%;
+    margin-top: 4vh;
+    margin-left: 4vh;
+    display: flex;
+    justify-content: center;
+}
+@media only screen and (min-width:825px){
+    .voice-button {
+        display: none;
+    }
+}
+
+@media screen and (max-width:825px) {
+    .card {
+       display: none;
+    }
+    .detail-centralized {
+        justify-content: center;
+        height: 100%;
+        display: flex;
+        text-align: center;
+        overflow-y: scroll;
+    }
+    .voice-button {
+        display: block;
+    }
+}
+
+
+
+.detail-centralized{
+    height: 100%;
+    display: flex;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+.text-style {
+    float: right;
+}
+
+.label-style {
+    float: left;
+}
