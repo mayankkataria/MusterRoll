@@ -10,8 +10,9 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-// import { voiceit2 } from 'voiceit2-nodejs';
+import {Router} from '@angular/router';
 
+// import { voiceit2 } from 'voiceit2-nodejs';
 // import voiceit2 = require('voiceit2-nodejs');
 
 
@@ -27,6 +28,7 @@ export class EmployeeHomePage implements OnInit {
   userLog$: Observable<any>;
   user$: Observable<any>;
   userUid: string;
+  userRole: string;
   inStatus: string;
   outStatus = null;
   duration: string;
@@ -172,7 +174,8 @@ export class EmployeeHomePage implements OnInit {
     private toastController: ToastController,
     private memberService: MemberService,
     private afs: AngularFirestore,
-    private statService: StatService
+    private statService: StatService,
+    public router:Router
   ) { }
 
   ngOnInit() {
@@ -187,6 +190,7 @@ export class EmployeeHomePage implements OnInit {
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
       this.userUid = user.uid;
+      this.userRole = user.role;
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       this.salary = user.salary;
@@ -231,7 +235,7 @@ export class EmployeeHomePage implements OnInit {
       );
 
       console.log('within shift: ', this.withinShift);
-
+      console.log(this.userUid);
     });
     // this.dateLogObserver.next(this.dateLog);
     this.dateLogObservable.subscribe(this.dateLogObserver);
@@ -445,7 +449,9 @@ export class EmployeeHomePage implements OnInit {
       this.todayLogObserver.next(this.todayLog);
     }
   }
-
+  empFence() {
+    this.router.navigate(['/geofence'],{queryParams:{role:this.userRole}});
+  }
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
       component: FenceHistoryPage
