@@ -154,6 +154,7 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
+  
   async showSettingsSheet() 
   {
     const photoSheet = await this.actionSheetController.create({
