@@ -82,8 +82,7 @@ export class SignInPage implements OnInit, OnDestroy {
         //   this.router.navigate(['side-menu']);
         // }
       })
-      .catch(error => console.log('cant sign in, error: ', error));
-      toast.present();
+      .catch(error =>toast.present());
   }
 
 }
