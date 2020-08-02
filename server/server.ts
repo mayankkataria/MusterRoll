@@ -29,18 +29,37 @@ app.get('/create_user', (req, res) => {
 
 app.get('/check_user', (req, res) => {
   myVoiceIt.checkUserExists({
-    userId : 'usr_9f09e91ed9114bf683844bc923a17306'//req.userId
+    userId : req.userId
   },(jsonResponse)=>{
     res.send(jsonResponse.exists);
   });
 })
 
-app.get('/enroll', (req, res) => {
-  myVoiceIt.createVoiceEnrollment({
-    userId : 'usr_9f09e91ed9114bf683844bc923a17306',
+app.post('/check_enrollments', (req, res) => {
+  myVoiceIt.getAllVoiceEnrollments({
+    userId : req.userId
+  },(jsonResponse)=>{
+    res.send(jsonResponse);
+  });
+})
+
+app.post('/verify', (req, res) => {
+  myVoiceIt.voiceVerification({
+    userId : req.userId,
     contentLanguage : 'en-US',
     phrase : 'Never forget tomorrow is a new day',
-    audioFilePath : 'enrollments/three.wav'
+    audioFilePath : 'enrollments/recording.wav'
+  },(jsonResponse)=>{
+    res.send(jsonResponse);
+  });
+})
+
+app.get('/create_enrollment', (req, res) => {
+  myVoiceIt.createVoiceEnrollment({
+    userId : req.userId,
+    contentLanguage : 'en-US',
+    phrase : 'Never forget tomorrow is a new day',
+    audioFilePath : 'enrollments/recording.wav'
   },(jsonResponse)=>{
     res.send(jsonResponse);
     console.log(jsonResponse);
@@ -49,7 +68,7 @@ app.get('/enroll', (req, res) => {
 
 app.get('/delete', (req, res) => {
   myVoiceIt.deleteAllEnrollments({
-    userId : 'usr_9f09e91ed9114bf683844bc923a17306'
+    userId : req.userId
   },(jsonResponse)=>{
     res.send(jsonResponse);
   });
@@ -57,25 +76,9 @@ app.get('/delete', (req, res) => {
 
 app.get('/phrases', (req, res) => {
   myVoiceIt.getPhrases({ contentLanguage : 'en-US' }, (jsonResponse)=>{
-    // console.log(jsonResponse);
     res.send(jsonResponse);
   });
 })
-
-app.get('/verify', (req, res) => {
-  myVoiceIt.voiceVerification({
-    userId : 'usr_9f09e91ed9114bf683844bc923a17306',
-    contentLanguage : 'en-US',
-    phrase : 'Never forget tomorrow is a new day',
-    audioFilePath : 'enrollments/fake.wav'
-  },(jsonResponse)=>{
-    res.send(jsonResponse);
-  });
-})
-
-app.post('/user', (req, res) => {
-  res.send({body: req.body});
-});
 
 app.listen(4201, '127.0.0.1', () => {
   console.log('Server now listening on 4201');

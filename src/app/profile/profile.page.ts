@@ -65,7 +65,7 @@ export class ProfilePage implements OnInit {
     private sanitizer: DomSanitizer,
     private authService: AuthService,
     private router: Router,
-    private loadingCtrl:LoadingController
+    private loadingCtrl: LoadingController
   ) {
     console.log('profile page constructor');
   }
@@ -76,12 +76,9 @@ export class ProfilePage implements OnInit {
     this.user$.subscribe(userData => {
       this.userUid = userData.uid;
       this.userRole = userData.role;
-      if (this.userRole == 'admin')
-      {
+      if (this.userRole === 'admin') {
         this.roleFlag = true;
-      }
-      else
-      {
+      } else {
         this.roleFlag = false;
       }
 
