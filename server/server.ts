@@ -18,16 +18,22 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send([{message: 'Hello World!'}]);
+  res.send([{message: 'You Rock!!!'}]);
 });
 
 app.get('/create_user', (req, res) => {
   myVoiceIt.createUser((jsonResponse)=>{
-    // console.log(jsonResponse);
     res.send(jsonResponse);
-    // const userId = jsonResponse[userId]; // Save generated userId to use later
   });
 });
+
+app.get('/check_user', (req, res) => {
+  myVoiceIt.checkUserExists({
+    userId : 'usr_9f09e91ed9114bf683844bc923a17306'//req.userId
+  },(jsonResponse)=>{
+    res.send(jsonResponse.exists);
+  });
+})
 
 app.get('/enroll', (req, res) => {
   myVoiceIt.createVoiceEnrollment({
