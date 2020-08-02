@@ -20,6 +20,16 @@ export class SignInPage implements OnInit, OnDestroy {
     password: ''
   };
 
+  validationMessages = {
+    email: {
+      required: 'Email is required.',
+      email: 'Email not in valid format.'
+    },
+    password: {
+      required: 'Password is required'
+    }
+  };
+
   constructor(
     private loadingCtrl: LoadingController,
     private authService: AuthService,

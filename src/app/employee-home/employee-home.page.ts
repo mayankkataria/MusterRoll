@@ -11,13 +11,6 @@ import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
 import { MapService } from '../services/map.service';
-import * as voiceFunctions from 'voiceit2-nodejs';
-// import { voiceit2 } from 'voiceit2-nodejs';
-
-// import voiceit2 = require('voiceit2-nodejs');
-
-// const voiceit2 = require('voiceit2-nodejs');
-
 
 @Component({
   selector: 'app-employee-home',
@@ -48,9 +41,6 @@ export class EmployeeHomePage implements OnInit {
   firstname: string;
   lastname: string;
   todaysDate: Date;
-  // myVoiceIt = new voiceFunctions('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
-  // myVoiceIt = new voiceit2('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
-  // myVoiceIt = new voiceit2('fsdsdf', '');
   dateLog: {
     dateId: string, date: Date, status?: string, inStatus?: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
@@ -182,13 +172,10 @@ export class EmployeeHomePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('emp home ngoninit');
 
-    // this.myVoiceIt.getPhrases({ contentLanguage : 'en-US' }, (jsonResponse) => {
-    //   console.log('json res: ', jsonResponse);
-    // });
-
-    this.todaysDate = new Date(2020, 7, 2);
-    this.statService.incrementStats(this.todaysDate, status);
+    this.todaysDate = new Date(2020, 6, 1);
+    // this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
