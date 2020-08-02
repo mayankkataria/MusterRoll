@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { MemberService } from '../services/member.service';
 import { ToastController } from '@ionic/angular';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.page.html',
@@ -22,11 +22,13 @@ export class AddEmployeePage implements OnInit {
     private formBuilder: FormBuilder,
     private memberService: MemberService,
     private authService: AuthService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private http: HttpClient
     ) { }
 
   ngOnInit() {
     this.employeeForm = this.formBuilder.group({
+      voiceId: [''],
       uid: [''],
       id: ['', Validators.required],
       firstname: ['', Validators.required],
@@ -97,8 +99,12 @@ export class AddEmployeePage implements OnInit {
     employeeDetails.email = this.lowerCase(employeeDetails.email);
     employeeDetails.department = this.lowerCase(employeeDetails.department);
     employeeDetails.designation = this.lowerCase(employeeDetails.designation);
-    console.log('emp details: ', employeeDetails);
-    this.authService.createEmpAccount(employeeDetails.email, employeeDetails.password)
+    this.http.get<any>('http://localhost:4201/create_user')
+    .subscribe(resp => {
+      console.log(resp);
+      employeeDetails.voiceId = resp.userId;
+      console.log('emp details: ', employeeDetails);
+      this.authService.createEmpAccount(employeeDetails.email, employeeDetails.password)
       .then((data) => {
         employeeDetails.uid = data.user.uid;
         this.memberService.addMember(employeeDetails)
@@ -110,9 +116,10 @@ export class AddEmployeePage implements OnInit {
             });
             await this.toast.present();
             this.employeeForm.reset();
+          })
+          .catch(error => console.log('create member account error: ', error));
       });
-      })
-      .catch(error => console.log('create member account error: ', error));
+    });
   }
 
   cancelBtn() {

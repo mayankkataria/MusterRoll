@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
@@ -12,6 +13,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -63,7 +65,8 @@ export class ProfilePage implements OnInit {
     private platform: Platform,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingCtrl: LoadingController
   ) {
     console.log('profile page constructor');
   }
@@ -74,12 +77,9 @@ export class ProfilePage implements OnInit {
     this.user$.subscribe(userData => {
       this.userUid = userData.uid;
       this.userRole = userData.role;
-      if (this.userRole == 'admin')
-      {
+      if (this.userRole === 'admin') {
         this.roleFlag = true;
-      }
-      else
-      {
+      } else {
         this.roleFlag = false;
       }
 
@@ -129,25 +129,32 @@ export class ProfilePage implements OnInit {
   async showCamSheet() {
     const photoSheet = await this.actionSheetController.create({
       header: 'Albums',
+      backdropDismiss: false,
+      mode: 'ios' || 'md',
       buttons: [{
         text: 'Delete',
         role: 'destructive',
+        icon: 'trash-outline',
         handler: () => this.deleteImg()
       }, {
         text: 'Access Gallery',
+        icon: 'image-outline',
         handler: () => this.accessGallery()
       }, {
         text: 'Camera',
+        icon: 'camera-outline',
         handler: () => this.capturePhoto()
       }, {
         text: 'Cancel',
         role: 'cancel',
+        icon: 'close',
         handler: () => console.log('cancel')
       }]
     });
     await photoSheet.present();
   }
 
+  
   async showSettingsSheet() 
   {
     const photoSheet = await this.actionSheetController.create({
@@ -205,9 +212,19 @@ export class ProfilePage implements OnInit {
   }
 
   async signOut() {
+    let loading = await this.loadingCtrl.create({
+      message:"Signing out..",
+      spinner:"bubbles",
+    });
     await this.authService.signOut();
+    loading.present();
+    // setTimeout(() =>{
+    //   loading.dismiss();
+    // },4000)
     window.location.replace('/sign-in');
   }
+
+
 
   // constructor(
   //   private platform: Platform,
@@ -255,5 +272,3 @@ export class ProfilePage implements OnInit {
   // }
 
 }
-
-

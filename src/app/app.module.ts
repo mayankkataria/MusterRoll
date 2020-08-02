@@ -19,6 +19,9 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 import { SuperTabsModule} from '@ionic-super-tabs/angular';
 
+// import {  } from 'voiceit2-nodejs';
+
+
 // import { VoiceIt2Module } from 'voiceit2-nodejs';
 
 @NgModule({

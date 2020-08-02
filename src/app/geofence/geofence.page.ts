@@ -49,8 +49,8 @@ export class GeofencePage implements OnInit {
   user$: Observable<any>;
 
   constructor(
-    private afAuth: AngularFireAuth, 
-    private afs: AngularFirestore, 
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
     public toastController: ToastController,
     public activatedRoute: ActivatedRoute,
     private userService: UserService
@@ -77,12 +77,9 @@ export class GeofencePage implements OnInit {
     this.user$ = this.userService.getURole$();
     this.user$.subscribe(userData => {
       this.role = userData;
-      if (this.role == 'admin')
-      {
+      if (this.role === 'admin') {
         this.userRole = true;
-      }
-      else
-      {
+      } else {
         this.userRole = false;
       }
     });

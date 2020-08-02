@@ -4,13 +4,14 @@
       <ion-button [hidden]="showSearchBar" (click)="clickedSearchIcon($event)">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
-      <ion-button color="dark" (click)="openFilterModal()">
+      <ion-button color="light" (click)="openFilterModal()">
         <ion-icon name="funnel"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title *ngIf="!showSearchBar">Members</ion-title>
-    <ion-searchbar showCancelButton="focus" *ngIf="showSearchBar" [(ngModel)]="searchFieldValue"
-    name="searchBar" (ionCancel)="cancelSearchBar()" (ionChange)="searchSuggest()" #searchBar placeholder="Search Members" animated="true">
+    <ion-searchbar showCancelButton="focus" *ngIf="showSearchBar" [(ngModel)]="searchFieldValue" name="searchBar"
+      (ionCancel)="cancelSearchBar()" (ionChange)="searchSuggest()" #searchBar placeholder="Search Members"
+      animated="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -27,7 +28,8 @@
         [componentProps]="{memberUid: member.uid}">
         <ion-item>
           <ion-avatar slot="start">
-            <ion-img class="member-img" [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'"></ion-img>
+            <ion-img class="member-img" [src]="member.profilePicUrl ? member.profilePicUrl : 'assets/user.png'">
+            </ion-img>
           </ion-avatar>
           <ion-label>
             <h2> <b> {{ member.firstname | titlecase }} {{ member.lastname | titlecase }} </b> </h2>

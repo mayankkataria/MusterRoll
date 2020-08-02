@@ -10,11 +10,10 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
-// import { voiceit2 } from 'voiceit2-nodejs';
-// import voiceit2 = require('voiceit2-nodejs');
-
+import { HttpClient } from '@angular/common/http';
+import { MapService } from '../services/map.service';
 
 @Component({
   selector: 'app-employee-home',
@@ -23,12 +22,13 @@ import {Router} from '@angular/router';
 })
 
 export class EmployeeHomePage implements OnInit {
-
+  url = 'http://localhost:4201';
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
   userUid: string;
   userRole: string;
+  voiceId: string;
   inStatus: string;
   outStatus = null;
   duration: string;
@@ -46,8 +46,6 @@ export class EmployeeHomePage implements OnInit {
   firstname: string;
   lastname: string;
   todaysDate: Date;
-  // myVoiceIt = new voiceit2('42866674a3014801ba72071f04ddc35a', '9577d0cbc735457f8a7fbd54c4f2b1aa');
-  // myVoiceIt = new voiceit2('fsdsdf', '');
   dateLog: {
     dateId: string, date: Date, status?: string, inStatus?: string, outStatus?: string,
     clockInTime?: {}, clockOutTime?: {}, durationTime?: {},
@@ -73,7 +71,7 @@ export class EmployeeHomePage implements OnInit {
   todayLogObserver = {
     next: todayLog => {
       todayLog.recentDate = Date.now();
-      // this.memberService.setMergeTodaysLog(todayLog, this.userUid);
+      this.memberService.setMergeTodaysLog(todayLog, this.userUid);
     },
   };
 
@@ -167,6 +165,7 @@ export class EmployeeHomePage implements OnInit {
   durationSubscription: Subscription;
 
   constructor(
+    private http: HttpClient,
     private modalCrl: ModalController,
     private userService: UserService,
     private dateTimeService: DateTimeService,
@@ -175,22 +174,24 @@ export class EmployeeHomePage implements OnInit {
     private memberService: MemberService,
     private afs: AngularFirestore,
     private statService: StatService,
-    public router:Router
+    public router: Router,
+    private mapService: MapService
   ) { }
 
   ngOnInit() {
+    console.log('emp home ngoninit');
 
-    // this.myVoiceIt.getPhrases({ contentLanguage : 'en-US' }, (jsonResponse) => {
-    //   console.log('json res: ', jsonResponse);
-    // });
-
-    this.todaysDate = new Date(2020, 7, 1);
+    this.todaysDate = new Date(2020, 6, 1);
     // this.statService.incrementStats(this.todaysDate, status);
+    // this.checkUserExists();
+    this.todaysDate = new Date(2020, 7, 2);
+    this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
       this.userUid = user.uid;
       this.userRole = user.role;
+      this.voiceId = user.voiceId;
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       this.salary = user.salary;
@@ -450,7 +451,7 @@ export class EmployeeHomePage implements OnInit {
     }
   }
   empFence() {
-    this.router.navigate(['/geofence'],{queryParams:{role:this.userRole}});
+    this.router.navigate(['/geofence'], { queryParams: { role: this.userRole } });
   }
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
@@ -459,4 +460,51 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
+  voiceAuth() {
+    this.http.post<any>(this.url + '/check_enrollments', {userId: this.voiceId})
+    .subscribe(resp => {
+      console.log(resp);
+      if (resp.count > 0) {
+        this.http.post<any>(this.url + '/verify', {userId: this.voiceId})
+        .subscribe(res => {
+          console.log(res);
+          if (res.responseCode === 'SUCC') {
+            this.presentToast('Authentication Successful');
+          } else {
+            this.presentToast('Authentication Failed!');
+          }
+        });
+      } else {
+        this.presentToast('Create more enrollments first!');
+      }
+    });
+  }
+
+  createEnrollment() {
+    this.http.post<any>(this.url + '/check_enrollments', {userId: this.voiceId})
+    .subscribe(resp => {
+      console.log(resp);
+      if (resp.count < 3) {
+        this.http.post<any>(this.url + '/create_enrollment', {userId: this.voiceId})
+        .subscribe(res => {
+          console.log(res);
+          if (res.responseCode === 'SUCC') {
+            this.presentToast('Enrollment Created Successfully');
+          } else {
+            this.presentToast('Enrollment Failed!');
+          }
+        });
+      } else {
+        this.presentToast('No more enrollments needed.');
+      }
+    });
+  }
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 3000
+    });
+    toast.present();
+  }
 }

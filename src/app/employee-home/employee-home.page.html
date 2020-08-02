@@ -1,136 +1,176 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Employee Home</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="empFence()">
+        <ion-icon size="large" src="/assets/map.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col offset="0">
-        <ion-label>Salary: </ion-label>
-        <ion-text>
-          <b>{{ salary }} Rs / {{ perUnitTime }}</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset="0">
-        <ion-label>Shift Time: </ion-label>
-        <ion-text>
-          <b *ngIf="shiftStartTime">{{ shiftStartTime.hr.text }}:{{ shiftStartTime.min.text }}
-            {{ shiftStartTime.meridiem }}</b> -
-          <b *ngIf="shiftEndTime">{{ shiftEndTime.hr.text }}:{{ shiftEndTime.min.text }} {{ shiftEndTime.meridiem }}</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <br>
-    <ion-row *ngIf="inStatus === 'late arrival'">
-      <ion-col offset="0">
-        <ion-label>In Status: </ion-label>
-        <ion-text>
-          <b> {{ inStatus | titlecase }} </b>
-        </ion-text>
-        <br>
-        <ion-label>Late by: </ion-label>
-        <ion-text>
-          <b> {{ lateDuration.hr.text }} hr {{ lateDuration.min.text }} min </b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <br>
-    <ion-row *ngIf="outStatus === 'early departure'">
-      <ion-col offset="0">
-        <ion-label>Out Status: </ion-label>
-        <ion-text>
-          <b> {{ outStatus | titlecase }} </b>
-        </ion-text>
-        <br>
-        <ion-label>Early by: </ion-label>
-        <ion-text>
-          <b> {{ earlyDuration.hr.text }} hr {{ earlyDuration.min.text }} min </b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <br>
-    <ion-row *ngIf="clockInTime">
-      <ion-col offset="0">
-        <ion-label>Clock In: </ion-label>
-        <ion-text>
-          <b>{{ clockInTime.hr.text }}:{{ clockInTime.min.text }} {{ clockInTime.meridiem }}</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="clockOutTime">
-      <ion-col offset="0">
-        <ion-label>Clock Out: </ion-label>
-        <ion-text>
-          <b>{{ clockOutTime.hr.text }}:{{ clockOutTime.min.text }} {{ clockOutTime.meridiem }}</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset="0">
-        <ion-label>Duration: </ion-label>
-        <ion-text>
-          <b>{{ durationTime.hr.text }}</b>:<b>{{ durationTime.min.text }}</b>:<b>{{ durationTime.sec.text }}</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset="0">
-        <ion-label>Amount: </ion-label>
-        <ion-text>
-          <b>{{ amount }} Rs</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="!withinShift; else shiftStarted">
-      <ion-col size="12">
-        <ion-text color="danger">
-          Shift not started yet!
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ng-template #shiftStarted>
-      <ion-row>
-        <ion-col size="12">
-          <ion-text color="success">
-            The shift has started!
-          </ion-text>
-        </ion-col>
-      </ion-row>
-    </ng-template>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-label *ngIf="inFence; else outsideFence" color="success"> <b> Inside Fence </b> </ion-label>
-        <ng-template #outsideFence>
-          <ion-label color="danger"> <b> Outside Fence </b> </ion-label>
+<ion-grid style="width: 100%;" class="detail-centralized">
+  <ion-row style="width: 100%;">
+    <ion-col class="card">
+      <ion-card style="width: 80%;height: 100%;">
+        <div style="height: 45vh;">
+          <ion-avatar class="image-size">
+            <img src=".\assets\user.png">
+          </ion-avatar>
+        </div>
+        <div>
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <ion-button color="medium" (click)="voiceAuth()" shape="round">
+                Voice Authentication
+              </ion-button>
+            </ion-col> 
+          </ion-row>  
+          <ion-row>
+            <ion-col class="ion-text-center">  
+              <ion-button color="medium" (click)="createEnrollment()" shape="round">
+                Create Voice Enrollment
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div> 
+      </ion-card>
+    </ion-col>
+
+    <ion-col style="padding:30px;">
+      <ion-grid style="height: 100%;display: grid;">
+        <ion-row>
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Salary:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ salary }} Rs / {{ perUnitTime }}</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Shift Time:</b> </ion-label>
+            <ion-text class="text-style">
+              <b *ngIf="shiftStartTime">{{ shiftStartTime.hr.text }}:{{ shiftStartTime.min.text }}
+                {{ shiftStartTime.meridiem }}</b> -
+              <b *ngIf="shiftEndTime">{{ shiftEndTime.hr.text }}:{{ shiftEndTime.min.text }} {{ shiftEndTime.meridiem }}</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="inStatus === 'late arrival'">
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>In Status:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ inStatus | titlecase }}</b>
+            </ion-text>
+            <ion-label class="label-style" color="medium"><b>Late by:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ lateDuration.hr.text }} hr {{ lateDuration.min.text }} min</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="outStatus === 'early departure'">
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Out Status:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ outStatus | titlecase }}</b>
+            </ion-text>
+            <ion-label class="label-style" color="medium"><b>Early by: </b></ion-label>
+            <ion-text class="text-style"><b>{{ earlyDuration.hr.text }} hr {{ earlyDuration.min.text }} min</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="clockInTime">
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Clock In:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ clockInTime.hr.text }}:{{ clockInTime.min.text }} {{ clockInTime.meridiem }}</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="clockOutTime">
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Clock Out:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ clockOutTime.hr.text }}:{{ clockOutTime.min.text }} {{ clockOutTime.meridiem }}</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Duration:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ durationTime.hr.text }}:{{ durationTime.min.text }}:{{ durationTime.sec.text }}</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col offset="0">
+            <ion-label class="label-style" color="medium"><b>Amount:</b> </ion-label>
+            <ion-text class="text-style"><b>{{ amount }} Rs</b>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row style="margin-top: 10px;" *ngIf="!withinShift; else shiftStarted">
+          <ion-col size="12">
+            <ion-text color="danger">
+              Shift not started yet!
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ng-template #shiftStarted>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text color="success">
+                The shift has started!
+              </ion-text>
+            </ion-col>
+          </ion-row>
         </ng-template>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-label (click)="refreshLocation()" color="primary"> Refresh Location </ion-label>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-button *ngIf="withinShift" (click)="clockIn()" [disabled]="!inFence || clockedOut" [hidden]="clockedIn">
-          Clock In
-        </ion-button>
-        <ion-button (click)="clockOut()" [hidden]="!clockedIn">
-          Clock Out
-        </ion-button>
-        <ion-button (click)="empFence()">
-          Show Fence
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-label *ngIf="inFence; else outsideFence" color="success"> <b> Inside Fence </b> </ion-label>
+            <ng-template #outsideFence>
+              <ion-label color="danger"> <b> Outside Fence </b> </ion-label>
+            </ng-template>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-label (click)="refreshLocation()" color="primary"> Refresh Location </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row [hidden]="clockedIn">
+          <ion-col class="ion-text-center">
+            <ion-button style="width: 300px;" color="medium" *ngIf="withinShift" (click)="clockIn()" [disabled]="!inFence || clockedOut" shape="round">
+              Clock In
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row [hidden]="!clockedIn">
+          <ion-col class="ion-text-center">
+            <ion-button style="width: 300px;" color="medium" (click)="clockOut()" shape="round" >
+              Clock Out
+            </ion-button>
+          </ion-col> 
+        </ion-row>  
+        <div class="voice-button">
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <ion-button style="width: 300px;" color="medium" (click)="voiceAuth()" shape="round">
+                Voice Authentication
+              </ion-button>
+            </ion-col> 
+          </ion-row>  
+          <ion-row>
+            <ion-col class="ion-text-center">  
+              <ion-button style="width: 300px;" color="medium" (click)="createEnrollment()" shape="round">
+                Create Voice Enrollment
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+          
+    
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+</ion-grid>
