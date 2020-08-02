@@ -10,6 +10,7 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
+import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/map.service';
 import * as voiceFunctions from 'voiceit2-nodejs';
 // import { voiceit2 } from 'voiceit2-nodejs';
@@ -26,7 +27,7 @@ import * as voiceFunctions from 'voiceit2-nodejs';
 })
 
 export class EmployeeHomePage implements OnInit {
-
+  messages = this.http.get<any[]>('http://localhost:4201');
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
@@ -170,6 +171,7 @@ export class EmployeeHomePage implements OnInit {
   durationSubscription: Subscription;
 
   constructor(
+    private http: HttpClient,
     private modalCrl: ModalController,
     private userService: UserService,
     private dateTimeService: DateTimeService,
@@ -459,4 +461,8 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
+  voiceAuth() {
+    this.http.post<any>('http://localhost:4201/user', {username: 'Hello', password: 'world@123'})
+    .subscribe(next => console.log(next));
+  }
 }
