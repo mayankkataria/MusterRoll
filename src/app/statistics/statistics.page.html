@@ -1,24 +1,24 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-padding">Statistics</ion-title>
-    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" color="primary">  
-      <ion-segment-button value="0">  
-        <ion-label>Single</ion-label>  
-      </ion-segment-button>  
-      <ion-segment-button value="1">  
-        <ion-label>Range</ion-label>  
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" color="primary">
+      <ion-segment-button value="0">
+        <ion-label>Single</ion-label>
       </ion-segment-button>
-    </ion-segment>  
+      <ion-segment-button value="1">
+        <ion-label>Range</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">   
-  <ion-slides #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">  
+<ion-content color="light">
+  <ion-slides #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">
     <ion-slide>
       <app-single-stats></app-single-stats>
-    </ion-slide>  
+    </ion-slide>
     <ion-slide>
       <app-multiple-stats></app-multiple-stats>
-    </ion-slide>  
-  </ion-slides>  
-</ion-content>  
+    </ion-slide>
+  </ion-slides>
+</ion-content>

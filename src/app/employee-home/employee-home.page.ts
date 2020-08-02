@@ -10,7 +10,7 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/map.service';
@@ -179,6 +179,11 @@ export class EmployeeHomePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('emp home ngoninit');
+
+    this.todaysDate = new Date(2020, 6, 1);
+    // this.statService.incrementStats(this.todaysDate, status);
+    // this.checkUserExists();
     this.todaysDate = new Date(2020, 7, 2);
     this.statService.incrementStats(this.todaysDate, status);
     this.amount = 0;
@@ -446,7 +451,7 @@ export class EmployeeHomePage implements OnInit {
     }
   }
   empFence() {
-    this.router.navigate(['/geofence'],{queryParams:{role:this.userRole}});
+    this.router.navigate(['/geofence'], { queryParams: { role: this.userRole } });
   }
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
