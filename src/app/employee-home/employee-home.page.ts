@@ -10,12 +10,9 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
-<<<<<<< HEAD
-=======
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
->>>>>>> 636d3815f3f3a04eb45f88c69461ccee6060f3e7
 import { MapService } from '../services/map.service';
 
 @Component({
@@ -181,16 +178,13 @@ export class EmployeeHomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-<<<<<<< HEAD
     console.log('emp home ngoninit');
 
     this.todaysDate = new Date(2020, 6, 1);
     // this.statService.incrementStats(this.todaysDate, status);
-=======
     // this.checkUserExists();
     this.todaysDate = new Date(2020, 7, 2);
     this.statService.incrementStats(this.todaysDate, status);
->>>>>>> 636d3815f3f3a04eb45f88c69461ccee6060f3e7
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
@@ -455,7 +449,7 @@ export class EmployeeHomePage implements OnInit {
     }
   }
   empFence() {
-    this.router.navigate(['/geofence'],{queryParams:{role:this.userRole}});
+    this.router.navigate(['/geofence'], { queryParams: { role: this.userRole } });
   }
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
@@ -468,7 +462,7 @@ export class EmployeeHomePage implements OnInit {
 
   // }
   voiceAuth() {
-    this.http.post<any>(this.url + '/create_user', {username: 'You Rock!!!'})
-    .subscribe(resp => console.log(resp));
+    this.http.post<any>(this.url + '/create_user', { username: 'You Rock!!!' })
+      .subscribe(resp => console.log(resp));
   }
 }
