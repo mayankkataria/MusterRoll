@@ -9,6 +9,7 @@ import { EmployeeHomePageRoutingModule } from './employee-home-routing.module';
 import { EmployeeHomePage } from './employee-home.page';
 import { FenceHistoryPageModule } from '../fence-history/fence-history.module';
 import { ClockInPageModule } from '../clock-in/clock-in.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ClockInPageModule } from '../clock-in/clock-in.module';
     IonicModule,
     EmployeeHomePageRoutingModule,
     FenceHistoryPageModule,
-    ClockInPageModule
+    ClockInPageModule,
+    HttpClientModule,
   ],
   exports: [
     EmployeeHomePage

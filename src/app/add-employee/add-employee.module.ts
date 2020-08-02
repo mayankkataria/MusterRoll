@@ -9,13 +9,16 @@ import { AddEmployeePageRoutingModule } from './add-employee-routing.module';
 
 import { AddEmployeePage } from './add-employee.page';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    AddEmployeePageRoutingModule
+    AddEmployeePageRoutingModule,
+    HttpClientModule
   ],
   declarations: [AddEmployeePage],
 })

@@ -3,3 +3,21 @@
     // --st-base-color-active:rgba(142, 170, 248, 0.959);
     --st-base-color-active:#3880ff;
 }
+
+super-tabs-toolbar {
+    height: 50px;
+  }
+
+super-tab-button {
+    height: 100%;
+}
+
+.div{
+    width: 40%;
+}
+
+@media screen and (max-width:750px) {
+    .div{
+        width: 0%;
+    }
+}

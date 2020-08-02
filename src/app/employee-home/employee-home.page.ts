@@ -10,6 +10,12 @@ import { ClockInPage } from '../clock-in/clock-in.page';
 import { MemberService } from '../services/member.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StatService } from '../services/stat.service';
+<<<<<<< HEAD
+=======
+import {Router} from '@angular/router';
+
+import { HttpClient } from '@angular/common/http';
+>>>>>>> 636d3815f3f3a04eb45f88c69461ccee6060f3e7
 import { MapService } from '../services/map.service';
 
 @Component({
@@ -19,11 +25,12 @@ import { MapService } from '../services/map.service';
 })
 
 export class EmployeeHomePage implements OnInit {
-
+  url = 'http://localhost:4201';
   inFence = false;
   userLog$: Observable<any>;
   user$: Observable<any>;
   userUid: string;
+  userRole: string;
   inStatus: string;
   outStatus = null;
   duration: string;
@@ -160,6 +167,7 @@ export class EmployeeHomePage implements OnInit {
   durationSubscription: Subscription;
 
   constructor(
+    private http: HttpClient,
     private modalCrl: ModalController,
     private userService: UserService,
     private dateTimeService: DateTimeService,
@@ -168,18 +176,26 @@ export class EmployeeHomePage implements OnInit {
     private memberService: MemberService,
     private afs: AngularFirestore,
     private statService: StatService,
+    public router: Router,
     private mapService: MapService
   ) { }
 
   ngOnInit() {
+<<<<<<< HEAD
     console.log('emp home ngoninit');
 
     this.todaysDate = new Date(2020, 6, 1);
     // this.statService.incrementStats(this.todaysDate, status);
+=======
+    // this.checkUserExists();
+    this.todaysDate = new Date(2020, 7, 2);
+    this.statService.incrementStats(this.todaysDate, status);
+>>>>>>> 636d3815f3f3a04eb45f88c69461ccee6060f3e7
     this.amount = 0;
     this.user$ = this.userService.getUser$();
     this.user$.subscribe(user => {
       this.userUid = user.uid;
+      this.userRole = user.role;
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       this.salary = user.salary;
@@ -224,7 +240,7 @@ export class EmployeeHomePage implements OnInit {
       );
 
       console.log('within shift: ', this.withinShift);
-
+      console.log(this.userUid);
     });
     // this.dateLogObserver.next(this.dateLog);
     this.dateLogObservable.subscribe(this.dateLogObserver);
@@ -438,7 +454,9 @@ export class EmployeeHomePage implements OnInit {
       this.todayLogObserver.next(this.todayLog);
     }
   }
-
+  empFence() {
+    this.router.navigate(['/geofence'],{queryParams:{role:this.userRole}});
+  }
   async openFenceHistory() {
     const fenceHistoryModal = await this.modalCrl.create({
       component: FenceHistoryPage
@@ -446,4 +464,11 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
+  // checkUserExists() {
+
+  // }
+  voiceAuth() {
+    this.http.post<any>(this.url + '/create_user', {username: 'You Rock!!!'})
+    .subscribe(resp => console.log(resp));
+  }
 }
