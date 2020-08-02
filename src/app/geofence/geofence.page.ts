@@ -1,13 +1,13 @@
 /// <reference types="@types/googlemaps" />
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ToastController, ActionSheetController } from '@ionic/angular';
-
+import { UserService } from '../services/user.service';
 import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 const { Geolocation } = Plugins;
-
+import {ActivatedRoute} from '@angular/router';
 import { map, first } from 'rxjs/operators';
 
 @Component({
@@ -44,12 +44,48 @@ export class GeofencePage implements OnInit {
   currentLocation: any;
   isModified = false;
   fenceStatus: boolean;
+  role: string="";
+  userRole= true;
+  user$: Observable<any>;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public toastController: ToastController) {}
+  constructor(
+    private afAuth: AngularFireAuth, 
+    private afs: AngularFirestore, 
+    public toastController: ToastController,
+    public activatedRoute: ActivatedRoute,
+    private userService: UserService
+    ) {
+    //   this.activatedRoute.queryParams.subscribe((userRole) => {
+    //   this.role = JSON.stringify(userRole.role);
+    //   console.log(JSON.stringify(userRole.role));
+    //   console.log(this.role);
+    //   if (this.role == "employee")
+    //   {
+    //     this.userRole = false;
+    //   }
+    //   else
+    //   {
+    //     this.userRole = true;
+    //   }
+    //   console.log('ROLE: ',this.role);
+    //   console.log('USER ROLE: ',this.userRole);
+      }
 
   ngOnInit() {
     this.geofenceCollection = this.afs.collection('geofences');
     this.userLogin();
+    this.user$ = this.userService.getURole$();
+    this.user$.subscribe(userData => {
+      this.role = userData;
+      if (this.role == 'admin')
+      {
+        this.userRole = true;
+      }
+      else
+      {
+        this.userRole = false;
+      }
+    });
   }
 
   ionViewWillEnter() {

@@ -88,7 +88,7 @@ export class OthersProfilePage implements OnInit {
   async updateMember() {
     const updateModal = await this.modalController.create({
       component: UpdateMemberPage,
-      componentProps: {memberData: this.memberData},
+      componentProps: { memberData: this.memberData },
       showBackdrop: true,
       animated: true
     });
@@ -97,14 +97,21 @@ export class OthersProfilePage implements OnInit {
 
   async openSideMenu() {
     const sideMenu = await this.actionSheetController.create({
+      mode: 'ios' || 'md',
       buttons: [{
+
         text: 'Remove Member',
         role: 'destructive',
+        // icon: 'person-remove-outline',
+
         handler: () => this.removeMember()
       }, {
+
+        //icon: 'person-add-outline',
         text: 'Update Member',
         role: 'destructive',
-        handler: () => this.updateMember()
+        //cssClass: "blue",
+        handler: () => this.updateMember(),
       }]
     });
     await sideMenu.present();

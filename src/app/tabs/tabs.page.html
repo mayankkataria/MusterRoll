@@ -64,7 +64,7 @@
 <ion-content>
   <super-tabs>
 
-    <super-tabs-toolbar color="medium" slot="top" style="display: flex;width: 100%;">
+    <super-tabs-toolbar color="medium" [slot]="plt.is('desktop') ? 'top' : 'bottom'" style="display: flex;width: 100%;">
       
       <!-- <div style="width: 50%;display: flex;"> -->
         <!-- <div style="width: 25%;"> -->
