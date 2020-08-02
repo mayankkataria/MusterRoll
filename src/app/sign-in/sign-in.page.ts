@@ -15,9 +15,13 @@ export class SignInPage implements OnInit, OnDestroy {
   password: string;
   loginSubscription: Subscription;
   platform: string;
+  formErrors = {
+    email: '',
+    password: ''
+  };
 
   constructor(
-    private loadingCtrl:LoadingController,
+    private loadingCtrl: LoadingController,
     private authService: AuthService,
     private router: Router,
     private plt: Platform
@@ -39,17 +43,17 @@ export class SignInPage implements OnInit, OnDestroy {
   }
 
    async signIn() {
-    let loading = await this.loadingCtrl.create({
-      message:"Signing in..",
+    const loading = await this.loadingCtrl.create({
+      message: 'Signing in..',
       // duration:5000,
-      spinner:"bubbles",
+      spinner: 'bubbles',
       // showBackdrop:false,
       // backdropDismiss:true
     });
     // loading.present();
-    setTimeout(() =>{
+    setTimeout(() => {
       loading.dismiss();
-    },4000)
+    }, 4000);
 
     // .then((loading) =>{
     //   loading.present();
