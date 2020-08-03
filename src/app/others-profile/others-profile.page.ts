@@ -9,6 +9,7 @@ import { StorageService } from '../services/storage.service';
 import { UserService } from '../services/user.service';
 import { UpdateMemberPage } from '../update-member/update-member.page';
 import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-others-profile',
@@ -23,6 +24,8 @@ export class OthersProfilePage implements OnInit {
   attendancePage = AttendanceLogPage;
   member$: Observable<any>;
   memberData: any;
+  userUid: string;
+  
   shiftStart = {
     hr: {
       text: '',
@@ -55,11 +58,16 @@ export class OthersProfilePage implements OnInit {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
     console.log('member uid: ', this.memberUid);
+
+    this.userService.getUid$()
+      .subscribe(uid => this.userUid = uid);
+
     this.userService.getURole$()
       .subscribe(role => this.userRole = role);
     // this.memberUid = this.route.snapshot.params.uid;
@@ -95,15 +103,29 @@ export class OthersProfilePage implements OnInit {
     await updateModal.present();
   }
 
+  async showAlert() {
+    const alert =  await this.alertCtrl.create(
+      {
+      header: 'Sorry!',
+      subHeader: 'You cannot delete your own profile!',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
   async openSideMenu() {
+
+    if (this.userUid != this.memberUid)
+    {
     const sideMenu = await this.actionSheetController.create({
       mode: 'ios' || 'md',
-      buttons: [{
-
+      buttons: [
+        {
+          
         text: 'Remove Member',
         role: 'destructive',
         // icon: 'person-remove-outline',
-
+        
         handler: () => this.removeMember()
       }, {
 
@@ -116,5 +138,28 @@ export class OthersProfilePage implements OnInit {
     });
     await sideMenu.present();
   }
+  else
+  {
+    const sideMenu = await this.actionSheetController.create({
+      mode: 'ios' || 'md',
+      buttons: [
+        {
+        text: 'Remove Member',
+        role: 'destructive',
+        // icon: 'person-remove-outline',
+        handler: () => {this.showAlert();}
+      }, {
 
-}
+        //icon: 'person-add-outline',
+        text: 'Update Member',
+        role: 'destructive',
+        
+        //cssClass: "blue",
+        handler: () => this.updateMember(),
+      }]
+    });
+    await sideMenu.present();
+  }
+  }
+  }
+
