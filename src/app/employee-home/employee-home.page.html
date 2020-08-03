@@ -28,7 +28,7 @@
           </ion-row>  
           <ion-row>
             <ion-col class="ion-text-center">  
-              <ion-button color="medium" (click)="createEnrollment()" shape="round">
+              <ion-button color="medium" shape="round">
                 Create Voice Enrollment
               </ion-button>
             </ion-col>
@@ -120,11 +120,11 @@
             </ion-col>
           </ion-row>
         </ng-template>
-        <ion-row>
+        <!-- <ion-row>
           <ion-col class="ion-text-center">
             <ion-label (click)="openFenceHistory()" color="primary"> Fence History </ion-label>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
         <ion-row>
           <ion-col class="ion-text-center">
             <ion-label *ngIf="inFence; else outsideFence" color="success"> <b> Inside Fence </b> </ion-label>
@@ -151,8 +151,15 @@
               Clock Out
             </ion-button>
           </ion-col> 
-        </ion-row>  
-        <div class="voice-button">
+        </ion-row>
+        <ion-row [hidden]="!clockedIn && !clockedOut">
+          <ion-col class="ion-text-center">
+            <ion-text color="danger">
+              <h1>Clocked out</h1>
+            </ion-text>
+          </ion-col> 
+        </ion-row>
+        <!-- <div class="voice-button">
           <ion-row>
             <ion-col class="ion-text-center">
               <ion-button style="width: 300px;" color="medium" (click)="voiceAuth()" shape="round">
@@ -162,12 +169,12 @@
           </ion-row>  
           <ion-row>
             <ion-col class="ion-text-center">  
-              <ion-button style="width: 300px;" color="medium" (click)="createEnrollment()" shape="round">
+              <ion-button style="width: 300px;" color="medium" shape="round">
                 Create Voice Enrollment
               </ion-button>
             </ion-col>
           </ion-row>
-        </div>
+        </div> -->
           
     
       </ion-grid>

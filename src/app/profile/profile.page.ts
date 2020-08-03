@@ -66,7 +66,7 @@ export class ProfilePage implements OnInit {
     private sanitizer: DomSanitizer,
     private authService: AuthService,
     private router: Router,
-    private loadingCtrl:LoadingController
+    private loadingCtrl: LoadingController
   ) {
     console.log('profile page constructor');
   }
@@ -77,12 +77,10 @@ export class ProfilePage implements OnInit {
     this.user$.subscribe(userData => {
       this.userUid = userData.uid;
       this.userRole = userData.role;
-      if (this.userRole == 'admin')
-      {
+      if (this.userRole == 'admin') {
         this.roleFlag = true;
       }
-      else
-      {
+      else {
         this.roleFlag = false;
       }
 
@@ -157,13 +155,12 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
-  async showSettingsSheet() 
-  {
+  async showSettingsSheet() {
     const photoSheet = await this.actionSheetController.create({
       header: 'Settings',
       buttons: [{
         text: 'Modify Geofence',
-        handler: () => { this.router.navigate(['geofence'],{queryParams:{role:this.userRole}}); }
+        handler: () => { this.router.navigate(['geofence'], { queryParams: { role: this.userRole } }); }
       }, {
         text: 'Sign Out',
         handler: () => this.signOut()
@@ -215,8 +212,8 @@ export class ProfilePage implements OnInit {
 
   async signOut() {
     let loading = await this.loadingCtrl.create({
-      message:"Signing out..",
-      spinner:"bubbles",
+      message: "Signing out..",
+      spinner: "bubbles",
     });
     await this.authService.signOut();
     loading.present();

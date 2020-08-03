@@ -6,12 +6,18 @@
   "webDir": "www",
   "plugins": {
     "PushNotifications": {
-      "presentationOptions": ["badge", "sound", "alert"]
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
     }
   },
   "cordova": {},
   "server": {
-    "url": "http://192.168.43.196:8100",
-    "cleartext": true
+    "url": "http://192.168.43.98:8100",
+    "cleartext": true,
+    "originalUrl": "http://192.168.43.196:8100",
+    "originalCleartext": true
   }
 }
