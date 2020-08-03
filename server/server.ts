@@ -1,6 +1,6 @@
 const express = require('express');
 const voiceit2 = require('voiceit2-nodejs');
-const myVoiceIt = new voiceit2('key_42866674a3014801ba72071f04ddc35a', 'tok_9577d0cbc735457f8a7fbd54c4f2b1aa');
+const myVoiceIt = new voiceit2('key_c6b9c9b490e945e282b620fcc63851dc', 'tok_9f587208922142c180ce120fe1855fca');
 const app = express();
 
 app.use((req, res, next) => {
@@ -29,7 +29,7 @@ app.get('/create_user', (req, res) => {
 
 app.get('/check_user', (req, res) => {
   myVoiceIt.checkUserExists({
-    userId : req.userId
+    userId : 'usr_d2c38388e1df4af7b851a896770c3034'
   },(jsonResponse)=>{
     res.send(jsonResponse.exists);
   });
@@ -37,38 +37,37 @@ app.get('/check_user', (req, res) => {
 
 app.post('/check_enrollments', (req, res) => {
   myVoiceIt.getAllVoiceEnrollments({
-    userId : req.userId
+    userId : req.body.userId
   },(jsonResponse)=>{
     res.send(jsonResponse);
   });
 })
 
 app.post('/verify', (req, res) => {
-  myVoiceIt.voiceVerification({
-    userId : req.userId,
+  myVoiceIt.voiceVerificationByUrl({
+    userId : req.body.userId,
     contentLanguage : 'en-US',
     phrase : 'Never forget tomorrow is a new day',
-    audioFilePath : 'enrollments/recording.wav'
+    audioFileURL : req.body.audioURL
   },(jsonResponse)=>{
     res.send(jsonResponse);
   });
 })
 
-app.get('/create_enrollment', (req, res) => {
-  myVoiceIt.createVoiceEnrollment({
-    userId : req.userId,
+app.post('/create_enrollment', (req, res) => {
+  myVoiceIt.createVoiceEnrollmentByUrl({
+    userId : req.body.userId,
     contentLanguage : 'en-US',
     phrase : 'Never forget tomorrow is a new day',
-    audioFilePath : 'enrollments/recording.wav'
+    audioFileURL : req.body.audioURL
   },(jsonResponse)=>{
     res.send(jsonResponse);
-    console.log(jsonResponse);
   });
 })
 
 app.get('/delete', (req, res) => {
   myVoiceIt.deleteAllEnrollments({
-    userId : req.userId
+    userId : 'usr_82c9d2436fc94999ada374803133d493'
   },(jsonResponse)=>{
     res.send(jsonResponse);
   });
