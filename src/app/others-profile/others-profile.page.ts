@@ -9,6 +9,7 @@ import { StorageService } from '../services/storage.service';
 import { UserService } from '../services/user.service';
 import { UpdateMemberPage } from '../update-member/update-member.page';
 import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-others-profile',
@@ -17,12 +18,14 @@ import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
 })
 export class OthersProfilePage implements OnInit {
 
-  @Input() memberUid: string;
+  // @Input() memberUid: string;
 
-  // memberUid: string;
+  memberUid: string;
   attendancePage = AttendanceLogPage;
   member$: Observable<any>;
   memberData: any;
+  userUid: string;
+  
   shiftStart = {
     hr: {
       text: '',
@@ -48,21 +51,26 @@ export class OthersProfilePage implements OnInit {
   userRole: string;
 
   constructor(
-    // private route: ActivatedRoute,
+    private route: ActivatedRoute,
     private memberService: MemberService,
     private dateTimeService: DateTimeService,
     private actionSheetController: ActionSheetController,
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
+    this.memberUid = this.route.snapshot.params.uid;
     console.log('member uid: ', this.memberUid);
+
+    this.userService.getUid$()
+      .subscribe(uid => this.userUid = uid);
+
     this.userService.getURole$()
       .subscribe(role => this.userRole = role);
-    // this.memberUid = this.route.snapshot.params.uid;
     this.member$ = this.memberService.getMember$(this.memberUid);
     this.member$.subscribe(memberData => {
       this.memberData = memberData;
@@ -95,26 +103,63 @@ export class OthersProfilePage implements OnInit {
     await updateModal.present();
   }
 
+  async showAlert() {
+    const alert =  await this.alertCtrl.create(
+      {
+      header: 'Sorry!',
+      subHeader: 'You cannot delete your own profile!',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
   async openSideMenu() {
+
+    if (this.userUid != this.memberUid)
+    {
     const sideMenu = await this.actionSheetController.create({
       mode: 'ios' || 'md',
-      buttons: [{
-
+      buttons: [
+        {
+          
         text: 'Remove Member',
         role: 'destructive',
         // icon: 'person-remove-outline',
-
+        
         handler: () => this.removeMember()
+      }, {
+
+        // icon: 'person-add-outline',
+        text: 'Update Member',
+        role: 'destructive',
+        // cssClass: "blue",
+        handler: () => this.updateMember(),
+      }]
+    });
+    await sideMenu.present();
+  }
+  else
+  {
+    const sideMenu = await this.actionSheetController.create({
+      mode: 'ios' || 'md',
+      buttons: [
+        {
+        text: 'Remove Member',
+        role: 'destructive',
+        // icon: 'person-remove-outline',
+        handler: () => {this.showAlert();}
       }, {
 
         //icon: 'person-add-outline',
         text: 'Update Member',
         role: 'destructive',
+        
         //cssClass: "blue",
         handler: () => this.updateMember(),
       }]
     });
     await sideMenu.present();
   }
+  }
+  }
 
-}

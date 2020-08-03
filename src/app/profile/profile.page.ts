@@ -77,11 +77,6 @@ export class ProfilePage implements OnInit {
     this.user$.subscribe(userData => {
       this.userUid = userData.uid;
       this.userRole = userData.role;
-      if (this.userRole === 'admin') {
-        this.roleFlag = true;
-      } else {
-        this.roleFlag = false;
-      }
 
       console.log(this.userRole);
       if (userData && userData.role === 'employee') {
@@ -154,13 +149,12 @@ export class ProfilePage implements OnInit {
     await photoSheet.present();
   }
 
-  async showSettingsSheet() 
-  {
+  async showSettingsSheet() {
     const photoSheet = await this.actionSheetController.create({
       header: 'Settings',
       buttons: [{
         text: 'Modify Geofence',
-        handler: () => { this.router.navigate(['geofence'],{queryParams:{role:this.userRole}}); }
+        handler: () => { this.router.navigate(['geofence'], { queryParams: { role: this.userRole } }); }
       }, {
         text: 'Sign Out',
         handler: () => this.signOut()
@@ -211,9 +205,9 @@ export class ProfilePage implements OnInit {
   }
 
   async signOut() {
-    let loading = await this.loadingCtrl.create({
-      message:"Signing out..",
-      spinner:"bubbles",
+    const loading = await this.loadingCtrl.create({
+      message: 'Signing out..',
+      spinner: 'bubbles',
     });
     await this.authService.signOut();
     loading.present();
@@ -222,52 +216,5 @@ export class ProfilePage implements OnInit {
     // },4000)
     window.location.replace('/sign-in');
   }
-
-
-
-  // constructor(
-  //   private platform: Platform,
-  //   private sanitizer: DomSanitizer) { }
-
-  // ngOnInit() {
-  // if ((this.platform.is('mobile') && this.platform.is('hybrid')) || this.platform.is('desktop')) {
-  //   this.isDesktop = true;
-  // }
-  // }
-
-  // async getPicture(type: string) {
-  //   if (!Capacitor.isPluginAvailable('Camera') || (this.isDesktop && type === 'gallery')) {
-  //     this.filePickerRef.nativeElement.click();
-  //     return;
-  //   }
-
-  //   const image = await Camera.getPhoto({
-  //     quality: 100,
-  //     width: 400,
-  //     allowEditing: false,
-  //     resultType: CameraResultType.DataUrl,
-  //     source: CameraSource.Prompt
-  //   });
-
-  //   this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && (image.dataUrl));
-  // }
-
-  // onFileChoose(event: Event) {
-  //   const file = (event.target as HTMLInputElement).files[0];
-  //   const pattern = /image-*/;
-  //   const reader = new FileReader();
-
-  //   if (!file.type.match(pattern)) {
-  //     console.log('File format not supported');
-  //     return;
-  //   }
-
-  //   reader.onload = () => {
-  //     this.photo = reader.result.toString();
-  //   };
-
-  //   reader.readAsDataURL(file);
-
-  // }
 
 }

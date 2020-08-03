@@ -42,7 +42,7 @@ export class SingleStatsPage implements OnInit {
     },
   ];
   chartType: string;
-  chartTypeVal = 'pie';
+  chartTypeVal: string;
   showLegend: false;
 
   // For search
@@ -58,6 +58,7 @@ export class SingleStatsPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.chartTypeVal = 'pie';
     this.getDateStat();
   }
 
@@ -81,6 +82,7 @@ export class SingleStatsPage implements OnInit {
   }
 
   modifyChart() {
+    this.chartTypeVal = 'doughnut';
     this.pieChartData = [this.presentees, this.absentees, this.earlyLeavers, this.lateComers];
   }
 

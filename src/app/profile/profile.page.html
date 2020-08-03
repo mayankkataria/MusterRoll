@@ -13,11 +13,11 @@
   <ion-toolbar style=" font-size: 17px;">
     <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
     <ion-buttons slot="end">
-      <ion-button color="light" large (click)="showSettingsSheet()" *ngIf="roleFlag">
-        <ion-icon name="settings"></ion-icon>
-      </ion-button>
-      <ion-button color="light" (click)="signOut()" *ngIf="!roleFlag">
-        <ion-icon size="large"  name="log-out" color=white></ion-icon>
+      <!-- <ion-button color="light" large (click)="showSettingsSheet()" *ngIf="roleFlag">
+        <ion-icon name="chevron-up-outline">Modify Fence</ion-icon>
+      </ion-button> -->
+      <ion-button color="light" (click)="signOut()">
+        <ion-icon size="large" name="log-out" color="white"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -85,17 +85,22 @@
         </h6>
 
       </div>
-      <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage">
-        <ion-button expand="full" color="medium">
+      <!-- <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage"> -->
+      <!-- <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage"> -->
+        <ion-button *ngIf="user.role === 'employee'" expand="full" color="medium" [routerLink]="['/attendance-log']" routerLinkActive="active">
           Attendance Log
         </ion-button>
+      <!-- </ion-nav-link> -->
+      <ion-nav-link *ngIf="user.role === 'admin'">
+        <ion-button expand="full" color="medium" shape='round' [routerLink]="['/geofence']" routerLinkActive="active">
+          <ion-icon slot="start" name="locate"></ion-icon>
+          Modify Geofence
+        </ion-button>
       </ion-nav-link>
+
     </div>
   </div>
 </ion-content>
-<!-- </div> -->
-<!-- </div> -->
-
 <!-- <ion-content>
   <div class="profile" *ngIf="user$ | async as user">
     <div class="user-img">

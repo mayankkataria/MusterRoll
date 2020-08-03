@@ -1,6 +1,6 @@
 <ion-header translucent no-border>
   <ion-toolbar style="padding: 10px;">
-    <ion-back-button color="light" slot="start" defaultHref="tabs" ></ion-back-button>
+    <ion-back-button defaultHref="tabs/members" color="light" slot="start" ></ion-back-button>
     <ion-label style="color: white;margin-left: 15px;">PROFILE</ion-label>
     <ion-buttons   *ngIf="userRole === 'admin'" slot="end">
       <ion-button (click)="openSideMenu()">

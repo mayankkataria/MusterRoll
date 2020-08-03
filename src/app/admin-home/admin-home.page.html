@@ -1,17 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="primary">
+    <!-- <ion-buttons slot="primary">
       <ion-button [hidden]="showSearchBar" (click)="clickedSearchIcon($event)">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
       <ion-button (click)="openFilterModal()">
         <ion-icon name="funnel"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title *ngIf="!showSearchBar">MusterRoll</ion-title>
     <!-- <ion-back-button *ngIf="showSearchBar"></ion-back-button> -->
-    <ion-searchbar showCancelButton="true" (ionCancel)="cancelSearchBar()" *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
-    </ion-searchbar>
+    <!-- <ion-searchbar showCancelButton="true" (ionCancel)="cancelSearchBar()" *ngIf="showSearchBar" name="searchBar" #searchBar placeholder="Search Members" animated="true">
+    </ion-searchbar> -->
   </ion-toolbar>
 </ion-header>
 
@@ -40,9 +40,9 @@
         </ion-text>
       </ion-label>
       <div>
-        <ion-badge *ngIf="member.inStatus == 'late arrival'" slot="end" color="warning" mode="ios" size="large">LA</ion-badge>
+        <ion-badge *ngIf="member.inStatus == 'late arrival'" slot="end" color="warning" mode="ios" size="large">LC</ion-badge>
         <ion-badge *ngIf="member.status == 'present'" slot="end" color="success" mode="ios" size="large">P</ion-badge>
-        <ion-badge *ngIf="member.outStatus == 'early departure'" slot="end" color="primary" mode="ios" size="large">ED</ion-badge>
+        <ion-badge *ngIf="member.outStatus == 'early departure'" slot="end" color="primary" mode="ios" size="large">EL</ion-badge>
       </div>
     </ion-item>
   </ion-list>

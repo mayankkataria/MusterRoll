@@ -17,6 +17,7 @@ import { MapService } from '../services/map.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 declare var MediaRecorder: any;
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-employee-home',
@@ -181,7 +182,8 @@ export class EmployeeHomePage implements OnInit {
     private afs: AngularFirestore,
     private statService: StatService,
     public router: Router,
-    private mapService: MapService
+    private mapService: MapService,
+    private fcmService: FcmService
   ) { }
 
   ngOnInit() {
@@ -451,6 +453,7 @@ export class EmployeeHomePage implements OnInit {
 
   refreshLocation() {
     this.inFence = !this.inFence;
+    // this.fcmService.initPush();
     if (this.clockedIn) {
       this.todayLog.fenceStatus = this.inFence;
       this.todayLogObserver.next(this.todayLog);

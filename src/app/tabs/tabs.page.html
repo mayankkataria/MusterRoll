@@ -64,14 +64,15 @@
 <ion-content>
   <super-tabs>
 
-    <super-tabs-toolbar color="medium" [slot]="plt.is('desktop') ? 'top' : 'bottom'" style="display: flex;width: 100%;">
+    <super-tabs-toolbar color="medium"  [slot]="plt.is('desktop') ? 'top' : 'bottom'" style="display: flex;width: 100%;">
+    <!-- <super-tabs-toolbar color="medium" slot-sm="bottom" slot-lg="top" style="display: flex;width: 100%;"> -->
       
       <!-- <div style="width: 50%;display: flex;"> -->
         <!-- <div style="width: 25%;"> -->
           <super-tab-button id="icon" style="justify-content: center;">
             <!-- <ion-grid> -->
-              <ion-row>
-                <ion-icon color="light" style="margin-right:5px" name="home"></ion-icon>
+              <ion-row class="tabs-styling">
+                <ion-icon class="icon-styling" style="margin-right:5px;color: white;" name="home"></ion-icon>
                 <ion-label color="light">Home</ion-label>
               </ion-row>
             <!-- </ion-grid> -->
@@ -80,8 +81,8 @@
   
         <!-- <div style="width: 25%;"  *ngIf="userRole === 'admin'"> -->
           <super-tab-button id="icon" *ngIf="userRole === 'admin'" style="justify-content: center;">
-            <ion-row>
-              <ion-icon color="light" style="margin-right:5px" name="stats-chart"></ion-icon>
+            <ion-row class="tabs-styling">
+              <ion-icon class="icon-styling" color="light" style="margin-right:5px" name="stats-chart"></ion-icon>
               <ion-label color="light">Statistics</ion-label>
             </ion-row>
           </super-tab-button>
@@ -89,8 +90,8 @@
   
         <!-- <div style="width: 25%;"> -->
           <super-tab-button id="icon" style="justify-content: center;">
-            <ion-row>
-              <ion-icon color="light" style="margin-right:5px" name="people"></ion-icon>
+            <ion-row class="tabs-styling">
+              <ion-icon class="icon-styling" color="light" style="margin-right:5px" name="people"></ion-icon>
               <ion-label color="light">Members</ion-label>
             </ion-row>
           </super-tab-button>
@@ -98,8 +99,8 @@
   
         <!-- <div style="width: 25%;"> -->
           <super-tab-button id="icon" style="justify-content: center;">
-            <ion-row>
-              <ion-icon color="light" style="margin-right:5px" name="person"></ion-icon>
+            <ion-row class="tabs-styling">
+              <ion-icon class="icon-styling" color="light" style="margin-right:5px" name="person"></ion-icon>
               <ion-label color="light">Profile</ion-label>
             </ion-row>
           </super-tab-button>

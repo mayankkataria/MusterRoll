@@ -7,7 +7,7 @@ import { AdminGuard } from './guards/admin.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule)
+    loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule)
   },
   {
     path: 'tabs',
@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'clock-in',
-    loadChildren :() => import('./clock-in/clock-in.module').then(m => m.ClockInPageModule),
+    loadChildren: () => import('./clock-in/clock-in.module').then(m => m.ClockInPageModule),
   },
   {
     path: 'leave',
@@ -34,45 +34,45 @@ const routes: Routes = [
   },
   {
     path: 'sign-in',
-    loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule)
+    loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'add-employee',
-    loadChildren: () => import('./add-employee/add-employee.module').then( m => m.AddEmployeePageModule),
+    loadChildren: () => import('./add-employee/add-employee.module').then(m => m.AddEmployeePageModule),
     canActivate: [AdminGuard]
   },
   {
     path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule),
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'chat-room',
-    loadChildren: () => import('./chat-room/chat-room.module').then( m => m.ChatRoomPageModule)
+    loadChildren: () => import('./chat-room/chat-room.module').then(m => m.ChatRoomPageModule)
   },
   {
     path: 'filter-modal',
-    loadChildren: () => import('./filter-modal/filter-modal.module').then( m => m.FilterModalPageModule)
+    loadChildren: () => import('./filter-modal/filter-modal.module').then(m => m.FilterModalPageModule)
   },
   {
     path: 'fence-history',
-    loadChildren: () => import('./fence-history/fence-history.module').then( m => m.FenceHistoryPageModule)
+    loadChildren: () => import('./fence-history/fence-history.module').then(m => m.FenceHistoryPageModule)
   },
   {
     path: 'error',
-    loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule)
+    loadChildren: () => import('./error/error.module').then(m => m.ErrorPageModule)
   },
   {
     path: 'update-member',
-    loadChildren: () => import('./update-member/update-member.module').then( m => m.UpdateMemberPageModule)
+    loadChildren: () => import('./update-member/update-member.module').then(m => m.UpdateMemberPageModule)
   },
   {
     path: 'side-menu',
-    loadChildren: () => import('./side-menu/side-menu.module').then( m => m.SideMenuPageModule)
+    loadChildren: () => import('./side-menu/side-menu.module').then(m => m.SideMenuPageModule)
   },
   {
     path: 'statistics',
@@ -89,9 +89,14 @@ const routes: Routes = [
   {
     path: 'others-profile/:uid',
     loadChildren: () => import('./others-profile/others-profile.module').then(m => m.OthersProfilePageModule)
-  },  {
+  },
+  {
     path: 'test',
-    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
+    loadChildren: () => import('./test/test.module').then(m => m.TestPageModule)
+  },
+  {
+    path: 'attendance-log',
+    loadChildren: () => import('./attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
   },
 
 ];
