@@ -94,6 +94,10 @@ const routes: Routes = [
     path: 'test',
     loadChildren: () => import('./test/test.module').then(m => m.TestPageModule)
   },
+  {
+    path: 'attendance-log',
+    loadChildren: () => import('./attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+  },
 
 ];
 

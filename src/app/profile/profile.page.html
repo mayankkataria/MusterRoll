@@ -85,11 +85,12 @@
         </h6>
 
       </div>
-      <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage">
-        <ion-button expand="full" color="medium">
+      <!-- <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage"> -->
+      <!-- <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage"> -->
+        <ion-button expand="full" color="medium" [routerLink]="['/attendance-log']" routerLinkActive="active">
           Attendance Log
         </ion-button>
-      </ion-nav-link>
+      <!-- </ion-nav-link> -->
       <ion-nav-link *ngIf="user.role === 'admin'">
         <ion-button expand="full" color="medium" [routerLink]="['/geofence']" routerLinkActive="active">
           Modify Geofence
