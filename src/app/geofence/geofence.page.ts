@@ -47,6 +47,7 @@ export class GeofencePage implements OnInit {
   role: string="";
   userRole= true;
   user$: Observable<any>;
+  statusResult = false;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -159,8 +160,9 @@ export class GeofencePage implements OnInit {
         paths: path
       });
       const result = google.maps.geometry.poly.containsLocation(new google.maps.LatLng(lat, lng), fence);
-      // this.fenceStatus = result;
-      this.presentToast(result);
+      this.fenceStatus = result;
+      
+      // this.presentToast(result);
     });
   }
 
@@ -369,6 +371,7 @@ export class GeofencePage implements OnInit {
 
   checkStatus() {
     this.stopTracking();
+    this.presentToast(this.fenceStatus);
     this.sleep(1000).then(() => {this.startTracking(); });
   }
 

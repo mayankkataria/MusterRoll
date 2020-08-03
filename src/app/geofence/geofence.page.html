@@ -14,7 +14,7 @@
       Re-Center
     </ion-button>
 
-    <ion-button (click)="checkStatus()">
+    <ion-button (click)="checkStatus()" *ngIf="!userRole">
       Check Status
     </ion-button>
   
