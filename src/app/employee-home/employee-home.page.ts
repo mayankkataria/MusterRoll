@@ -29,6 +29,7 @@ export class EmployeeHomePage implements OnInit {
   user$: Observable<any>;
   userUid: string;
   userRole: string;
+  voiceId: string;
   inStatus: string;
   outStatus = null;
   duration: string;
@@ -192,6 +193,7 @@ export class EmployeeHomePage implements OnInit {
     this.user$.subscribe(user => {
       this.userUid = user.uid;
       this.userRole = user.role;
+      this.voiceId = user.voiceId;
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       this.salary = user.salary;
@@ -461,11 +463,51 @@ export class EmployeeHomePage implements OnInit {
     fenceHistoryModal.present();
   }
 
-  // checkUserExists() {
-
-  // }
   voiceAuth() {
-    this.http.post<any>(this.url + '/create_user', { username: 'You Rock!!!' })
-      .subscribe(resp => console.log(resp));
+    this.http.post<any>(this.url + '/check_enrollments', {userId: this.voiceId})
+    .subscribe(resp => {
+      console.log(resp);
+      if (resp.count > 0) {
+        this.http.post<any>(this.url + '/verify', {userId: this.voiceId})
+        .subscribe(res => {
+          console.log(res);
+          if (res.responseCode === 'SUCC') {
+            this.presentToast('Authentication Successful');
+          } else {
+            this.presentToast('Authentication Failed!');
+          }
+        });
+      } else {
+        this.presentToast('Create more enrollments first!');
+      }
+    });
+  }
+
+  createEnrollment() {
+    this.http.post<any>(this.url + '/check_enrollments', {userId: this.voiceId})
+    .subscribe(resp => {
+      console.log(resp);
+      if (resp.count < 3) {
+        this.http.post<any>(this.url + '/create_enrollment', {userId: this.voiceId})
+        .subscribe(res => {
+          console.log(res);
+          if (res.responseCode === 'SUCC') {
+            this.presentToast('Enrollment Created Successfully');
+          } else {
+            this.presentToast('Enrollment Failed!');
+          }
+        });
+      } else {
+        this.presentToast('No more enrollments needed.');
+      }
+    });
+  }
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 3000
+    });
+    toast.present();
   }
 }

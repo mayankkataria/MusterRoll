@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="medium">
     <ion-back-button defaultHref="tabs/members" slot="start"></ion-back-button>
     <ion-title>Add Employee</ion-title>
   </ion-toolbar>
@@ -51,13 +51,13 @@
         <ion-input formControlName="designation" type="text"  clearInput></ion-input>
       </ion-item>
       <ion-row>
-        <ion-col size="4">
+        <ion-col size="6">
           <ion-item>
-            <ion-label position="floating">Salary</ion-label>
+            <ion-label>Salary:</ion-label>
             <ion-input formControlName="salary" type="number" clearInput></ion-input>
           </ion-item>
         </ion-col>
-        <ion-col size="8">
+        <ion-col size="6">
           <ion-item>
           <ion-select formControlName="perUnitTime" interface="popover" placeholder="per unit time">
             <ion-select-option value="hr">per hour</ion-select-option>
@@ -109,8 +109,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
-    </ion-card>
-    <div class="btn-group">
+      <div class="btn-group">
         <ion-button (click)="cancelBtn()" color="warning" shape="round">
           Cancel
         </ion-button>
@@ -118,6 +117,8 @@
           Add
         </ion-button>
       </div>
+    </ion-card>
+    
   </form>
 </ion-content>
 
