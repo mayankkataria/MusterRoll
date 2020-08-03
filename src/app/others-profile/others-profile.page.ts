@@ -17,9 +17,9 @@ import { AttendanceLogPage } from '../attendance-log/attendance-log.page';
 })
 export class OthersProfilePage implements OnInit {
 
-  @Input() memberUid: string;
+  // @Input() memberUid: string;
 
-  // memberUid: string;
+  memberUid: string;
   attendancePage = AttendanceLogPage;
   member$: Observable<any>;
   memberData: any;
@@ -48,7 +48,7 @@ export class OthersProfilePage implements OnInit {
   userRole: string;
 
   constructor(
-    // private route: ActivatedRoute,
+    private route: ActivatedRoute,
     private memberService: MemberService,
     private dateTimeService: DateTimeService,
     private actionSheetController: ActionSheetController,
@@ -59,10 +59,10 @@ export class OthersProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.memberUid = this.route.snapshot.params.uid;
     console.log('member uid: ', this.memberUid);
     this.userService.getURole$()
       .subscribe(role => this.userRole = role);
-    // this.memberUid = this.route.snapshot.params.uid;
     this.member$ = this.memberService.getMember$(this.memberUid);
     this.member$.subscribe(memberData => {
       this.memberData = memberData;
@@ -107,10 +107,10 @@ export class OthersProfilePage implements OnInit {
         handler: () => this.removeMember()
       }, {
 
-        //icon: 'person-add-outline',
+        // icon: 'person-add-outline',
         text: 'Update Member',
         role: 'destructive',
-        //cssClass: "blue",
+        // cssClass: "blue",
         handler: () => this.updateMember(),
       }]
     });

@@ -56,10 +56,10 @@ const routes: Routes = [
         path: 'geofence',
         loadChildren: () => import('../geofence/geofence.module').then(m => m.GeofencePageModule),
       },
-      // {
-      //   path: 'attendance-log',
-      //   loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
-      // },
+      {
+        path: 'attendance-log',
+        loadChildren: () => import('../attendance-log/attendance-log.module').then(m => m.AttendanceLogPageModule)
+      },
       {
         path: 'datelog',
         loadChildren: () => import('../datelog/datelog.module').then(m => m.DatelogPageModule)

@@ -17,18 +17,21 @@ export class FcmService {
   constructor(private router: Router) { }
 
   initPush() {
-
+    console.log('init push');
     if (Capacitor.platform !== 'web') {
       this.registerPush();
     }
   }
 
   private registerPush() {
+    console.log('reg push');
     PushNotifications.requestPermission().then((permission) => {
       if (permission.granted) {
+        console.log('permission granted');
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
       } else {
+        console.log('permission rejected');
         // No permission for push granted
       }
     });
@@ -56,9 +59,9 @@ export class FcmService {
       async (notification: PushNotificationActionPerformed) => {
         const data = notification.notification.data;
         console.log('Action performed: ' + JSON.stringify(notification.notification));
-        if (data.detailsId) {
-          this.router.navigateByUrl(`/home/${data.detailsId}`);
-        }
+        // if (data.detailsId) {
+        //   this.router.navigateByUrl(`/home/${data.detailsId}`);
+        // }
       }
     );
   }

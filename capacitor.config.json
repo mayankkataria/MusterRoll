@@ -1,17 +1,1 @@
-{
-  "appId": "com.fantomcoders.musterroll",
-  "appName": "musterroll",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "plugins": {
-    "PushNotifications": {
-      "presentationOptions": [
-        "badge",
-        "sound",
-        "alert"
-      ]
-    }
-  },
-  "cordova": {}
-}
+{}

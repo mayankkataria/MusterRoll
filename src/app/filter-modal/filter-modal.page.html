@@ -9,7 +9,7 @@
     <ion-label>Department</ion-label>
     <ion-select [(ngModel)]="department" placeholder="Select Department">
       <ion-select-option value="all">All</ion-select-option>
-      <ion-select-option *ngFor="let dept of departmentList" value="{{dept}}">{{dept | titlecase}}</ion-select-option>
+      <ion-select-option *ngFor="let dept of departmentList" value="{{dept}}">{{dept | uppercase}}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
