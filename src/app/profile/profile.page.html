@@ -17,7 +17,7 @@
         <ion-icon name="chevron-up-outline">Modify Fence</ion-icon>
       </ion-button> -->
       <ion-button color="light" (click)="signOut()">
-        <ion-icon size="large"  name="log-out" color=white></ion-icon>
+        <ion-icon size="large" name="log-out" color=white></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -91,11 +91,12 @@
         </ion-button>
       </ion-nav-link>
       <ion-nav-link *ngIf="user.role === 'admin'">
-        <ion-button expand="full" color="medium" [routerLink]="['/geofence']" routerLinkActive="active">
+        <ion-button expand="full" color="medium" shape='round' [routerLink]="['/geofence']" routerLinkActive="active">
+          <ion-icon slot="start" name="locate"></ion-icon>
           Modify Geofence
         </ion-button>
       </ion-nav-link>
-      
+
     </div>
   </div>
 </ion-content>
