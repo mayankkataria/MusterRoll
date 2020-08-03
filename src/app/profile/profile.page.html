@@ -87,7 +87,7 @@
       </div>
       <!-- <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage"> -->
       <!-- <ion-nav-link *ngIf="user.role === 'employee'" router-direction="forward" [component]="attendancePage"> -->
-        <ion-button expand="full" color="medium" [routerLink]="['/attendance-log']" routerLinkActive="active">
+        <ion-button *ngIf="user.role === 'employee'" expand="full" color="medium" [routerLink]="['/attendance-log']" routerLinkActive="active">
           Attendance Log
         </ion-button>
       <!-- </ion-nav-link> -->

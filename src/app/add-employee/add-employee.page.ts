@@ -99,7 +99,7 @@ export class AddEmployeePage implements OnInit {
     employeeDetails.email = this.lowerCase(employeeDetails.email);
     employeeDetails.department = this.lowerCase(employeeDetails.department);
     employeeDetails.designation = this.lowerCase(employeeDetails.designation);
-    this.http.get<any>('http://localhost:4201/create_user')
+    this.http.get<any>('http://localhost:4200/create_user')
     .subscribe(resp => {
       console.log(resp);
       employeeDetails.voiceId = resp.userId;
