@@ -79,7 +79,7 @@ export class SignInPage implements OnInit, OnDestroy {
 
     const toast = await this.toastController.create({
       message: ' You entered incorrect details!',
-      duration:2000
+      duration: 2000
     });
     this.loginSubscription.unsubscribe();
     this.authService.signIn(this.email, this.password)
@@ -92,7 +92,7 @@ export class SignInPage implements OnInit, OnDestroy {
         //   this.router.navigate(['side-menu']);
         // }
       })
-      .catch(error =>toast.present());
+      .catch(error => toast.present());
   }
 
 }
