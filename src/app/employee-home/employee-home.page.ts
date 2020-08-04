@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/map.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+
+declare var MediaRecorder: any;
 import { FcmService } from '../services/fcm.service';
 
 @Component({
@@ -24,7 +27,9 @@ import { FcmService } from '../services/fcm.service';
 
 export class EmployeeHomePage implements OnInit {
   url = 'http://localhost:4201';
+  audioFileRef: any;
   inFence = false;
+  stream: any;
   userLog$: Observable<any>;
   user$: Observable<any>;
   userUid: string;
@@ -166,6 +171,7 @@ export class EmployeeHomePage implements OnInit {
   durationSubscription: Subscription;
 
   constructor(
+    private afStorage: AngularFireStorage,
     private http: HttpClient,
     private modalCrl: ModalController,
     private userService: UserService,
@@ -182,7 +188,6 @@ export class EmployeeHomePage implements OnInit {
 
   ngOnInit() {
     console.log('emp home ngoninit');
-
     this.todaysDate = new Date(2020, 6, 1);
     // this.statService.incrementStats(this.todaysDate, status);
     // this.checkUserExists();
@@ -240,6 +245,7 @@ export class EmployeeHomePage implements OnInit {
       console.log('within shift: ', this.withinShift);
       console.log(this.userUid);
     });
+    this.audioFileRef = this.afStorage.ref(`/recordings/${this.userUid}/audio.wav`);
     // this.dateLogObserver.next(this.dateLog);
     this.dateLogObservable.subscribe(this.dateLogObserver);
     this.todayLogObservable.subscribe(this.todayLogObserver);
@@ -467,15 +473,19 @@ export class EmployeeHomePage implements OnInit {
     this.http.post<any>(this.url + '/check_enrollments', {userId: this.voiceId})
     .subscribe(resp => {
       console.log(resp);
-      if (resp.count > 0) {
-        this.http.post<any>(this.url + '/verify', {userId: this.voiceId})
-        .subscribe(res => {
-          console.log(res);
-          if (res.responseCode === 'SUCC') {
-            this.presentToast('Authentication Successful');
-          } else {
-            this.presentToast('Authentication Failed!');
-          }
+      if (resp.count > 2) {
+        this.getRecording();
+        this.audioFileRef.getDownloadURL()
+        .subscribe((url) => {
+          this.http.post<any>(this.url + '/verify', {userId: this.voiceId, audioURL: url})
+          .subscribe(res => {
+            console.log(res);
+            if (res.responseCode === 'SUCC') {
+              this.presentToast('Authentication Successful');
+            } else {
+              this.presentToast('Authentication Failed!');
+            }
+          });
         });
       } else {
         this.presentToast('Create more enrollments first!');
@@ -488,14 +498,18 @@ export class EmployeeHomePage implements OnInit {
     .subscribe(resp => {
       console.log(resp);
       if (resp.count < 3) {
-        this.http.post<any>(this.url + '/create_enrollment', {userId: this.voiceId})
-        .subscribe(res => {
-          console.log(res);
-          if (res.responseCode === 'SUCC') {
-            this.presentToast('Enrollment Created Successfully');
-          } else {
-            this.presentToast('Enrollment Failed!');
-          }
+        this.getRecording();
+        this.audioFileRef.getDownloadURL()
+        .subscribe((url) => {
+          this.http.post<any>(this.url + '/create_enrollment', {userId: this.voiceId, audioURL: url})
+          .subscribe(res => {
+            console.log(res);
+            if (res.responseCode === 'SUCC') {
+              this.presentToast('Enrollment Created Successfully');
+            } else {
+              this.presentToast('Enrollment Failed!');
+            }
+          });
         });
       } else {
         this.presentToast('No more enrollments needed.');
@@ -509,5 +523,29 @@ export class EmployeeHomePage implements OnInit {
       duration: 3000
     });
     toast.present();
+  }
+
+  getRecording() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      console.log('Say Never forget tomorrow is a new day');
+
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+
+      const audioChunks = [];
+      mediaRecorder.addEventListener('dataavailable', event => {
+        audioChunks.push(event.data);
+      });
+
+      mediaRecorder.addEventListener('stop', () => {
+        const audioBlob = new Blob(audioChunks, {type: 'audio/wav'});
+        this.audioFileRef.put(audioBlob);
+      });
+
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, 5000);
+    });
   }
 }
