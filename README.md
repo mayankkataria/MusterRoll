@@ -1,5 +1,16 @@
 # MusterRoll
-This is an attendance management project made with ionic-angular.
+This is an attendance management project made with Ionic Angular.
+
+### Features
+1. **Authentication** - Both employee and admin can signup/signin and both portals (employee and admin) have different application layout. API - Firebase auth.
+2. **Geofencing** - An admin can draw a geofence on his organisation's map and employee can mark his attendance only when he is inside that geofence. API - Google maps
+3. **Biometric authentication** - Employee is only clocked in/out when there biometric is authenticated successfully and also when they are within there shift time set by the admin. API - FingerprintAIO
+4. **Statistics** - Get statistics of all presentees, absentees, early leavers and late comers of daily, weekly, monthly or custom range. Chart types - Pie, Doughnut, Bar, Area, Line, Group bar. API - chart.js
+5. **Search and filter functionality** - Search members of organisation and filter them by their respective departments and designations.
+6. **Attendance log** - Navigate to employee's profile and get attendance status of everyday
+7. **Real time updation** - Update data for realtime with the help of firebase
+8. **Backend Integration** - Backend integrated with cloud firestore.
+9. **Upload picture** - Capture photo with camera or get from gallery and upload it on Firebase Storage
 
 ## Prerequisites
 Download the following:
