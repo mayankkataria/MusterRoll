@@ -1,5 +1,7 @@
 # MusterRoll
-This is an attendance management project made with Ionic Angular.
+Eliminate fake or proxy attendance in colleges, universities, and organizations with Musterroll. Attendance is recorded only after **biometric authentication/voice recognition** and **physical presence within the classroom or organization’s geofence**, ensuring no one can mark attendance on someone else’s behalf or from outside the premises.
+
+With **advanced analytics** and **attendance logs**, administrators can easily track attendance trends, identify frequently bunked lectures, and assess student retention per professor. The system replaces outdated, register-based attendance methods with a **mobile-based attendance clock-in**, eliminating manual roll calls, paperwork, and year-long record storage.
 
 ### Features
 1. **Authentication** - Both employee and admin can signup/signin and both portals (employee and admin) have different application layout. API - Firebase auth.
