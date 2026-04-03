@@ -44,7 +44,7 @@
     "core-js": "^2.5.4",
     "crypto-md5": "^1.0.0",
     "firebase": "^7.15.3",
-    "firebase-admin": "^9.0.0",
+    "firebase-admin": "^11.4.1",
     "firebase-functions": "^3.8.0",
     "ionic-plugin-voiceit": "https://github.com/darkedges/ionic-plugin-voiceit.git",
     "jetifier": "^1.6.6",
